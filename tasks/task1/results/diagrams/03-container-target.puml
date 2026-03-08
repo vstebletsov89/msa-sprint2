@@ -1,0 +1,73 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User", "Uses booking platform")
+
+System_Boundary(hotelio, "Hotelio Microservices Platform") {
+
+  Container(gateway, "GraphQL Gateway / BFF", "Node / GraphQL", "Backend for frontend layer")
+
+  Container(bookingServiceContainer, "Booking Service", "Spring Boot", "Handles bookings") {
+
+    Component(bookingController, "BookingController", "API Controller")
+    Component(bookingService, "BookingService", "Domain Service")
+
+    ComponentDb(bookingDB, "Booking DB", "PostgreSQL")
+
+    Rel(bookingController, bookingService, "Uses")
+    Rel(bookingService, bookingDB, "Reads/Writes")
+  }
+
+  Container(userServiceContainer, "User Service", "Spring Boot", "Manages users") {
+
+    Component(userService, "UserService", "Domain Service")
+    ComponentDb(userDB, "User DB", "PostgreSQL")
+
+    Rel(userService, userDB, "Reads/Writes")
+  }
+
+  Container(hotelServiceContainer, "Hotel Service", "Spring Boot", "Manages hotel data") {
+
+    Component(hotelService, "HotelService", "Domain Service")
+    ComponentDb(hotelDB, "Hotel DB", "PostgreSQL")
+
+    Rel(hotelService, hotelDB, "Reads/Writes")
+  }
+
+  Container(promoServiceContainer, "Promo Service", "Spring Boot", "Handles promo codes") {
+
+    Component(promoService, "PromoCodeService", "Domain Service")
+    ComponentDb(promoDB, "Promo DB", "PostgreSQL")
+
+    Rel(promoService, promoDB, "Reads/Writes")
+  }
+
+  Container(reviewServiceContainer, "Review Service", "Spring Boot", "Manages reviews") {
+
+    Component(reviewService, "ReviewService", "Domain Service")
+    ComponentDb(reviewDB, "Review DB", "PostgreSQL")
+
+    Rel(reviewService, reviewDB, "Reads/Writes")
+  }
+
+  Container(kafka, "Kafka", "Event Streaming Platform")
+}
+
+Rel(user, gateway, "Uses")
+
+Rel(gateway, bookingController, "Calls")
+Rel(gateway, userService, "Calls")
+Rel(gateway, hotelService, "Calls")
+Rel(gateway, promoService, "Calls")
+Rel(gateway, reviewService, "Calls")
+
+Rel(bookingService, userService, "Checks user")
+Rel(bookingService, hotelService, "Checks hotel")
+Rel(bookingService, promoService, "Validates promo")
+Rel(bookingService, reviewService, "Checks rating")
+
+Rel(bookingService, kafka, "Publishes events")
+
+@enduml

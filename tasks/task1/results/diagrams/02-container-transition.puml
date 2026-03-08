@@ -1,0 +1,57 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User", "Interacts with frontend")
+
+System_Boundary(hotelio, "Hotelio Platform") {
+
+  Container(monolith, "Hotelio Monolith", "Spring Boot", "Legacy application still serving most domains") {
+
+    Component(hotelController, "HotelController", "Spring MVC", "/api/hotels")
+    Component(promoController, "PromoCodeController", "Spring MVC", "/api/promos")
+    Component(reviewController, "ReviewController", "Spring MVC", "/api/reviews")
+    Component(userController, "UserController", "Spring MVC", "/api/users")
+
+    Component(hotelService, "HotelService", "Java Service", "Retrieves hotel details")
+    Component(userService, "UserService", "Java Service", "Validates user status")
+    Component(promoService, "PromoCodeService", "Java Service", "Applies discounts")
+    Component(reviewService, "ReviewService", "Java Service", "Manages hotel reviews")
+
+    ComponentDb(monolithDB, "Monolith DB", "PostgreSQL", "Stores users, hotels, promos, reviews")
+
+    Rel(hotelController, hotelService, "Uses")
+    Rel(userController, userService, "Uses")
+    Rel(promoController, promoService, "Uses")
+    Rel(reviewController, reviewService, "Uses")
+
+    Rel(hotelService, monolithDB, "Reads")
+    Rel(userService, monolithDB, "Reads")
+    Rel(promoService, monolithDB, "Reads")
+    Rel(reviewService, monolithDB, "Reads/Writes")
+  }
+
+  Container(bookingServiceContainer, "Booking Service", "Spring Boot", "New microservice extracted from monolith") {
+
+    Component(bookingController, "BookingController", "Spring MVC", "/api/bookings")
+    Component(bookingService, "BookingService", "Java Service", "Validates and creates bookings")
+
+    ComponentDb(bookingDB, "Booking DB", "PostgreSQL", "Stores booking data")
+
+    Rel(bookingController, bookingService, "Uses")
+    Rel(bookingService, bookingDB, "Reads/Writes")
+  }
+
+  Container(kafka, "Kafka", "Event Streaming", "Publishes booking events")
+}
+
+Rel(user, bookingController, "Creates booking")
+Rel(bookingService, hotelService, "Checks hotel", "REST")
+Rel(bookingService, userService, "Checks user", "REST")
+Rel(bookingService, promoService, "Validates promo", "REST")
+Rel(bookingService, reviewService, "Checks rating", "REST")
+
+Rel(bookingService, kafka, "Publishes BookingCreated")
+
+@enduml

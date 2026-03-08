@@ -10,8 +10,7 @@ timeout 2 bash -c "</dev/tcp/${DB_HOST}/${DB_PORT}" \
 
 # Загрузка фикстур
 echo "🧪 Загрузка фикстур..."
-PGPASSWORD="${DB_PASSWORD}" psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" "${DB_NAME}" < init-fixtures.sql
-
+docker exec -i hotelio-db psql -U "${DB_USER}" "${DB_NAME}" < init-fixtures.sql
 echo "🧪 Выполнение HTTP-тестов..."
 
 pass() { echo "✅ $1"; }

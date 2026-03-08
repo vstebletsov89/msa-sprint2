@@ -227,5 +227,45 @@ echo "  - final-report.txt - итоговый отчет"
 echo "  - *-db-data.txt - содержимое баз данных"
 echo "  - health-checks.txt - статус сервисов"
 
+echo -e "${BLUE}📡 Проверяем Kafka и топики...${NC}"
 
+{
+    echo "=== KAFKA DIAGNOSTICS ==="
+    echo "Timestamp: $(date)"
+    echo ""
+
+    echo "--- Проверка доступности Kafka broker ---"
+    docker exec hotelio-kafka kafka-broker-api-versions --bootstrap-server kafka:9092 2>/dev/null \
+        || echo "❌ Kafka broker недоступен"
+    echo ""
+
+    echo "--- Список топиков Kafka ---"
+    docker exec hotelio-kafka kafka-topics \
+        --bootstrap-server kafka:9092 \
+        --list 2>/dev/null || echo "❌ Не удалось получить список топиков"
+    echo ""
+
+    echo "--- Проверка топика booking-created ---"
+    docker exec hotelio-kafka kafka-topics \
+        --bootstrap-server kafka:9092 \
+        --describe \
+        --topic booking-created 2>/dev/null || echo "❌ Топик booking-created не найден"
+    echo ""
+
+    echo "--- Проверка сообщений в booking-created ---"
+    docker exec hotelio-kafka kafka-console-consumer \
+        --bootstrap-server kafka:9092 \
+        --topic booking-created \
+        --from-beginning \
+        --timeout-ms 3000 2>/dev/null || echo "Нет сообщений или ошибка чтения"
+    echo ""
+
+    echo "--- Проверка consumer group booking-history-service ---"
+    docker exec hotelio-kafka kafka-consumer-groups \
+        --bootstrap-server kafka:9092 \
+        --describe \
+        --group booking-history-service 2>/dev/null || echo "Consumer group не найдена"
+    echo ""
+
+} > $RESULTS_DIR/kafka-diagnostics.txt 2>&1
 

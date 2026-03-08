@@ -1,0 +1,83 @@
+=== KAFKA DIAGNOSTICS ===
+Timestamp: Sun Mar  8 20:18:22 CEST 2026
+
+--- Проверка доступности Kafka broker ---
+kafka:9092 (id: 1 rack: null) -> (
+	Produce(0): 0 to 9 [usable: 9],
+	Fetch(1): 0 to 13 [usable: 13],
+	ListOffsets(2): 0 to 7 [usable: 7],
+	Metadata(3): 0 to 12 [usable: 12],
+	LeaderAndIsr(4): 0 to 6 [usable: 6],
+	StopReplica(5): 0 to 3 [usable: 3],
+	UpdateMetadata(6): 0 to 7 [usable: 7],
+	ControlledShutdown(7): 0 to 3 [usable: 3],
+	OffsetCommit(8): 0 to 8 [usable: 8],
+	OffsetFetch(9): 0 to 8 [usable: 8],
+	FindCoordinator(10): 0 to 4 [usable: 4],
+	JoinGroup(11): 0 to 9 [usable: 9],
+	Heartbeat(12): 0 to 4 [usable: 4],
+	LeaveGroup(13): 0 to 5 [usable: 5],
+	SyncGroup(14): 0 to 5 [usable: 5],
+	DescribeGroups(15): 0 to 5 [usable: 5],
+	ListGroups(16): 0 to 4 [usable: 4],
+	SaslHandshake(17): 0 to 1 [usable: 1],
+	ApiVersions(18): 0 to 3 [usable: 3],
+	CreateTopics(19): 0 to 7 [usable: 7],
+	DeleteTopics(20): 0 to 6 [usable: 6],
+	DeleteRecords(21): 0 to 2 [usable: 2],
+	InitProducerId(22): 0 to 4 [usable: 4],
+	OffsetForLeaderEpoch(23): 0 to 4 [usable: 4],
+	AddPartitionsToTxn(24): 0 to 3 [usable: 3],
+	AddOffsetsToTxn(25): 0 to 3 [usable: 3],
+	EndTxn(26): 0 to 3 [usable: 3],
+	WriteTxnMarkers(27): 0 to 1 [usable: 1],
+	TxnOffsetCommit(28): 0 to 3 [usable: 3],
+	DescribeAcls(29): 0 to 2 [usable: 2],
+	CreateAcls(30): 0 to 2 [usable: 2],
+	DeleteAcls(31): 0 to 2 [usable: 2],
+	DescribeConfigs(32): 0 to 4 [usable: 4],
+	AlterConfigs(33): 0 to 2 [usable: 2],
+	AlterReplicaLogDirs(34): 0 to 2 [usable: 2],
+	DescribeLogDirs(35): 0 to 3 [usable: 3],
+	SaslAuthenticate(36): 0 to 2 [usable: 2],
+	CreatePartitions(37): 0 to 3 [usable: 3],
+	CreateDelegationToken(38): 0 to 2 [usable: 2],
+	RenewDelegationToken(39): 0 to 2 [usable: 2],
+	ExpireDelegationToken(40): 0 to 2 [usable: 2],
+	DescribeDelegationToken(41): 0 to 2 [usable: 2],
+	DeleteGroups(42): 0 to 2 [usable: 2],
+	ElectLeaders(43): 0 to 2 [usable: 2],
+	IncrementalAlterConfigs(44): 0 to 1 [usable: 1],
+	AlterPartitionReassignments(45): 0 [usable: 0],
+	ListPartitionReassignments(46): 0 [usable: 0],
+	OffsetDelete(47): 0 [usable: 0],
+	DescribeClientQuotas(48): 0 to 1 [usable: 1],
+	AlterClientQuotas(49): 0 to 1 [usable: 1],
+	DescribeUserScramCredentials(50): 0 [usable: 0],
+	AlterUserScramCredentials(51): 0 [usable: 0],
+	AlterPartition(56): 0 to 1 [usable: 1],
+	UpdateFeatures(57): 0 [usable: 0],
+	DescribeCluster(60): 0 [usable: 0],
+	DescribeProducers(61): 0 [usable: 0],
+	DescribeTransactions(65): 0 [usable: 0],
+	ListTransactions(66): 0 [usable: 0],
+	AllocateProducerIds(67): 0 [usable: 0]
+)
+
+--- Список топиков Kafka ---
+__consumer_offsets
+booking-created
+
+--- Проверка топика booking-created ---
+Topic: booking-created	TopicId: FwCRpOmVQNaDFjFcWtiVjg	PartitionCount: 3	ReplicationFactor: 1	Configs: 
+	Topic: booking-created	Partition: 0	Leader: 1	Replicas: 1	Isr: 1
+	Topic: booking-created	Partition: 1	Leader: 1	Replicas: 1	Isr: 1
+	Topic: booking-created	Partition: 2	Leader: 1	Replicas: 1	Isr: 1
+
+--- Проверка сообщений в booking-created ---
+
+--- Проверка consumer group booking-history-service ---
+
+GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                             HOST            CLIENT-ID
+booking-history-service booking-created 0          -               1               -               consumer-booking-history-service-1-3ece35d3-20d3-40db-a138-33bd67369f76 /172.20.0.7     consumer-booking-history-service-1
+

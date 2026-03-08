@@ -16,7 +16,7 @@ public class KafkaConfig {
     public NewTopic bookingCreatedTopic() {
         return TopicBuilder
                 .name(bookingCreatedTopic)
-                .partitions(3)
+                .partitions(1)
                 .replicas(1)
                 .build();
     }

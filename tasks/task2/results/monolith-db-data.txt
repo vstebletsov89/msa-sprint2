@@ -1,0 +1,35 @@
+=== СТРУКТУРА И ДАННЫЕ ИЗ МОНОЛИТА БД ===
+Список таблиц:
+           List of relations
+ Schema |    Name    | Type  |  Owner  
+--------+------------+-------+---------
+ public | app_user   | table | hotelio
+ public | booking    | table | hotelio
+ public | hotel      | table | hotelio
+ public | promo_code | table | hotelio
+ public | review     | table | hotelio
+(5 rows)
+
+
+Структура таблицы booking:
+                                           Table "public.booking"
+      Column      |            Type             | Collation | Nullable |               Default               
+------------------+-----------------------------+-----------+----------+-------------------------------------
+ discount_percent | double precision            |           |          | 
+ price            | double precision            |           | not null | 
+ created_at       | timestamp(6) with time zone |           |          | 
+ id               | bigint                      |           | not null | nextval('booking_id_seq'::regclass)
+ hotel_id         | character varying(255)      |           |          | 
+ promo_code       | character varying(255)      |           |          | 
+ user_id          | character varying(255)      |           |          | 
+Indexes:
+    "booking_pkey" PRIMARY KEY, btree (id)
+
+
+Данные из таблицы booking:
+ discount_percent | price |          created_at           | id |   hotel_id   | promo_code |   user_id   
+------------------+-------+-------------------------------+----+--------------+------------+-------------
+               10 |    90 | 2026-03-08 18:45:42.910237+00 |  1 | test-hotel-1 | TESTCODE1  | test-user-2
+                0 |    80 | 2026-03-08 18:45:42.910237+00 |  2 | test-hotel-1 |            | test-user-3
+(2 rows)
+

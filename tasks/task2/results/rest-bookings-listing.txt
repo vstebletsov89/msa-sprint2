@@ -1,0 +1,20 @@
+=== ЛИСТИНГ БРОНИРОВАНИЙ ПОСЛЕ РЕГРЕССИОННЫХ ТЕСТОВ ===
+Timestamp: Sun Mar  8 19:45:49 CEST 2026
+
+--- Тестовые пользователи (должны быть доступны) ---
+GET /api/bookings?userId=test-user-2:
+[{"id":1,"userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":10.0,"price":90.0,"createdAt":"2026-03-08T18:45:42.910237Z"}]
+HTTP_CODE:200
+GET /api/bookings?userId=test-user-3:
+[{"id":2,"userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":"2026-03-08T18:45:42.910237Z"}]
+HTTP_CODE:200
+--- Все бронирования после тестов ---
+[{"id":1,"userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":10.0,"price":90.0,"createdAt":"2026-03-08T18:45:42.910237Z"},{"id":2,"userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":"2026-03-08T18:45:42.910237Z"}]
+HTTP_CODE:200
+--- Статистика пользователей ---
+test-user-1 (в блэклисте):
+{"id":"test-user-1","status":"ACTIVE","blacklisted":true,"active":true,"name":"Alice","email":"alice@test.com","city":"Seoul"}
+test-user-2 (активный):
+{"id":"test-user-2","status":"ACTIVE","blacklisted":false,"active":true,"name":"Bob","email":"bob@test.com","city":"Busan"}
+test-user-3 (VIP):
+{"id":"test-user-3","status":"VIP","blacklisted":false,"active":true,"name":"Clara","email":"clara@test.com","city":"Daegu"}

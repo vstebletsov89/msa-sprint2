@@ -1,0 +1,62 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: booking-history-service
+
+  datasource:
+    url: jdbc:postgresql://${HISTORY_DB_HOST:localhost}:${HISTORY_DB_PORT:5433}/${HISTORY_DB_NAME:booking_history_db}
+    username: ${HISTORY_DB_USERNAME:booking_history}
+    password: ${HISTORY_DB_PASSWORD:booking_history}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
+    consumer:
+      group-id: booking-history-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.hotelio.booking.event"
+        enable.auto.commit: false
+      listener:
+        ack-mode: manual_immediate
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+logging:
+  level:
+    com.hotelio: INFO
+    org.springframework.kafka: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

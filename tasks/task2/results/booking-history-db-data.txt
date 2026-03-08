@@ -1,0 +1,39 @@
+=== СТРУКТУРА И ДАННЫЕ ИЗ BOOKING HISTORY БД ===
+Список таблиц:
+                    List of relations
+ Schema |         Name          | Type  |      Owner      
+--------+-----------------------+-------+-----------------
+ public | booking_history       | table | booking_history
+ public | booking_statistics    | table | booking_history
+ public | flyway_schema_history | table | booking_history
+(3 rows)
+
+
+Структура таблицы booking_history:
+                               Table "public.booking_history"
+       Column       |            Type             | Collation | Nullable |      Default      
+--------------------+-----------------------------+-----------+----------+-------------------
+ id                 | uuid                        |           | not null | gen_random_uuid()
+ booking_id         | character varying(255)      |           | not null | 
+ user_id            | character varying(255)      |           | not null | 
+ hotel_id           | character varying(255)      |           | not null | 
+ promo_code         | character varying(100)      |           |          | 
+ discount_percent   | numeric(5,2)                |           |          | 0.00
+ price              | numeric(10,2)               |           | not null | 
+ booking_created_at | timestamp without time zone |           | not null | 
+ event_id           | character varying(255)      |           | not null | 
+ event_timestamp    | timestamp without time zone |           | not null | 
+ processed_at       | timestamp without time zone |           | not null | CURRENT_TIMESTAMP
+Indexes:
+    "booking_history_pkey" PRIMARY KEY, btree (id)
+    "booking_history_event_id_key" UNIQUE CONSTRAINT, btree (event_id)
+    "idx_booking_history_booking_created_at" btree (booking_created_at)
+    "idx_booking_history_hotel_id" btree (hotel_id)
+    "idx_booking_history_user_id" btree (user_id)
+
+
+Данные из таблицы booking_history:
+ id | booking_id | user_id | hotel_id | promo_code | discount_percent | price | booking_created_at | event_id | event_timestamp | processed_at 
+----+------------+---------+----------+------------+------------------+-------+--------------------+----------+-----------------+--------------
+(0 rows)
+

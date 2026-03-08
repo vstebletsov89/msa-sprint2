@@ -1,0 +1,39 @@
+=== ИТОГОВЫЙ ОТЧЕТ ТЕСТИРОВАНИЯ TASK 2 ===
+Timestamp: Sun Mar  8 19:45:50 CEST 2026
+Environment: Microservices Migration
+
+=== АРХИТЕКТУРА ===
+Монолит (порт 8084) -> gRPC Booking Service (порт 9090) -> Booking DB (порт 5433)
+Kafka Events -> Booking History Service (порт 8086) -> History DB (порт 5434)
+
+=== СТАТУС КОНТЕЙНЕРОВ ===
+hotelio-monolith                  Up 40 seconds             0.0.0.0:8084->8080/tcp, [::]:8084->8080/tcp
+hotelio-booking-history-service   Up 41 seconds (healthy)   0.0.0.0:8086->8081/tcp, [::]:8086->8081/tcp
+hotelio-booking-service           Up 41 seconds (healthy)   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp, 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp
+hotelio-kafka                     Up 41 seconds (healthy)   0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp
+hotelio-db                        Up 41 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+hotelio-booking-db                Up 41 seconds (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+hotelio-booking-history-db        Up 41 seconds (healthy)   0.0.0.0:5434->5432/tcp, [::]:5434->5432/tcp
+hotelio-zookeeper                 Up 41 seconds (healthy)   0.0.0.0:2181->2181/tcp, [::]:2181->2181/tcp
+
+=== КОЛИЧЕСТВО ДАННЫХ В БД ===
+Монолит БД (основные данные):
+ Users: 4
+
+ Hotels: 3
+
+ Reviews: 12
+
+ Promos: 3
+
+
+Booking БД (микросервис):
+ Bookings: 4
+
+
+History БД (микросервис):
+ History: 0
+
+
+=== РЕЗУЛЬТАТ ТЕСТИРОВАНИЯ ===
+✅ РЕГРЕССИОННЫЕ ТЕСТЫ ПРОШЛИ УСПЕШНО

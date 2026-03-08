@@ -220,3 +220,162 @@ task2/results/
 └── select * из таблицы с историческими данными о бронированиях
 
 Загрузите результат в директорию task2/results/ вашего репозитория.
+
+## Задание 3. Личный кабинет
+
+Цель задания — GraphQL Federation:
+реализовывать federated-сервисы на Node.js;
+интегрировать внешние сервисы;
+добавить ACL на уровне GraphQL-поля или запроса;
+сделать миграцию типов из схемы монолита в отдельный микросервис;
+реализовать оптимальную загрузку данных по отелям.
+После первых шагов по выделению модуля бронирования в отдельный gRPC-сервис команда Hotelio столкнулась с новой задачей. Теперь ей нужно создать личный кабинет, чтобы обеспечить удобный и быстрый доступ к информации сразу из нескольких доменов — бронирований и отелей. Этот модуль важен для расширения бизнеса.
+Текущие REST-интерфейсы монолита и один gRPC не позволяют гибко агрегировать данные между сервисами без множества последовательных вызовов. Особенно это ощущается при разработке фронтенда. Попробовав несколько решений, команда поняла, что в данном случае просто необходим BFF: решить такую задачу удобно и гибко лишь на API Gateway тяжело.
+Hotelio решила перейти к GraphQL-шлюзу, используя Apollo Federation, где каждый домен будет представлен в виде субграфа, объединённый в общий суперграф.
+Предполагается, что в дальнейшем появится полноценный API Gateway, поэтому можно сразу продумать, как разграничить доступ к информации. Например, чтобы пользователь не мог видеть чужие бронирования.
+
+### Что нужно сделать
+Ваша задача — завершить реализацию федеративного GraphQL API с тремя модулями:
+- В сервисе booking-subgraph:
+  Бронирования возвращаются по userId.
+  Есть поля: id, userId, hotelId, promoCode, discountPercent.
+  Необходимо заменить заглушки на реальные вызовы (например, к базе, REST, gRPC).
+  Нужно реализовать ACL, чтобы пользователь мог видеть только свои бронирования.
+- Сервис hotel-subgraph
+  Возвращает описание отелей.
+  Используется для hotel { ... } внутри бронирования.
+  Должен уметь обращаться к внешнему API или сервису.
+  Должно быть разрешено __resolveReference через ID.
+- Сервис apollo-gateway:
+  Агрегирует схемы booking и hotel.
+  Проксирует запросы к нужным подграфам.
+- Выделение промокодов в отдельный сабграф.
+  Команда решила вынести логику промокодов в отдельный сервис для более гибкого управления акциями. Для миграции нужно перенести небходимые типы из монолита booking в микросервис промокодов.
+  Создайте новый сабграф promocode-subgraph, который будет управлять промокодами:
+  # booking-subgraph (исходный монолит)
+  # пример наполнения
+
+  type Booking @key(fields: "id") {
+  id: ID!
+  userId: ID!
+  hotelId: ID!
+  promoCode: String
+  discountPercent: Float  # Базовое значение из БД бронирований
+  checkIn: String!
+  checkOut: String!
+  status: BookingStatus!
+  }
+
+  type Query {
+  userBookings(userId: ID!): [Booking!]!
+  booking(id: ID!): Booking
+  }
+
+  # promocode-subgraph (новый сервис)
+  extend type Booking @key(fields: "id") {
+  id: ID! @external
+  promoCode: String @external
+  }
+
+  #тут просто пример нового типа, можно сделать свой
+  type DiscountInfo {
+  isValid: Boolean!
+  originalDiscount: Float!    # Исходное значение из booking
+  finalDiscount: Float!       # Актуальное значение после проверки
+  description: String
+  expiresAt: String
+  applicableHotels: [ID!]!
+  }
+
+  #набор запросов для примера
+  type Query {
+  validatePromoCode(code: String!, hotelId: ID): DiscountInfo!
+  activePromoCodes: [DiscountInfo!]!
+  }
+
+
+- Настройте @override, чтобы поле discountPercent теперь резолвилось из promocode-subgraph:
+  extend type Booking @key(fields: "id") {
+  id: ID! @external
+  promoCode: String @external
+  discountPercent: Float! @override(from: "booking-subgraph")  # ПЕРЕОПРЕДЕЛЯЕМ значение из booking-subgraph
+  discountInfo: DiscountInfo @requires(fields: "promoCode")
+  }
+  query GetUserBookings {
+  userBookings(userId: "123") {
+  id
+  promoCode
+  hotel {
+  name
+  }
+  discountPercent  # Теперь из promocode-subgraph (переопределено)
+  discountInfo {
+  isValid
+  originalDiscount  # Было: 10%
+  finalDiscount     # Стало: 25% после применения промокода
+  description
+  }
+  }
+  }
+- Решение проблемы N+1 в сабграфе отелей:
+  При запросе списка бронирований с информацией об отелях может возникнуть проблема N+1, если резолвер будет реализован так:
+  __resolveReference: async (hotel) => {
+  // отдельный запрос по hotelId
+  return await db.hotels.findOne({ id: hotel.id });
+  }
+  query {
+  userBookings(userId: "123") {
+  id
+  hotel {
+  name     # N+1 запросов к сервису отелей!
+  address  # N+1 запросов к сервису отелей!
+  }
+  }
+  }
+  
+- Реализуйте батчинг и кеширование в hotel-subgraph:
+  Добавьте поле hotelsByIds(ids: [ID!]!): [Hotel]! в Query.
+  Модифицируйте __resolveReference чтобы использовать батчинг.
+  Используйте DataLoader, чтобы устранить дублирующиеся запросы и кеширование результатов.
+  Загрузите результат в директорию task3/results/ вашего репозитория.
+
+### Образ результата
+task3/
+├── booking-subgraph/
+│   ├── index.js               // TODO: заменить заглушки на вызовы
+│   └── ...
+├── hotel-subgraph/
+│   ├── index.js               // TODO: заменить заглушки на вызовы
+│   └── ...
+├── apollo-gateway/
+│   ├── index.js               // Gateway-конфигурация
+│   └── ...
+├── docker-compose.yml         // Запускает все 3 модуля
+└── README.md                  
+
+Что можно использовать вместо внешнего вызова
+Если у вас нет готового API — вставьте заглушку вида:
+return [
+{
+id: 'b1',
+userId,
+hotelId: 'h1',
+discountPercent: 20,
+promoCode: 'SUMMER',
+},
+];
+Но лучше попробовать подставить REST/gRPC-вызов из прошлого задания.
+Подсказки:
+Все заголовки передаются из API Gateway в подграфы автоматически.
+Для реализации ACL проверяйте req.headers['userid'] в резолверах.
+Если пользователь не авторизован, не возвращайте бронирование.
+При использовании реальных модулей не забудьте использовать одну и ту же сеть в Docker.
+
+Структура и содержание репозитория, в котором нужно сдать решение:
+task3/results/
+├── Report с описанием внесённых изменений
+├── Результат docker ps
+├── Скриншот успешного вызова
+├── Скриншот Deny по ACL
+└── Логи booking-subgraph после двух запросов (или всех контейнеров через docker-compose up --build)
+Загрузите результат в директорию task3/results/ вашего репозитория.

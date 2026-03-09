@@ -1,15 +1,15 @@
 === ЛИСТИНГ БРОНИРОВАНИЙ ПОСЛЕ РЕГРЕССИОННЫХ ТЕСТОВ ===
-Timestamp: Sun Mar  8 19:45:49 CEST 2026
+Timestamp: Mon Mar  9 19:16:25 CEST 2026
 
 --- Тестовые пользователи (должны быть доступны) ---
 GET /api/bookings?userId=test-user-2:
-[{"id":1,"userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":10.0,"price":90.0,"createdAt":"2026-03-08T18:45:42.910237Z"}]
+[{"id":1,"userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":10.0,"price":90.0,"createdAt":"2026-03-09T18:16:18.563753Z"}]
 HTTP_CODE:200
 GET /api/bookings?userId=test-user-3:
-[{"id":2,"userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":"2026-03-08T18:45:42.910237Z"}]
+[{"id":2,"userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":"2026-03-09T18:16:18.563753Z"}]
 HTTP_CODE:200
 --- Все бронирования после тестов ---
-[{"id":1,"userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":10.0,"price":90.0,"createdAt":"2026-03-08T18:45:42.910237Z"},{"id":2,"userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":"2026-03-08T18:45:42.910237Z"}]
+[{"id":1,"userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":10.0,"price":90.0,"createdAt":"2026-03-09T18:16:18.563753Z"},{"id":2,"userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":"2026-03-09T18:16:18.563753Z"}]
 HTTP_CODE:200
 --- Статистика пользователей ---
 test-user-1 (в блэклисте):

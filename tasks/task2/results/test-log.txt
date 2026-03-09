@@ -1,5 +1,5 @@
 === HOTELIO BOOKING SERVICE TEST LOG ===
-Timestamp: Sun Mar  8 19:45:42 CEST 2026
+Timestamp: Mon Mar  9 19:16:18 CEST 2026
 Environment: Task 2 - Microservices Migration
 
 🏁 Регрессионный тест до миграции Hotelio
@@ -17,7 +17,7 @@ INSERT 0 12
 INSERT 0 3
 INSERT 0 2
 🧪 Загрузка фикстур в booking БД...
-DELETE 2
+DELETE 0
 INSERT 0 2
 🧪 Выполнение HTTP-тестов...
 

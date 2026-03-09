@@ -20,13 +20,28 @@ echo -e "${YELLOW}🌐 Создаем Docker network...${NC}"
 docker network create hotelio-net 2>/dev/null || echo "Network hotelio-net уже существует"
 
 echo -e "${YELLOW}🛑 Останавливаем предыдущие контейнеры...${NC}"
-docker compose down 2>/dev/null
+docker compose down -v --remove-orphans 2>/dev/null
 
-echo -e "${YELLOW}🏗️ Собираем и запускаем систему задания 2...${NC}"
-docker compose up -d --build
+echo -e "${YELLOW}🗑️ Удаляем старые образы для принудительной пересборки...${NC}"
+docker compose down --rmi local 2>/dev/null || true
 
-echo -e "${YELLOW}⏳ Ждем поднятия сервисов (30 секунд)...${NC}"
-sleep 30
+echo -e "${YELLOW}🧽 Очищаем Docker кеш...${NC}"
+docker builder prune -f 2>/dev/null || true
+
+echo -e "${YELLOW}🏗️ Собираем образы без кеша...${NC}"
+docker compose build --no-cache --pull
+
+echo -e "${YELLOW}🚀 Запускаем систему задания 2...${NC}"
+docker compose up -d
+
+echo -e "${YELLOW}⏳ Ждем поднятия сервисов (20 секунд)...${NC}"
+sleep 20
+
+echo -e "${BLUE}🔍 Проверяем версии кода в логах...${NC}"
+echo "Проверка Booking Service:"
+docker logs hotelio-booking-service 2>&1 | grep "CODE VERSION" || echo "❌ Новая версия кода не обнаружена в Booking Service"
+echo "Проверка Booking History Service:"
+docker logs hotelio-booking-history-service 2>&1 | grep "CODE VERSION" || echo "❌ Новая версия кода не обнаружена в Booking History Service"
 
 echo -e "${BLUE}📊 Сохраняем docker ps в результаты...${NC}"
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.Image}}" > $RESULTS_DIR/docker-ps-log.txt
@@ -39,6 +54,35 @@ docker logs hotelio-booking-history-service > $RESULTS_DIR/booking-history-servi
 echo -e "${BLUE}📋 Проверяем логи монолита...${NC}"
 docker logs hotelio-monolith > $RESULTS_DIR/monolith-logs.txt 2>&1
 echo "Логи монолита сохранены в $RESULTS_DIR/monolith-logs.txt"
+
+echo -e "${BLUE}🔍 Диагностика Kafka...${NC}"
+{
+    echo ""
+    echo "=== KAFKA DIAGNOSTICS ==="
+    echo "Timestamp: $(date)"
+    echo ""
+
+    echo "--- Проверка доступности Kafka broker ---"
+    docker exec hotelio-kafka kafka-broker-api-versions --bootstrap-server kafka:9092 2>/dev/null | head -10 || echo "❌ Kafka недоступна"
+    echo ""
+
+    echo "--- Список топиков Kafka ---"
+    docker exec hotelio-kafka kafka-topics --bootstrap-server kafka:9092 --list 2>/dev/null || echo "❌ Не удалось получить список топиков"
+    echo ""
+
+    echo "--- Проверка топика booking-created ---"
+    docker exec hotelio-kafka kafka-topics --bootstrap-server kafka:9092 --describe --topic booking-created 2>/dev/null || echo "❌ Топик booking-created не найден"
+    echo ""
+
+    echo "--- Проверка сообщений в booking-created ---"
+    docker exec hotelio-kafka kafka-console-consumer --bootstrap-server kafka:9092 --topic booking-created --from-beginning --timeout-ms 5000 2>/dev/null || echo "Нет сообщений в топике"
+    echo ""
+
+    echo "--- Проверка consumer group booking-history-service ---"
+    docker exec hotelio-kafka kafka-consumer-groups --bootstrap-server kafka:9092 --describe --group booking-history-service 2>/dev/null || echo "❌ Consumer group не найдена"
+    echo ""
+
+} > $RESULTS_DIR/kafka-diagnostics.txt
 
 echo -e "${BLUE}🧪 Проверяем доступность сервисов...${NC}"
 {

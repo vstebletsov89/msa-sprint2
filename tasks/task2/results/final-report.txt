@@ -1,5 +1,5 @@
 === ИТОГОВЫЙ ОТЧЕТ ТЕСТИРОВАНИЯ TASK 2 ===
-Timestamp: Mon Mar  9 19:23:14 CEST 2026
+Timestamp: Mon Mar  9 19:29:08 CEST 2026
 Environment: Microservices Migration
 
 === АРХИТЕКТУРА ===
@@ -7,14 +7,14 @@ Environment: Microservices Migration
 Kafka Events -> Booking History Service (порт 8086) -> History DB (порт 5434)
 
 === СТАТУС КОНТЕЙНЕРОВ ===
-hotelio-monolith                  Up 41 seconds             0.0.0.0:8084->8080/tcp, [::]:8084->8080/tcp
-hotelio-booking-service           Up 41 seconds (healthy)   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp, 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp
-hotelio-booking-history-service   Up 41 seconds (healthy)   0.0.0.0:8086->8081/tcp, [::]:8086->8081/tcp
-hotelio-kafka                     Up 42 seconds (healthy)   0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp
-hotelio-booking-db                Up 42 seconds (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
-hotelio-booking-history-db        Up 42 seconds (healthy)   0.0.0.0:5434->5432/tcp, [::]:5434->5432/tcp
-hotelio-db                        Up 42 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
-hotelio-zookeeper                 Up 42 seconds (healthy)   0.0.0.0:2181->2181/tcp, [::]:2181->2181/tcp
+hotelio-monolith                  Up 52 seconds             0.0.0.0:8084->8080/tcp, [::]:8084->8080/tcp
+hotelio-booking-history-service   Up 52 seconds (healthy)   0.0.0.0:8086->8081/tcp, [::]:8086->8081/tcp
+hotelio-booking-service           Up 52 seconds (healthy)   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp, 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp
+hotelio-kafka                     Up 52 seconds (healthy)   0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp
+hotelio-booking-db                Up 53 seconds (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+hotelio-db                        Up 53 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+hotelio-booking-history-db        Up 53 seconds (healthy)   0.0.0.0:5434->5432/tcp, [::]:5434->5432/tcp
+hotelio-zookeeper                 Up 53 seconds (healthy)   0.0.0.0:2181->2181/tcp, [::]:2181->2181/tcp
 
 === КОЛИЧЕСТВО ДАННЫХ В БД ===
 Монолит БД (основные данные):

@@ -1,9 +1,9 @@
-NAMES                             STATUS                             PORTS                                                                                      IMAGE
-hotelio-monolith                  Up 20 seconds                      0.0.0.0:8084->8080/tcp, [::]:8084->8080/tcp                                                task2-monolith
-hotelio-booking-service           Up 21 seconds (healthy)            0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp, 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp   task2-booking-service
-hotelio-booking-history-service   Up 21 seconds (healthy)            0.0.0.0:8086->8081/tcp, [::]:8086->8081/tcp                                                task2-booking-history-service
-hotelio-kafka                     Up 21 seconds (healthy)            0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp                                                confluentinc/cp-kafka:7.2.1
-hotelio-booking-db                Up 21 seconds (health: starting)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp                                                postgres:15
-hotelio-booking-history-db        Up 21 seconds (health: starting)   0.0.0.0:5434->5432/tcp, [::]:5434->5432/tcp                                                postgres:15
-hotelio-db                        Up 21 seconds (health: starting)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                                                postgres:15
-hotelio-zookeeper                 Up 21 seconds (health: starting)   0.0.0.0:2181->2181/tcp, [::]:2181->2181/tcp                                                confluentinc/cp-zookeeper:7.2.1
+NAMES                             STATUS                    PORTS                                                                                      IMAGE
+hotelio-monolith                  Up 31 seconds             0.0.0.0:8084->8080/tcp, [::]:8084->8080/tcp                                                task2-monolith
+hotelio-booking-history-service   Up 31 seconds (healthy)   0.0.0.0:8086->8081/tcp, [::]:8086->8081/tcp                                                task2-booking-history-service
+hotelio-booking-service           Up 31 seconds (healthy)   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp, 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp   task2-booking-service
+hotelio-kafka                     Up 31 seconds (healthy)   0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp                                                confluentinc/cp-kafka:7.2.1
+hotelio-booking-db                Up 32 seconds (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp                                                postgres:15
+hotelio-db                        Up 32 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                                                postgres:15
+hotelio-booking-history-db        Up 32 seconds (healthy)   0.0.0.0:5434->5432/tcp, [::]:5434->5432/tcp                                                postgres:15
+hotelio-zookeeper                 Up 32 seconds (healthy)   0.0.0.0:2181->2181/tcp, [::]:2181->2181/tcp                                                confluentinc/cp-zookeeper:7.2.1

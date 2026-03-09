@@ -51,7 +51,9 @@ public class BookingBusinessService {
         booking = bookingRepository.save(booking);
 
         // Publish event
+        log.info("🔔 ABOUT TO PUBLISH EVENT for bookingId: {}", booking.getId());
         publishBookingCreatedEvent(booking);
+        log.info("🔔 EVENT PUBLISHING COMPLETED for bookingId: {}", booking.getId());
 
         log.info("Booking created successfully with ID: {}", booking.getId());
         return booking;
@@ -124,6 +126,8 @@ public class BookingBusinessService {
 
 
     private void publishBookingCreatedEvent(Booking booking) {
+        log.info("🎬 STARTING publishBookingCreatedEvent for bookingId: {}", booking.getId());
+
         BookingCreatedEvent event = BookingCreatedEvent.builder()
                 .bookingId(booking.getId().toString())
                 .userId(booking.getUserId())
@@ -136,6 +140,7 @@ public class BookingBusinessService {
                 .eventTimestamp(LocalDateTime.now())
                 .build();
 
+        log.info("🎬 EVENT OBJECT CREATED: eventId={} bookingId={}", event.getEventId(), booking.getId());
         log.info("🔔 CALLING EventPublisher for bookingId: {}", booking.getId());
         eventPublisherService.publishBookingCreatedEvent(event);
         log.info("🔔 EventPublisher CALL COMPLETED for bookingId: {}", booking.getId());

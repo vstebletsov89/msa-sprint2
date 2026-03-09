@@ -30,11 +30,14 @@ public class BookingGrpcService extends BookingServiceGrpc.BookingServiceImplBas
             validateCreateBookingRequest(request);
 
             // Create booking
+            log.info("🎯 CALLING BookingBusinessService.createBooking for userId={} hotelId={}", 
+                    request.getUserId(), request.getHotelId());
             Booking booking = bookingBusinessService.createBooking(
                     request.getUserId(),
                     request.getHotelId(),
                     request.getPromoCode().isEmpty() ? null : request.getPromoCode()
             );
+            log.info("🎯 BookingBusinessService.createBooking COMPLETED, bookingId={}", booking.getId());
 
             // Build response
             BookingResponse response = BookingResponse.newBuilder()

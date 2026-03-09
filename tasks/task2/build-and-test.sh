@@ -39,8 +39,25 @@ docker compose build --no-cache --pull
 echo -e "${YELLOW}🚀 Запускаем систему задания 2...${NC}"
 docker compose up -d
 
-echo -e "${YELLOW}⏳ Ждем поднятия сервисов (20 секунд)...${NC}"
-sleep 20
+echo -e "${YELLOW}⏳ Ждем поднятия сервисов (30 секунд)...${NC}"
+sleep 30
+
+echo -e "${BLUE}🔍 Убеждаемся что Consumer готов принимать сообщения...${NC}"
+CONSUMER_READY=0
+for i in {1..5}; do
+    if docker logs hotelio-booking-history-service 2>&1 | grep -q "partitions assigned"; then
+        echo "✅ Consumer готов к получению сообщений (попытка $i)"
+        CONSUMER_READY=1
+        break
+    else
+        echo "⏳ Consumer еще инициализируется, ждем... (попытка $i)"
+        sleep 10
+    fi
+done
+
+if [ $CONSUMER_READY -eq 0 ]; then
+    echo "⚠️ WARNING: Consumer может быть не готов!"
+fi
 
 echo -e "${BLUE}🔍 Проверяем версии кода в логах...${NC}"
 echo "Проверка Booking Service:"

@@ -7,6 +7,10 @@ echo "🔍 Проверяем текущие offset в Kafka..."
 docker exec hotelio-kafka kafka-consumer-groups --bootstrap-server kafka:9092 --describe --group booking-history-service 2>/dev/null || echo "Consumer group пока не активна"
 
 echo ""
+echo "🔄 Сбрасываем Consumer offset для чтения всех сообщений..."
+docker exec hotelio-kafka kafka-consumer-groups --bootstrap-server kafka:9092 --group booking-history-service --reset-offsets --to-earliest --topic booking-created --execute 2>/dev/null || echo "Consumer group активна, сброс невозможен"
+
+echo ""
 echo "📤 Отправляем тестовое бронирование через REST API..."
 curl -X POST "http://localhost:8084/api/bookings" \
   -H "Content-Type: application/x-www-form-urlencoded" \

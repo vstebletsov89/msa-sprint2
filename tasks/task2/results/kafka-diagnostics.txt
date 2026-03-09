@@ -1,5 +1,5 @@
 === KAFKA DIAGNOSTICS ===
-Timestamp: Mon Mar  9 19:16:28 CEST 2026
+Timestamp: Mon Mar  9 19:23:16 CEST 2026
 
 --- Проверка доступности Kafka broker ---
 kafka:9092 (id: 1 rack: null) -> (
@@ -69,7 +69,7 @@ __consumer_offsets
 booking-created
 
 --- Проверка топика booking-created ---
-Topic: booking-created	TopicId: 1-c74H_uQk6-oJ0Gziuykw	PartitionCount: 1	ReplicationFactor: 1	Configs: 
+Topic: booking-created	TopicId: aQSQW7c2QI6Dp_wkrfjqwA	PartitionCount: 1	ReplicationFactor: 1	Configs: 
 	Topic: booking-created	Partition: 0	Leader: 1	Replicas: 1	Isr: 1
 
 --- Проверка сообщений в booking-created ---
@@ -77,5 +77,5 @@ Topic: booking-created	TopicId: 1-c74H_uQk6-oJ0Gziuykw	PartitionCount: 1	Replica
 --- Проверка consumer group booking-history-service ---
 
 GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                             HOST            CLIENT-ID
-booking-history-service booking-created 0          2               2               0               consumer-booking-history-service-1-b4994b97-aee5-4468-a21e-c96a9f906145 /172.20.0.7     consumer-booking-history-service-1
+booking-history-service booking-created 0          2               2               0               consumer-booking-history-service-1-09b0afaa-a049-4018-a0f2-0b3152bc1e04 /172.20.0.7     consumer-booking-history-service-1
 

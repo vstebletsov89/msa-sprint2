@@ -136,6 +136,8 @@ public class BookingBusinessService {
                 .eventTimestamp(LocalDateTime.now())
                 .build();
 
+        log.info("🔔 CALLING EventPublisher for bookingId: {}", booking.getId());
         eventPublisherService.publishBookingCreatedEvent(event);
+        log.info("🔔 EventPublisher CALL COMPLETED for bookingId: {}", booking.getId());
     }
 }

@@ -28,16 +28,15 @@ spring:
     baseline-on-migrate: true
 
   kafka:
-    bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
+    bootstrap-servers: ${KAFKA_SERVERS:kafka:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
       acks: all
       retries: 3
       batch-size: 16384
       linger-ms: 100
       properties:
-        spring.json.add.type.headers: false
         enable.idempotence: true
         max.in.flight.requests.per.connection: 5
 

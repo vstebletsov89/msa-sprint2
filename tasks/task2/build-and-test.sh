@@ -28,6 +28,11 @@ docker compose down --rmi local 2>/dev/null || true
 echo -e "${YELLOW}🧽 Очищаем Docker кеш...${NC}"
 docker builder prune -f 2>/dev/null || true
 
+echo -e "${YELLOW}☕ Пересобираем Java проекты...${NC}"
+cd ../..
+mvn clean package -DskipTests -pl tasks/task2/booking-service,tasks/task2/booking-history-service,hotelio-monolith
+cd tasks/task2
+
 echo -e "${YELLOW}🏗️ Собираем образы без кеша...${NC}"
 docker compose build --no-cache --pull
 

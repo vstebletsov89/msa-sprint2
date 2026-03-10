@@ -1,0 +1,19 @@
+{
+  "name": "promocode-subgraph",
+  "version": "1.0.0",
+  "description": "Promocode subgraph for Hotelio GraphQL Federation",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.8.1",
+    "@apollo/subgraph": "^2.4.1",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

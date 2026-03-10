@@ -1,4 +1,3 @@
-// File: tasks/task2/booking-history-service/src/main/java/com/hotelio/history/service/BookingEventConsumer.java
 package com.hotelio.history.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,30 +53,27 @@ public class BookingEventConsumer {
             }
 
             processBookingEvent(event);
+
             log.info("✔️ SUCCESS: eventId={} processed and saved to DB", event.getEventId());
 
-        } catch (com.fasterxml.jackson.core.JsonParseException e) {
-            log.error("❌ JSON PARSE ERROR from partition={}, offset={}: Invalid JSON format", partition, offset);
-            log.error("Raw message: {}", message);
-            log.error("Error: {}", e.getMessage(), e);
-
-        } catch (com.fasterxml.jackson.databind.JsonMappingException e) {
-            log.error("❌ JSON MAPPING ERROR from partition={}, offset={}: Cannot deserialize to BookingCreatedEvent", partition, offset);
-            log.error("Raw message: {}", message);
-            log.error("Error: {}", e.getMessage(), e);
-
         } catch (Exception e) {
-            log.error("❌ UNEXPECTED ERROR from partition={}, offset={}", partition, offset, e);
+            log.error("❌ ERROR from partition={}, offset={}", partition, offset, e);
             log.error("Raw message: {}", message);
         }
     }
 
     @Transactional
     public void processBookingEvent(BookingCreatedEvent event) {
+
         if (bookingHistoryRepository.findByEventId(event.getEventId()).isPresent()) {
             log.warn("🔁 DUPLICATE event skipped: eventId={}", event.getEventId());
             return;
         }
+
+        // IMPORTANT FIX
+        var bookingCreatedAt = event.getCreatedAt() != null
+                ? event.getCreatedAt()
+                : event.getEventTimestamp();
 
         BookingHistory bookingHistory = BookingHistory.builder()
                 .bookingId(event.getBookingId())
@@ -86,13 +82,15 @@ public class BookingEventConsumer {
                 .promoCode(event.getPromoCode())
                 .discountPercent(event.getDiscountPercent())
                 .price(event.getPrice())
-                .bookingCreatedAt(event.getCreatedAt())
+                .bookingCreatedAt(bookingCreatedAt)
                 .eventId(event.getEventId())
                 .eventTimestamp(event.getEventTimestamp())
                 .build();
 
         BookingHistory saved = bookingHistoryRepository.save(bookingHistory);
-        log.info("💾 SAVED booking history with ID: {} for booking: {}", saved.getId(), event.getBookingId());
+
+        log.info("💾 SAVED booking history with ID: {} for booking: {}",
+                saved.getId(), event.getBookingId());
 
         statisticsService.updateStatistics(event);
     }

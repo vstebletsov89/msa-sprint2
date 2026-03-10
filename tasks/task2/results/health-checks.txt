@@ -1,9 +1,9 @@
 === HEALTH CHECKS ===
-Timestamp: Tue Mar 10 20:24:47 CEST 2026
+Timestamp: Tue Mar 10 20:41:49 CEST 2026
 
 --- Монолит ---
-{"timestamp":"2026-03-10T19:24:48.049+00:00","status":404,"error":"Not Found","path":"/health"}
+{"timestamp":"2026-03-10T19:41:49.604+00:00","status":404,"error":"Not Found","path":"/health"}
 --- Booking Service ---
-{"status":"UP","components":{"db":{"status":"UP","details":{"database":"PostgreSQL","validationQuery":"isValid()"}},"diskSpace":{"status":"UP","details":{"total":1081101176832,"free":965221285888,"threshold":10485760,"path":"/app/.","exists":true}},"ping":{"status":"UP"}}}
+{"status":"UP","components":{"db":{"status":"UP","details":{"database":"PostgreSQL","validationQuery":"isValid()"}},"diskSpace":{"status":"UP","details":{"total":1081101176832,"free":965219233792,"threshold":10485760,"path":"/app/.","exists":true}},"ping":{"status":"UP"}}}
 --- Booking History Service ---
-{"status":"UP","components":{"db":{"status":"UP","details":{"database":"PostgreSQL","validationQuery":"isValid()"}},"diskSpace":{"status":"UP","details":{"total":1081101176832,"free":965221285888,"threshold":10485760,"path":"/app/.","exists":true}},"ping":{"status":"UP"}}}
+{"status":"UP","components":{"db":{"status":"UP","details":{"database":"PostgreSQL","validationQuery":"isValid()"}},"diskSpace":{"status":"UP","details":{"total":1081101176832,"free":965219233792,"threshold":10485760,"path":"/app/.","exists":true}},"ping":{"status":"UP"}}}

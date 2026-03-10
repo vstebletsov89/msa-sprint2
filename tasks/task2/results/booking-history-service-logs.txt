@@ -8,48 +8,48 @@ BOOKING HISTORY SERVICE STARTING - CODE VERSION: 2026-03-09-v3
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.5)
 
-2026-03-10 19:24:23 [main] INFO  c.h.h.BookingHistoryApplication - Starting BookingHistoryApplication v1.0.0 using Java 21.0.10 with PID 1 (/app/app.jar started by root in /app)
-2026-03-10 19:24:23 [main] INFO  c.h.h.BookingHistoryApplication - No active profile set, falling back to 1 default profile: "default"
-2026-03-10 19:24:25 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-03-10 19:24:25 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 72 ms. Found 2 JPA repository interfaces.
-2026-03-10 19:24:27 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
-2026-03-10 19:24:27 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2026-03-10 19:24:27 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2026-03-10 19:24:27 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2026-03-10 19:24:27 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3514 ms
-2026-03-10 19:24:28 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2026-03-10 19:24:28 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@57e4b86c
-2026-03-10 19:24:28 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2026-03-10 19:24:29 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 9.22.3 by Redgate
-2026-03-10 19:24:29 [main] INFO  o.f.c.i.license.VersionPrinter - See release notes here: https://rd.gt/416ObMi
-2026-03-10 19:24:29 [main] INFO  o.f.c.i.license.VersionPrinter - 
-2026-03-10 19:24:29 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://booking-history-db:5432/booking_history_db (PostgreSQL 15.17)
-2026-03-10 19:24:29 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Schema history table "public"."flyway_schema_history" does not exist yet
-2026-03-10 19:24:29 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.022s)
-2026-03-10 19:24:29 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Creating Schema History table "public"."flyway_schema_history" ...
-2026-03-10 19:24:29 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": << Empty Schema >>
-2026-03-10 19:24:29 [main] INFO  o.f.core.internal.command.DbMigrate - Migrating schema "public" to version "1 - Create booking history table"
-2026-03-10 19:24:29 [main] INFO  o.f.core.internal.command.DbMigrate - Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.072s)
-2026-03-10 19:24:29 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-03-10 19:24:29 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
-2026-03-10 19:24:29 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2026-03-10 19:24:29 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-03-10 19:24:30 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-03-10 19:24:31 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-03-10 19:24:31 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-03-10 19:24:31 [main] INFO  c.h.h.config.KafkaConsumerConfig - 🔧 KAFKA CONSUMER CONFIG INITIALIZING
-2026-03-10 19:24:31 [main] INFO  c.h.h.config.KafkaConsumerConfig -    Topic: booking-created
-2026-03-10 19:24:31 [main] INFO  c.h.h.config.KafkaConsumerConfig -    Group ID: booking-history-service
-2026-03-10 19:24:31 [main] INFO  c.h.h.config.KafkaConsumerConfig -    Auto offset reset: earliest (will read ALL messages from topic start)
-2026-03-10 19:24:32 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-03-10 19:24:32 [main] DEBUG o.s.k.a.KafkaListenerAnnotationBeanPostProcessor - No retry topic configuration found for topics [booking-created]
-2026-03-10 19:24:32 [main] DEBUG o.s.k.a.KafkaListenerAnnotationBeanPostProcessor - 1 @KafkaListener methods processed on bean 'bookingEventConsumer': {public void com.hotelio.history.service.BookingEventConsumer.handleBookingCreatedEvent(java.lang.String,java.lang.String,int,long)=[@org.springframework.kafka.annotation.KafkaListener(topicPattern="", containerFactory="", beanRef="__listener", contentTypeConverter="", topics={"booking-created"}, groupId="booking-history-service", batch="", topicPartitions={}, clientIdPrefix="", splitIterables=true, concurrency="", autoStartup="", filter="", containerGroup="", idIsGroup=true, errorHandler="", id="", containerPostProcessor="", properties={}, info="")]}
-2026-03-10 19:24:32 [main] INFO  c.h.h.config.KafkaConsumerConfig - ✅ Consumer factory created with auto.offset.reset=earliest
-2026-03-10 19:24:32 [main] INFO  c.h.h.config.KafkaConsumerConfig - ✅ Kafka listener container factory configured
-2026-03-10 19:24:32 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-03-10 19:24:33 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 4 endpoint(s) beneath base path '/actuator'
-2026-03-10 19:24:33 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path ''
-2026-03-10 19:24:33 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
+2026-03-10 19:41:25 [main] INFO  c.h.h.BookingHistoryApplication - Starting BookingHistoryApplication v1.0.0 using Java 21.0.10 with PID 1 (/app/app.jar started by root in /app)
+2026-03-10 19:41:25 [main] INFO  c.h.h.BookingHistoryApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-10 19:41:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-10 19:41:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 57 ms. Found 2 JPA repository interfaces.
+2026-03-10 19:41:28 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-03-10 19:41:28 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-10 19:41:28 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-03-10 19:41:28 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-03-10 19:41:28 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3109 ms
+2026-03-10 19:41:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-10 19:41:29 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4adf3582
+2026-03-10 19:41:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 9.22.3 by Redgate
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.license.VersionPrinter - See release notes here: https://rd.gt/416ObMi
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.license.VersionPrinter - 
+2026-03-10 19:41:29 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://booking-history-db:5432/booking_history_db (PostgreSQL 15.17)
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Schema history table "public"."flyway_schema_history" does not exist yet
+2026-03-10 19:41:29 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.058s)
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Creating Schema History table "public"."flyway_schema_history" ...
+2026-03-10 19:41:30 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": << Empty Schema >>
+2026-03-10 19:41:30 [main] INFO  o.f.core.internal.command.DbMigrate - Migrating schema "public" to version "1 - Create booking history table"
+2026-03-10 19:41:30 [main] INFO  o.f.core.internal.command.DbMigrate - Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.101s)
+2026-03-10 19:41:30 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-10 19:41:30 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-03-10 19:41:30 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-10 19:41:30 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-10 19:41:31 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-10 19:41:31 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-10 19:41:31 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-10 19:41:31 [main] INFO  c.h.h.config.KafkaConsumerConfig - 🔧 KAFKA CONSUMER CONFIG INITIALIZING
+2026-03-10 19:41:31 [main] INFO  c.h.h.config.KafkaConsumerConfig -    Topic: booking-created
+2026-03-10 19:41:31 [main] INFO  c.h.h.config.KafkaConsumerConfig -    Group ID: booking-history-service
+2026-03-10 19:41:31 [main] INFO  c.h.h.config.KafkaConsumerConfig -    Auto offset reset: earliest (will read ALL messages from topic start)
+2026-03-10 19:41:32 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-10 19:41:32 [main] DEBUG o.s.k.a.KafkaListenerAnnotationBeanPostProcessor - No retry topic configuration found for topics [booking-created]
+2026-03-10 19:41:32 [main] DEBUG o.s.k.a.KafkaListenerAnnotationBeanPostProcessor - 1 @KafkaListener methods processed on bean 'bookingEventConsumer': {public void com.hotelio.history.service.BookingEventConsumer.handleBookingCreatedEvent(java.lang.String,java.lang.String,int,long)=[@org.springframework.kafka.annotation.KafkaListener(topicPattern="", containerFactory="", beanRef="__listener", contentTypeConverter="", topics={"booking-created"}, groupId="booking-history-service", batch="", topicPartitions={}, clientIdPrefix="", splitIterables=true, concurrency="", autoStartup="", filter="", containerGroup="", idIsGroup=true, errorHandler="", id="", containerPostProcessor="", properties={}, info="")]}
+2026-03-10 19:41:32 [main] INFO  c.h.h.config.KafkaConsumerConfig - ✅ Consumer factory created with auto.offset.reset=earliest
+2026-03-10 19:41:32 [main] INFO  c.h.h.config.KafkaConsumerConfig - ✅ Kafka listener container factory configured
+2026-03-10 19:41:32 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-10 19:41:33 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 4 endpoint(s) beneath base path '/actuator'
+2026-03-10 19:41:33 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path ''
+2026-03-10 19:41:34 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 1000
 	auto.include.jmx.reporter = true
@@ -143,244 +143,49 @@ BOOKING HISTORY SERVICE STARTING - CODE VERSION: 2026-03-09-v3
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
 
-2026-03-10 19:24:33 [main] DEBUG o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Initializing the Kafka consumer
-2026-03-10 19:24:34 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 3.6.2
-2026-03-10 19:24:34 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: c4deed513057c94e
-2026-03-10 19:24:34 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1773170674024
-2026-03-10 19:24:34 [main] DEBUG o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Kafka consumer initialized
-2026-03-10 19:24:34 [main] INFO  o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Subscribed to topic(s): booking-created
-2026-03-10 19:24:34 [main] INFO  c.h.h.BookingHistoryApplication - Started BookingHistoryApplication in 10.859 seconds (process running for 11.618)
+2026-03-10 19:41:34 [main] DEBUG o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Initializing the Kafka consumer
+2026-03-10 19:41:34 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 3.6.2
+2026-03-10 19:41:34 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: c4deed513057c94e
+2026-03-10 19:41:34 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1773171694202
+2026-03-10 19:41:34 [main] DEBUG o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Kafka consumer initialized
+2026-03-10 19:41:34 [main] INFO  o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Subscribed to topic(s): booking-created
+2026-03-10 19:41:34 [main] INFO  c.h.h.BookingHistoryApplication - Started BookingHistoryApplication in 9.459 seconds (process running for 10.195)
 BOOKING HISTORY SERVICE STARTED SUCCESSFULLY
-2026-03-10 19:24:34 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] WARN  o.apache.kafka.clients.NetworkClient - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Error while fetching metadata with correlation id 2 : {booking-created=LEADER_NOT_AVAILABLE}
-2026-03-10 19:24:34 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  org.apache.kafka.clients.Metadata - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Cluster ID: rv_FcWJKRQiU_mHf7lfP2A
-2026-03-10 19:24:34 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] WARN  o.apache.kafka.clients.NetworkClient - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Error while fetching metadata with correlation id 4 : {booking-created=LEADER_NOT_AVAILABLE}
-2026-03-10 19:24:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Discovered group coordinator kafka:9092 (id: 2147483646 rack: null)
-2026-03-10 19:24:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] (Re-)joining group
-2026-03-10 19:24:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Request joining group due to: need to re-join with the given member-id: consumer-booking-history-service-1-c357c7f6-9570-418a-9218-0ef7ffe88508
-2026-03-10 19:24:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Request joining group due to: rebalance failed due to 'The group member needs to have a valid member id before actually entering a consumer group.' (MemberIdRequiredException)
-2026-03-10 19:24:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] (Re-)joining group
-2026-03-10 19:24:37 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-03-10 19:24:37 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2026-03-10 19:24:37 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2026-03-10 19:24:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Successfully joined group with generation Generation{generationId=1, memberId='consumer-booking-history-service-1-c357c7f6-9570-418a-9218-0ef7ffe88508', protocol='range'}
-2026-03-10 19:24:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Finished assignment for group at generation 1: {consumer-booking-history-service-1-c357c7f6-9570-418a-9218-0ef7ffe88508=Assignment(partitions=[booking-created-0])}
-2026-03-10 19:24:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Successfully synced group in generation Generation{generationId=1, memberId='consumer-booking-history-service-1-c357c7f6-9570-418a-9218-0ef7ffe88508', protocol='range'}
-2026-03-10 19:24:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Notifying assignor about the new Assignment(partitions=[booking-created-0])
-2026-03-10 19:24:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Adding newly assigned partitions: booking-created-0
-2026-03-10 19:24:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Found no committed offset for partition booking-created-0
-2026-03-10 19:24:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.SubscriptionState - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Resetting offset for partition booking-created-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[kafka:9092 (id: 1 rack: null)], epoch=0}}.
-2026-03-10 19:24:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.s.k.l.KafkaMessageListenerContainer - booking-history-service: partitions assigned: [booking-created-0]
-2026-03-10 19:24:39 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
-2026-03-10 19:24:44 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
-2026-03-10 19:24:49 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 1 records
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.a.RecordMessagingMessageListenerAdapter - Processing [GenericMessage [payload={"bookingId":"eb1e4cd7-90f2-493b-8e5e-24849020ea95","userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":null,"eventId":"61ee6b51-6485-4fdf-8546-1c55a902c3da","eventTimestamp":"2026-03-10T19:24:52.597785048"}, headers={kafka_offset=0, kafka_consumer=org.springframework.kafka.core.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer@79eda186, kafka_timestampType=CREATE_TIME, kafka_receivedPartitionId=0, kafka_receivedMessageKey=eb1e4cd7-90f2-493b-8e5e-24849020ea95, kafka_receivedTopic=booking-created, kafka_receivedTimestamp=1773170692671, kafka_groupId=booking-history-service}]]
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 📨 KAFKA MESSAGE RECEIVED: topic=booking-created partition=0 offset=0 messageLength=267
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✅ Deserialized event: bookingId=eb1e4cd7-90f2-493b-8e5e-24849020ea95, eventId=61ee6b51-6485-4fdf-8546-1c55a902c3da, userId=test-user-3
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  org.hibernate.orm.jdbc.batch - HHH100503: On release of batch it still contained JDBC statements
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR org.hibernate.orm.jdbc.batch - HHH100501: Exception executing batch [java.sql.BatchUpdateException: Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('eb1e4cd7-90f2-493b-8e5e-24849020ea95'),('0.0'::numeric),('61ee6b51-6485-4fdf-8546-1c55a902c3da'),('2026-03-10 19:24:52.597785+00'),('test-hotel-1'),('80.0'::numeric),('2026-03-10 19:24:52.905442+00'),(NULL),('test-user-3'),('a4a84d89-3912-4ea0-a74c-ea2034fea26c'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (a4a84d89-3912-4ea0-a74c-ea2034fea26c, eb1e4cd7-90f2-493b-8e5e-24849020ea95, test-user-3, test-hotel-1, null, 0.00, 80.00, null, 61ee6b51-6485-4fdf-8546-1c55a902c3da, 2026-03-10 19:24:52.597785, 2026-03-10 19:24:52.905442).  Call getNextException to see other errors in the batch.], SQL: insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values (?,?,?,?,?,?,?,?,?,?,?)
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23502
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('eb1e4cd7-90f2-493b-8e5e-24849020ea95'),('0.0'::numeric),('61ee6b51-6485-4fdf-8546-1c55a902c3da'),('2026-03-10 19:24:52.597785+00'),('test-hotel-1'),('80.0'::numeric),('2026-03-10 19:24:52.905442+00'),(NULL),('test-user-3'),('a4a84d89-3912-4ea0-a74c-ea2034fea26c'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (a4a84d89-3912-4ea0-a74c-ea2034fea26c, eb1e4cd7-90f2-493b-8e5e-24849020ea95, test-user-3, test-hotel-1, null, 0.00, 80.00, null, 61ee6b51-6485-4fdf-8546-1c55a902c3da, 2026-03-10 19:24:52.597785, 2026-03-10 19:24:52.905442).  Call getNextException to see other errors in the batch.
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (a4a84d89-3912-4ea0-a74c-ea2034fea26c, eb1e4cd7-90f2-493b-8e5e-24849020ea95, test-user-3, test-hotel-1, null, 0.00, 80.00, null, 61ee6b51-6485-4fdf-8546-1c55a902c3da, 2026-03-10 19:24:52.597785, 2026-03-10 19:24:52.905442).
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR c.h.h.service.BookingEventConsumer - ❌ UNEXPECTED ERROR from partition=0, offset=0
-org.springframework.dao.DataIntegrityViolationException: could not execute batch [Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('eb1e4cd7-90f2-493b-8e5e-24849020ea95'),('0.0'::numeric),('61ee6b51-6485-4fdf-8546-1c55a902c3da'),('2026-03-10 19:24:52.597785+00'),('test-hotel-1'),('80.0'::numeric),('2026-03-10 19:24:52.905442+00'),(NULL),('test-user-3'),('a4a84d89-3912-4ea0-a74c-ea2034fea26c'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (a4a84d89-3912-4ea0-a74c-ea2034fea26c, eb1e4cd7-90f2-493b-8e5e-24849020ea95, test-user-3, test-hotel-1, null, 0.00, 80.00, null, 61ee6b51-6485-4fdf-8546-1c55a902c3da, 2026-03-10 19:24:52.597785, 2026-03-10 19:24:52.905442).  Call getNextException to see other errors in the batch.] [insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values (?,?,?,?,?,?,?,?,?,?,?)]; SQL [insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values (?,?,?,?,?,?,?,?,?,?,?)]; constraint [booking_created_at" of relation "booking_history]
-	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:290)
-	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:241)
-	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:566)
-	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:794)
-	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:757)
-	at org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:676)
-	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:426)
-	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
-	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
-	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:164)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
-	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
-	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
-	at jdk.proxy2/jdk.proxy2.$Proxy143.save(Unknown Source)
-	at com.hotelio.history.service.BookingEventConsumer.processBookingEvent(BookingEventConsumer.java:94)
-	at com.hotelio.history.service.BookingEventConsumer.handleBookingCreatedEvent(BookingEventConsumer.java:56)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
-	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
-	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:716)
-	at com.hotelio.history.service.BookingEventConsumer$$SpringCGLIB$$0.handleBookingCreatedEvent(<generated>)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
-	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
-	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:169)
-	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119)
-	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:56)
-	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:376)
-	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92)
-	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:53)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2888)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2866)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.lambda$doInvokeRecordListener$55(KafkaMessageListenerContainer.java:2783)
-	at io.micrometer.observation.Observation.observe(Observation.java:565)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2781)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2631)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2517)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2155)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1495)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1460)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1330)
-	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(Unknown Source)
-	at java.base/java.lang.Thread.run(Unknown Source)
-Caused by: org.hibernate.exception.ConstraintViolationException: could not execute batch [Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('eb1e4cd7-90f2-493b-8e5e-24849020ea95'),('0.0'::numeric),('61ee6b51-6485-4fdf-8546-1c55a902c3da'),('2026-03-10 19:24:52.597785+00'),('test-hotel-1'),('80.0'::numeric),('2026-03-10 19:24:52.905442+00'),(NULL),('test-user-3'),('a4a84d89-3912-4ea0-a74c-ea2034fea26c'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (a4a84d89-3912-4ea0-a74c-ea2034fea26c, eb1e4cd7-90f2-493b-8e5e-24849020ea95, test-user-3, test-hotel-1, null, 0.00, 80.00, null, 61ee6b51-6485-4fdf-8546-1c55a902c3da, 2026-03-10 19:24:52.597785, 2026-03-10 19:24:52.905442).  Call getNextException to see other errors in the batch.] [insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values (?,?,?,?,?,?,?,?,?,?,?)]
-	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:97)
-	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:58)
-	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108)
-	at org.hibernate.engine.jdbc.batch.internal.BatchImpl.lambda$performExecution$2(BatchImpl.java:294)
-	at org.hibernate.engine.jdbc.mutation.internal.PreparedStatementGroupSingleTable.forEachStatement(PreparedStatementGroupSingleTable.java:59)
-	at org.hibernate.engine.jdbc.batch.internal.BatchImpl.performExecution(BatchImpl.java:264)
-	at org.hibernate.engine.jdbc.batch.internal.BatchImpl.execute(BatchImpl.java:242)
-	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.executeBatch(JdbcCoordinatorImpl.java:188)
-	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:662)
-	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:499)
-	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:363)
-	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:41)
-	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
-	at org.hibernate.internal.SessionImpl.doFlush(SessionImpl.java:1403)
-	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:484)
-	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:2319)
-	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:1976)
-	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:439)
-	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:169)
-	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:267)
-	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:101)
-	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:562)
-	... 42 common frames omitted
-Caused by: java.sql.BatchUpdateException: Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('eb1e4cd7-90f2-493b-8e5e-24849020ea95'),('0.0'::numeric),('61ee6b51-6485-4fdf-8546-1c55a902c3da'),('2026-03-10 19:24:52.597785+00'),('test-hotel-1'),('80.0'::numeric),('2026-03-10 19:24:52.905442+00'),(NULL),('test-user-3'),('a4a84d89-3912-4ea0-a74c-ea2034fea26c'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (a4a84d89-3912-4ea0-a74c-ea2034fea26c, eb1e4cd7-90f2-493b-8e5e-24849020ea95, test-user-3, test-hotel-1, null, 0.00, 80.00, null, 61ee6b51-6485-4fdf-8546-1c55a902c3da, 2026-03-10 19:24:52.597785, 2026-03-10 19:24:52.905442).  Call getNextException to see other errors in the batch.
-	at org.postgresql.jdbc.BatchResultHandler.handleError(BatchResultHandler.java:165)
-	at org.postgresql.core.ResultHandlerDelegate.handleError(ResultHandlerDelegate.java:52)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2402)
-	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:574)
-	at org.postgresql.jdbc.PgStatement.internalExecuteBatch(PgStatement.java:896)
-	at org.postgresql.jdbc.PgStatement.executeBatch(PgStatement.java:919)
-	at org.postgresql.jdbc.PgPreparedStatement.executeBatch(PgPreparedStatement.java:1685)
-	at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:127)
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
-	at org.hibernate.engine.jdbc.batch.internal.BatchImpl.lambda$performExecution$2(BatchImpl.java:279)
-	... 60 common frames omitted
-Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (a4a84d89-3912-4ea0-a74c-ea2034fea26c, eb1e4cd7-90f2-493b-8e5e-24849020ea95, test-user-3, test-hotel-1, null, 0.00, 80.00, null, 61ee6b51-6485-4fdf-8546-1c55a902c3da, 2026-03-10 19:24:52.597785, 2026-03-10 19:24:52.905442).
-	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2713)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2401)
-	... 67 common frames omitted
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR c.h.h.service.BookingEventConsumer - Raw message: {"bookingId":"eb1e4cd7-90f2-493b-8e5e-24849020ea95","userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":null,"eventId":"61ee6b51-6485-4fdf-8546-1c55a902c3da","eventTimestamp":"2026-03-10T19:24:52.597785048"}
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Committing: {booking-created-0=OffsetAndMetadata{offset=1, leaderEpoch=null, metadata=''}}
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 1 records
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.a.RecordMessagingMessageListenerAdapter - Processing [GenericMessage [payload={"bookingId":"1aac5ef6-efb0-4fdc-b24a-797fbd52ac01","userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":0.0,"price":100.0,"createdAt":null,"eventId":"d7be0edf-fe1c-49d7-9695-81f307d5d180","eventTimestamp":"2026-03-10T19:24:52.90353479"}, headers={kafka_offset=1, kafka_consumer=org.springframework.kafka.core.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer@79eda186, kafka_timestampType=CREATE_TIME, kafka_receivedPartitionId=0, kafka_receivedMessageKey=1aac5ef6-efb0-4fdc-b24a-797fbd52ac01, kafka_receivedTopic=booking-created, kafka_receivedTimestamp=1773170692904, kafka_groupId=booking-history-service}]]
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 📨 KAFKA MESSAGE RECEIVED: topic=booking-created partition=0 offset=1 messageLength=274
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✅ Deserialized event: bookingId=1aac5ef6-efb0-4fdc-b24a-797fbd52ac01, eventId=d7be0edf-fe1c-49d7-9695-81f307d5d180, userId=test-user-2
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  org.hibernate.orm.jdbc.batch - HHH100503: On release of batch it still contained JDBC statements
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR org.hibernate.orm.jdbc.batch - HHH100501: Exception executing batch [java.sql.BatchUpdateException: Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('1aac5ef6-efb0-4fdc-b24a-797fbd52ac01'),('0.0'::numeric),('d7be0edf-fe1c-49d7-9695-81f307d5d180'),('2026-03-10 19:24:52.903535+00'),('test-hotel-1'),('100.0'::numeric),('2026-03-10 19:24:52.948577+00'),('TESTCODE1'),('test-user-2'),('400b037b-a9a2-4a97-9bb0-bdc6001fbe5e'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (400b037b-a9a2-4a97-9bb0-bdc6001fbe5e, 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01, test-user-2, test-hotel-1, TESTCODE1, 0.00, 100.00, null, d7be0edf-fe1c-49d7-9695-81f307d5d180, 2026-03-10 19:24:52.903535, 2026-03-10 19:24:52.948577).  Call getNextException to see other errors in the batch.], SQL: insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values (?,?,?,?,?,?,?,?,?,?,?)
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23502
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('1aac5ef6-efb0-4fdc-b24a-797fbd52ac01'),('0.0'::numeric),('d7be0edf-fe1c-49d7-9695-81f307d5d180'),('2026-03-10 19:24:52.903535+00'),('test-hotel-1'),('100.0'::numeric),('2026-03-10 19:24:52.948577+00'),('TESTCODE1'),('test-user-2'),('400b037b-a9a2-4a97-9bb0-bdc6001fbe5e'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (400b037b-a9a2-4a97-9bb0-bdc6001fbe5e, 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01, test-user-2, test-hotel-1, TESTCODE1, 0.00, 100.00, null, d7be0edf-fe1c-49d7-9695-81f307d5d180, 2026-03-10 19:24:52.903535, 2026-03-10 19:24:52.948577).  Call getNextException to see other errors in the batch.
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (400b037b-a9a2-4a97-9bb0-bdc6001fbe5e, 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01, test-user-2, test-hotel-1, TESTCODE1, 0.00, 100.00, null, d7be0edf-fe1c-49d7-9695-81f307d5d180, 2026-03-10 19:24:52.903535, 2026-03-10 19:24:52.948577).
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR c.h.h.service.BookingEventConsumer - ❌ UNEXPECTED ERROR from partition=0, offset=1
-org.springframework.dao.DataIntegrityViolationException: could not execute batch [Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('1aac5ef6-efb0-4fdc-b24a-797fbd52ac01'),('0.0'::numeric),('d7be0edf-fe1c-49d7-9695-81f307d5d180'),('2026-03-10 19:24:52.903535+00'),('test-hotel-1'),('100.0'::numeric),('2026-03-10 19:24:52.948577+00'),('TESTCODE1'),('test-user-2'),('400b037b-a9a2-4a97-9bb0-bdc6001fbe5e'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (400b037b-a9a2-4a97-9bb0-bdc6001fbe5e, 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01, test-user-2, test-hotel-1, TESTCODE1, 0.00, 100.00, null, d7be0edf-fe1c-49d7-9695-81f307d5d180, 2026-03-10 19:24:52.903535, 2026-03-10 19:24:52.948577).  Call getNextException to see other errors in the batch.] [insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values (?,?,?,?,?,?,?,?,?,?,?)]; SQL [insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values (?,?,?,?,?,?,?,?,?,?,?)]; constraint [booking_created_at" of relation "booking_history]
-	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:290)
-	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:241)
-	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:566)
-	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:794)
-	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:757)
-	at org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:676)
-	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:426)
-	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
-	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
-	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:164)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
-	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
-	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
-	at jdk.proxy2/jdk.proxy2.$Proxy143.save(Unknown Source)
-	at com.hotelio.history.service.BookingEventConsumer.processBookingEvent(BookingEventConsumer.java:94)
-	at com.hotelio.history.service.BookingEventConsumer.handleBookingCreatedEvent(BookingEventConsumer.java:56)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
-	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:354)
-	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:716)
-	at com.hotelio.history.service.BookingEventConsumer$$SpringCGLIB$$0.handleBookingCreatedEvent(<generated>)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
-	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
-	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:169)
-	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119)
-	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:56)
-	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:376)
-	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92)
-	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:53)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2888)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2866)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.lambda$doInvokeRecordListener$55(KafkaMessageListenerContainer.java:2783)
-	at io.micrometer.observation.Observation.observe(Observation.java:565)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2781)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2631)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2517)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2155)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1495)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1460)
-	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1330)
-	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(Unknown Source)
-	at java.base/java.lang.Thread.run(Unknown Source)
-Caused by: org.hibernate.exception.ConstraintViolationException: could not execute batch [Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('1aac5ef6-efb0-4fdc-b24a-797fbd52ac01'),('0.0'::numeric),('d7be0edf-fe1c-49d7-9695-81f307d5d180'),('2026-03-10 19:24:52.903535+00'),('test-hotel-1'),('100.0'::numeric),('2026-03-10 19:24:52.948577+00'),('TESTCODE1'),('test-user-2'),('400b037b-a9a2-4a97-9bb0-bdc6001fbe5e'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (400b037b-a9a2-4a97-9bb0-bdc6001fbe5e, 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01, test-user-2, test-hotel-1, TESTCODE1, 0.00, 100.00, null, d7be0edf-fe1c-49d7-9695-81f307d5d180, 2026-03-10 19:24:52.903535, 2026-03-10 19:24:52.948577).  Call getNextException to see other errors in the batch.] [insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values (?,?,?,?,?,?,?,?,?,?,?)]
-	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:97)
-	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:58)
-	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108)
-	at org.hibernate.engine.jdbc.batch.internal.BatchImpl.lambda$performExecution$2(BatchImpl.java:294)
-	at org.hibernate.engine.jdbc.mutation.internal.PreparedStatementGroupSingleTable.forEachStatement(PreparedStatementGroupSingleTable.java:59)
-	at org.hibernate.engine.jdbc.batch.internal.BatchImpl.performExecution(BatchImpl.java:264)
-	at org.hibernate.engine.jdbc.batch.internal.BatchImpl.execute(BatchImpl.java:242)
-	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.executeBatch(JdbcCoordinatorImpl.java:188)
-	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:662)
-	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:499)
-	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:363)
-	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:41)
-	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
-	at org.hibernate.internal.SessionImpl.doFlush(SessionImpl.java:1403)
-	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:484)
-	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:2319)
-	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:1976)
-	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:439)
-	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:169)
-	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:267)
-	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:101)
-	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:562)
-	... 42 common frames omitted
-Caused by: java.sql.BatchUpdateException: Batch entry 0 insert into booking_history (booking_created_at,booking_id,discount_percent,event_id,event_timestamp,hotel_id,price,processed_at,promo_code,user_id,id) values ((NULL),('1aac5ef6-efb0-4fdc-b24a-797fbd52ac01'),('0.0'::numeric),('d7be0edf-fe1c-49d7-9695-81f307d5d180'),('2026-03-10 19:24:52.903535+00'),('test-hotel-1'),('100.0'::numeric),('2026-03-10 19:24:52.948577+00'),('TESTCODE1'),('test-user-2'),('400b037b-a9a2-4a97-9bb0-bdc6001fbe5e'::uuid)) was aborted: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (400b037b-a9a2-4a97-9bb0-bdc6001fbe5e, 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01, test-user-2, test-hotel-1, TESTCODE1, 0.00, 100.00, null, d7be0edf-fe1c-49d7-9695-81f307d5d180, 2026-03-10 19:24:52.903535, 2026-03-10 19:24:52.948577).  Call getNextException to see other errors in the batch.
-	at org.postgresql.jdbc.BatchResultHandler.handleError(BatchResultHandler.java:165)
-	at org.postgresql.core.ResultHandlerDelegate.handleError(ResultHandlerDelegate.java:52)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2402)
-	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:574)
-	at org.postgresql.jdbc.PgStatement.internalExecuteBatch(PgStatement.java:896)
-	at org.postgresql.jdbc.PgStatement.executeBatch(PgStatement.java:919)
-	at org.postgresql.jdbc.PgPreparedStatement.executeBatch(PgPreparedStatement.java:1685)
-	at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:127)
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
-	at org.hibernate.engine.jdbc.batch.internal.BatchImpl.lambda$performExecution$2(BatchImpl.java:279)
-	... 60 common frames omitted
-Caused by: org.postgresql.util.PSQLException: ERROR: null value in column "booking_created_at" of relation "booking_history" violates not-null constraint
-  Detail: Failing row contains (400b037b-a9a2-4a97-9bb0-bdc6001fbe5e, 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01, test-user-2, test-hotel-1, TESTCODE1, 0.00, 100.00, null, d7be0edf-fe1c-49d7-9695-81f307d5d180, 2026-03-10 19:24:52.903535, 2026-03-10 19:24:52.948577).
-	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2713)
-	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2401)
-	... 67 common frames omitted
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] ERROR c.h.h.service.BookingEventConsumer - Raw message: {"bookingId":"1aac5ef6-efb0-4fdc-b24a-797fbd52ac01","userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":0.0,"price":100.0,"createdAt":null,"eventId":"d7be0edf-fe1c-49d7-9695-81f307d5d180","eventTimestamp":"2026-03-10T19:24:52.90353479"}
-2026-03-10 19:24:52 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Committing: {booking-created-0=OffsetAndMetadata{offset=2, leaderEpoch=null, metadata=''}}
-2026-03-10 19:24:57 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
+2026-03-10 19:41:34 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-10 19:41:34 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-10 19:41:34 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-03-10 19:41:34 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] WARN  o.apache.kafka.clients.NetworkClient - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Error while fetching metadata with correlation id 2 : {booking-created=LEADER_NOT_AVAILABLE}
+2026-03-10 19:41:34 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  org.apache.kafka.clients.Metadata - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Cluster ID: h5SYARpJRX6-4fs395Bk-A
+2026-03-10 19:41:34 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] WARN  o.apache.kafka.clients.NetworkClient - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Error while fetching metadata with correlation id 4 : {booking-created=LEADER_NOT_AVAILABLE}
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Discovered group coordinator kafka:9092 (id: 2147483646 rack: null)
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] (Re-)joining group
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Request joining group due to: need to re-join with the given member-id: consumer-booking-history-service-1-0763d073-f373-4ab9-893a-9ab56501d6ed
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Request joining group due to: rebalance failed due to 'The group member needs to have a valid member id before actually entering a consumer group.' (MemberIdRequiredException)
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] (Re-)joining group
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Successfully joined group with generation Generation{generationId=1, memberId='consumer-booking-history-service-1-0763d073-f373-4ab9-893a-9ab56501d6ed', protocol='range'}
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Finished assignment for group at generation 1: {consumer-booking-history-service-1-0763d073-f373-4ab9-893a-9ab56501d6ed=Assignment(partitions=[booking-created-0])}
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Successfully synced group in generation Generation{generationId=1, memberId='consumer-booking-history-service-1-0763d073-f373-4ab9-893a-9ab56501d6ed', protocol='range'}
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Notifying assignor about the new Assignment(partitions=[booking-created-0])
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Adding newly assigned partitions: booking-created-0
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Found no committed offset for partition booking-created-0
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.SubscriptionState - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Resetting offset for partition booking-created-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[kafka:9092 (id: 1 rack: null)], epoch=0}}.
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.s.k.l.KafkaMessageListenerContainer - booking-history-service: partitions assigned: [booking-created-0]
+2026-03-10 19:41:39 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
+2026-03-10 19:41:44 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
+2026-03-10 19:41:49 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 1 records
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.a.RecordMessagingMessageListenerAdapter - Processing [GenericMessage [payload={"bookingId":"65ec709a-8bc1-45bc-9f6d-71744d45b63f","userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":null,"eventId":"5e92d4f6-0a4f-4d5e-b77c-e5e03ef2acb9","eventTimestamp":"2026-03-10T19:41:54.606972941"}, headers={kafka_offset=0, kafka_consumer=org.springframework.kafka.core.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer@5a8ac4f2, kafka_timestampType=CREATE_TIME, kafka_receivedPartitionId=0, kafka_receivedMessageKey=65ec709a-8bc1-45bc-9f6d-71744d45b63f, kafka_receivedTopic=booking-created, kafka_receivedTimestamp=1773171714673, kafka_groupId=booking-history-service}]]
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 📨 KAFKA MESSAGE RECEIVED: topic=booking-created partition=0 offset=0 messageLength=267
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✅ Deserialized event: bookingId=65ec709a-8bc1-45bc-9f6d-71744d45b63f, eventId=5e92d4f6-0a4f-4d5e-b77c-e5e03ef2acb9, userId=test-user-3
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 💾 SAVED booking history with ID: 47c600ed-7394-4cf6-b0cd-4ee1dc8b2045 for booking: 65ec709a-8bc1-45bc-9f6d-71744d45b63f
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✔️ SUCCESS: eventId=5e92d4f6-0a4f-4d5e-b77c-e5e03ef2acb9 processed and saved to DB
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Committing: {booking-created-0=OffsetAndMetadata{offset=1, leaderEpoch=null, metadata=''}}
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 1 records
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.a.RecordMessagingMessageListenerAdapter - Processing [GenericMessage [payload={"bookingId":"17f9eb71-a1b7-4341-a1d1-4e1b9beae961","userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":0.0,"price":100.0,"createdAt":null,"eventId":"bcfe4d31-8225-4218-82ea-febe75c3b4c1","eventTimestamp":"2026-03-10T19:41:54.87767695"}, headers={kafka_offset=1, kafka_consumer=org.springframework.kafka.core.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer@5a8ac4f2, kafka_timestampType=CREATE_TIME, kafka_receivedPartitionId=0, kafka_receivedMessageKey=17f9eb71-a1b7-4341-a1d1-4e1b9beae961, kafka_receivedTopic=booking-created, kafka_receivedTimestamp=1773171714878, kafka_groupId=booking-history-service}]]
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 📨 KAFKA MESSAGE RECEIVED: topic=booking-created partition=0 offset=1 messageLength=274
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✅ Deserialized event: bookingId=17f9eb71-a1b7-4341-a1d1-4e1b9beae961, eventId=bcfe4d31-8225-4218-82ea-febe75c3b4c1, userId=test-user-2
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 💾 SAVED booking history with ID: 3fb2dc4f-c475-4e28-a9c2-9ec32c1a974a for booking: 17f9eb71-a1b7-4341-a1d1-4e1b9beae961
+2026-03-10 19:41:55 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✔️ SUCCESS: eventId=bcfe4d31-8225-4218-82ea-febe75c3b4c1 processed and saved to DB
+2026-03-10 19:41:55 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Committing: {booking-created-0=OffsetAndMetadata{offset=2, leaderEpoch=null, metadata=''}}
+2026-03-10 19:42:00 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records

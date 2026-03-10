@@ -1,5 +1,5 @@
 === HOTELIO TEST LOG ===
-Timestamp: Tue Mar 10 20:24:48 CEST 2026
+Timestamp: Tue Mar 10 20:41:50 CEST 2026
 🏁 Регрессионный тест до миграции Hotelio
 🧪 Проверка подключения к основной БД (монолит)...
 🧪 Проверка подключения к booking БД...

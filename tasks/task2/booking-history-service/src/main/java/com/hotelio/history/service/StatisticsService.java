@@ -23,7 +23,13 @@ public class StatisticsService {
 
     @Transactional
     public void updateStatistics(BookingCreatedEvent event) {
-        LocalDate eventDate = event.getCreatedAt().toLocalDate();
+
+        // FIX: fallback if createdAt == null
+        LocalDateTime createdAt = event.getCreatedAt() != null
+                ? event.getCreatedAt()
+                : event.getEventTimestamp();
+
+        LocalDate eventDate = createdAt.toLocalDate();
 
         // Update daily statistics by user
         updateUserStatistics(eventDate, event);
@@ -42,25 +48,30 @@ public class StatisticsService {
                 .findByDateAndUserIdAndHotelIdIsNull(date, event.getUserId());
 
         BookingStatistics stats;
+
         if (existing.isPresent()) {
             stats = existing.get();
+
             stats.setTotalBookings(stats.getTotalBookings() + 1);
             stats.setTotalRevenue(stats.getTotalRevenue().add(event.getPrice()));
 
             BigDecimal eventDiscount = calculateDiscountAmount(event.getPrice(), event.getDiscountPercent());
             stats.setTotalDiscount(stats.getTotalDiscount().add(eventDiscount));
 
-            // Recalculate average discount percentage
             if (stats.getTotalRevenue().compareTo(BigDecimal.ZERO) > 0) {
                 BigDecimal avgDiscountPercent = stats.getTotalDiscount()
                         .multiply(BigDecimal.valueOf(100))
                         .divide(stats.getTotalRevenue().add(stats.getTotalDiscount()), 2, RoundingMode.HALF_UP);
+
                 stats.setAvgDiscountPercent(avgDiscountPercent);
             }
 
             stats.setLastUpdated(LocalDateTime.now());
+
         } else {
+
             BigDecimal discountAmount = calculateDiscountAmount(event.getPrice(), event.getDiscountPercent());
+
             stats = BookingStatistics.builder()
                     .date(date)
                     .userId(event.getUserId())
@@ -80,25 +91,32 @@ public class StatisticsService {
                 .findByDateAndHotelIdAndUserIdIsNull(date, event.getHotelId());
 
         BookingStatistics stats;
+
         if (existing.isPresent()) {
+
             stats = existing.get();
+
             stats.setTotalBookings(stats.getTotalBookings() + 1);
             stats.setTotalRevenue(stats.getTotalRevenue().add(event.getPrice()));
 
             BigDecimal eventDiscount = calculateDiscountAmount(event.getPrice(), event.getDiscountPercent());
             stats.setTotalDiscount(stats.getTotalDiscount().add(eventDiscount));
 
-            // Recalculate average discount percentage
             if (stats.getTotalRevenue().compareTo(BigDecimal.ZERO) > 0) {
+
                 BigDecimal avgDiscountPercent = stats.getTotalDiscount()
                         .multiply(BigDecimal.valueOf(100))
                         .divide(stats.getTotalRevenue().add(stats.getTotalDiscount()), 2, RoundingMode.HALF_UP);
+
                 stats.setAvgDiscountPercent(avgDiscountPercent);
             }
 
             stats.setLastUpdated(LocalDateTime.now());
+
         } else {
+
             BigDecimal discountAmount = calculateDiscountAmount(event.getPrice(), event.getDiscountPercent());
+
             stats = BookingStatistics.builder()
                     .date(date)
                     .hotelId(event.getHotelId())
@@ -114,29 +132,37 @@ public class StatisticsService {
     }
 
     private void updateDailyStatistics(LocalDate date, BookingCreatedEvent event) {
+
         Optional<BookingStatistics> existing = statisticsRepository
                 .findByDateAndUserIdIsNullAndHotelIdIsNull(date);
 
         BookingStatistics stats;
+
         if (existing.isPresent()) {
+
             stats = existing.get();
+
             stats.setTotalBookings(stats.getTotalBookings() + 1);
             stats.setTotalRevenue(stats.getTotalRevenue().add(event.getPrice()));
 
             BigDecimal eventDiscount = calculateDiscountAmount(event.getPrice(), event.getDiscountPercent());
             stats.setTotalDiscount(stats.getTotalDiscount().add(eventDiscount));
 
-            // Recalculate average discount percentage
             if (stats.getTotalRevenue().compareTo(BigDecimal.ZERO) > 0) {
+
                 BigDecimal avgDiscountPercent = stats.getTotalDiscount()
                         .multiply(BigDecimal.valueOf(100))
                         .divide(stats.getTotalRevenue().add(stats.getTotalDiscount()), 2, RoundingMode.HALF_UP);
+
                 stats.setAvgDiscountPercent(avgDiscountPercent);
             }
 
             stats.setLastUpdated(LocalDateTime.now());
+
         } else {
+
             BigDecimal discountAmount = calculateDiscountAmount(event.getPrice(), event.getDiscountPercent());
+
             stats = BookingStatistics.builder()
                     .date(date)
                     .totalBookings(1L)
@@ -151,14 +177,16 @@ public class StatisticsService {
     }
 
     private BigDecimal calculateDiscountAmount(BigDecimal price, BigDecimal discountPercent) {
+
         if (discountPercent == null || discountPercent.compareTo(BigDecimal.ZERO) <= 0) {
             return BigDecimal.ZERO;
         }
 
-        // Calculate original price before discount
         BigDecimal originalPrice = price.divide(
-                BigDecimal.ONE.subtract(discountPercent.divide(BigDecimal.valueOf(100))), 
-                2, RoundingMode.HALF_UP);
+                BigDecimal.ONE.subtract(discountPercent.divide(BigDecimal.valueOf(100))),
+                2,
+                RoundingMode.HALF_UP
+        );
 
         return originalPrice.subtract(price);
     }

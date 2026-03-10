@@ -1,9 +1,9 @@
 NAMES                             STATUS                    PORTS
 hotelio-monolith                  Up 37 seconds             0.0.0.0:8084->8080/tcp, [::]:8084->8080/tcp
-hotelio-booking-history-service   Up 37 seconds (healthy)   0.0.0.0:8086->8081/tcp, [::]:8086->8081/tcp
-hotelio-booking-service           Up 37 seconds (healthy)   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp, 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp
+hotelio-booking-service           Up 38 seconds (healthy)   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp, 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp
+hotelio-booking-history-service   Up 38 seconds (healthy)   0.0.0.0:8086->8081/tcp, [::]:8086->8081/tcp
 hotelio-kafka                     Up 38 seconds (healthy)   0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp
-hotelio-db                        Up 38 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
 hotelio-booking-history-db        Up 38 seconds (healthy)   0.0.0.0:5434->5432/tcp, [::]:5434->5432/tcp
+hotelio-db                        Up 38 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
 hotelio-booking-db                Up 38 seconds (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
 hotelio-zookeeper                 Up 38 seconds (healthy)   0.0.0.0:2181->2181/tcp, [::]:2181->2181/tcp

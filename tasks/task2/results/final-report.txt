@@ -1,39 +1,21 @@
-=== ИТОГОВЫЙ ОТЧЕТ ТЕСТИРОВАНИЯ TASK 2 ===
-Timestamp: Mon Mar  9 19:29:08 CEST 2026
-Environment: Microservices Migration
+=== FINAL REPORT ===
+Timestamp: Tue Mar 10 20:25:12 CEST 2026
 
-=== АРХИТЕКТУРА ===
-Монолит (порт 8084) -> gRPC Booking Service (порт 9090) -> Booking DB (порт 5433)
-Kafka Events -> Booking History Service (порт 8086) -> History DB (порт 5434)
+--- Containers ---
+NAMES                             STATUS                    PORTS
+hotelio-monolith                  Up 49 seconds             0.0.0.0:8084->8080/tcp, [::]:8084->8080/tcp
+hotelio-booking-history-service   Up 50 seconds (healthy)   0.0.0.0:8086->8081/tcp, [::]:8086->8081/tcp
+hotelio-booking-service           Up 50 seconds (healthy)   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp, 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp
+hotelio-kafka                     Up 50 seconds (healthy)   0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp
+hotelio-db                        Up 51 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+hotelio-booking-history-db        Up 51 seconds (healthy)   0.0.0.0:5434->5432/tcp, [::]:5434->5432/tcp
+hotelio-booking-db                Up 51 seconds (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+hotelio-zookeeper                 Up 51 seconds (healthy)   0.0.0.0:2181->2181/tcp, [::]:2181->2181/tcp
 
-=== СТАТУС КОНТЕЙНЕРОВ ===
-hotelio-monolith                  Up 52 seconds             0.0.0.0:8084->8080/tcp, [::]:8084->8080/tcp
-hotelio-booking-history-service   Up 52 seconds (healthy)   0.0.0.0:8086->8081/tcp, [::]:8086->8081/tcp
-hotelio-booking-service           Up 52 seconds (healthy)   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp, 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp
-hotelio-kafka                     Up 52 seconds (healthy)   0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp
-hotelio-booking-db                Up 53 seconds (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
-hotelio-db                        Up 53 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
-hotelio-booking-history-db        Up 53 seconds (healthy)   0.0.0.0:5434->5432/tcp, [::]:5434->5432/tcp
-hotelio-zookeeper                 Up 53 seconds (healthy)   0.0.0.0:2181->2181/tcp, [::]:2181->2181/tcp
-
-=== КОЛИЧЕСТВО ДАННЫХ В БД ===
-Монолит БД (основные данные):
- Users: 4
-
- Hotels: 3
-
- Reviews: 12
-
- Promos: 3
+--- Booking DB ---
+     4
 
 
-Booking БД (микросервис):
- Bookings: 4
+--- History DB ---
+     0
 
-
-History БД (микросервис):
- History: 0
-
-
-=== РЕЗУЛЬТАТ ТЕСТИРОВАНИЯ ===
-✅ РЕГРЕССИОННЫЕ ТЕСТЫ ПРОШЛИ УСПЕШНО

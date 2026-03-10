@@ -1,6 +1,6 @@
+// File: tasks/task2/booking-history-service/src/main/java/com/hotelio/history/service/BookingEventConsumer.java
 package com.hotelio.history.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotelio.history.entity.BookingHistory;
 import com.hotelio.history.event.BookingCreatedEvent;
@@ -29,42 +29,56 @@ public class BookingEventConsumer {
             @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
             @Header(KafkaHeaders.OFFSET) long offset
     ) {
-        log.info("KAFKA MESSAGE RECEIVED: topic={} partition={} offset={} messageLength={} content={}",
-                topic, partition, offset, message != null ? message.length() : 0, message);
+        log.info("📨 KAFKA MESSAGE RECEIVED: topic={} partition={} offset={} messageLength={}",
+                topic, partition, offset, message != null ? message.length() : 0);
+
+        if (message == null || message.isBlank()) {
+            log.warn("⚠️ Empty message received from partition={}, offset={}", partition, offset);
+            return;
+        }
 
         try {
-            // Deserialize JSON to event object
             BookingCreatedEvent event = objectMapper.readValue(message, BookingCreatedEvent.class);
-            log.info("Deserialized event: bookingId={}, eventId={}",
-                    event.getBookingId(), event.getEventId());
 
-            // Check for duplicate events (idempotency)
-            if (bookingHistoryRepository.findByEventId(event.getEventId()).isPresent()) {
-                log.warn("Duplicate event received, skipping: eventId={}", event.getEventId());
+            if (event == null || event.getEventId() == null) {
+                log.warn("⚠️ Event is null or missing eventId from partition={}, offset={}", partition, offset);
                 return;
             }
 
-            // Process within transaction
-            processBookingEvent(event);
+            log.info("✅ Deserialized event: bookingId={}, eventId={}, userId={}",
+                    event.getBookingId(), event.getEventId(), event.getUserId());
 
-            log.info("SUCCESS: eventId={} processed and saved", event.getEventId());
+            if (bookingHistoryRepository.findByEventId(event.getEventId()).isPresent()) {
+                log.warn("🔁 Duplicate event received, skipping: eventId={}", event.getEventId());
+                return;
+            }
+
+            processBookingEvent(event);
+            log.info("✔️ SUCCESS: eventId={} processed and saved to DB", event.getEventId());
+
+        } catch (com.fasterxml.jackson.core.JsonParseException e) {
+            log.error("❌ JSON PARSE ERROR from partition={}, offset={}: Invalid JSON format", partition, offset);
+            log.error("Raw message: {}", message);
+            log.error("Error: {}", e.getMessage(), e);
+
+        } catch (com.fasterxml.jackson.databind.JsonMappingException e) {
+            log.error("❌ JSON MAPPING ERROR from partition={}, offset={}: Cannot deserialize to BookingCreatedEvent", partition, offset);
+            log.error("Raw message: {}", message);
+            log.error("Error: {}", e.getMessage(), e);
 
         } catch (Exception e) {
-            log.error("ERROR processing event from partition={}, offset={}: {}",
-                    partition, offset, e.getMessage(), e);
-            // Don't rethrow - just log error and continue
+            log.error("❌ UNEXPECTED ERROR from partition={}, offset={}", partition, offset, e);
+            log.error("Raw message: {}", message);
         }
     }
 
     @Transactional
     public void processBookingEvent(BookingCreatedEvent event) {
-        // Check for duplicate events (idempotency)
         if (bookingHistoryRepository.findByEventId(event.getEventId()).isPresent()) {
-            log.warn("DUPLICATE event skipped: eventId={}", event.getEventId());
+            log.warn("🔁 DUPLICATE event skipped: eventId={}", event.getEventId());
             return;
         }
 
-        // Create booking history record
         BookingHistory bookingHistory = BookingHistory.builder()
                 .bookingId(event.getBookingId())
                 .userId(event.getUserId())
@@ -78,9 +92,8 @@ public class BookingEventConsumer {
                 .build();
 
         BookingHistory saved = bookingHistoryRepository.save(bookingHistory);
-        log.info("SAVED booking history with ID: {}", saved.getId());
+        log.info("💾 SAVED booking history with ID: {} for booking: {}", saved.getId(), event.getBookingId());
 
-        // Update statistics
         statisticsService.updateStatistics(event);
     }
 }

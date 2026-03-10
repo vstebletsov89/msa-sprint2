@@ -1,81 +1,14 @@
 === KAFKA DIAGNOSTICS ===
-Timestamp: Mon Mar  9 19:29:11 CEST 2026
+Timestamp: Tue Mar 10 20:25:01 CEST 2026
 
---- Проверка доступности Kafka broker ---
-kafka:9092 (id: 1 rack: null) -> (
-	Produce(0): 0 to 9 [usable: 9],
-	Fetch(1): 0 to 13 [usable: 13],
-	ListOffsets(2): 0 to 7 [usable: 7],
-	Metadata(3): 0 to 12 [usable: 12],
-	LeaderAndIsr(4): 0 to 6 [usable: 6],
-	StopReplica(5): 0 to 3 [usable: 3],
-	UpdateMetadata(6): 0 to 7 [usable: 7],
-	ControlledShutdown(7): 0 to 3 [usable: 3],
-	OffsetCommit(8): 0 to 8 [usable: 8],
-	OffsetFetch(9): 0 to 8 [usable: 8],
-	FindCoordinator(10): 0 to 4 [usable: 4],
-	JoinGroup(11): 0 to 9 [usable: 9],
-	Heartbeat(12): 0 to 4 [usable: 4],
-	LeaveGroup(13): 0 to 5 [usable: 5],
-	SyncGroup(14): 0 to 5 [usable: 5],
-	DescribeGroups(15): 0 to 5 [usable: 5],
-	ListGroups(16): 0 to 4 [usable: 4],
-	SaslHandshake(17): 0 to 1 [usable: 1],
-	ApiVersions(18): 0 to 3 [usable: 3],
-	CreateTopics(19): 0 to 7 [usable: 7],
-	DeleteTopics(20): 0 to 6 [usable: 6],
-	DeleteRecords(21): 0 to 2 [usable: 2],
-	InitProducerId(22): 0 to 4 [usable: 4],
-	OffsetForLeaderEpoch(23): 0 to 4 [usable: 4],
-	AddPartitionsToTxn(24): 0 to 3 [usable: 3],
-	AddOffsetsToTxn(25): 0 to 3 [usable: 3],
-	EndTxn(26): 0 to 3 [usable: 3],
-	WriteTxnMarkers(27): 0 to 1 [usable: 1],
-	TxnOffsetCommit(28): 0 to 3 [usable: 3],
-	DescribeAcls(29): 0 to 2 [usable: 2],
-	CreateAcls(30): 0 to 2 [usable: 2],
-	DeleteAcls(31): 0 to 2 [usable: 2],
-	DescribeConfigs(32): 0 to 4 [usable: 4],
-	AlterConfigs(33): 0 to 2 [usable: 2],
-	AlterReplicaLogDirs(34): 0 to 2 [usable: 2],
-	DescribeLogDirs(35): 0 to 3 [usable: 3],
-	SaslAuthenticate(36): 0 to 2 [usable: 2],
-	CreatePartitions(37): 0 to 3 [usable: 3],
-	CreateDelegationToken(38): 0 to 2 [usable: 2],
-	RenewDelegationToken(39): 0 to 2 [usable: 2],
-	ExpireDelegationToken(40): 0 to 2 [usable: 2],
-	DescribeDelegationToken(41): 0 to 2 [usable: 2],
-	DeleteGroups(42): 0 to 2 [usable: 2],
-	ElectLeaders(43): 0 to 2 [usable: 2],
-	IncrementalAlterConfigs(44): 0 to 1 [usable: 1],
-	AlterPartitionReassignments(45): 0 [usable: 0],
-	ListPartitionReassignments(46): 0 [usable: 0],
-	OffsetDelete(47): 0 [usable: 0],
-	DescribeClientQuotas(48): 0 to 1 [usable: 1],
-	AlterClientQuotas(49): 0 to 1 [usable: 1],
-	DescribeUserScramCredentials(50): 0 [usable: 0],
-	AlterUserScramCredentials(51): 0 [usable: 0],
-	AlterPartition(56): 0 to 1 [usable: 1],
-	UpdateFeatures(57): 0 [usable: 0],
-	DescribeCluster(60): 0 [usable: 0],
-	DescribeProducers(61): 0 [usable: 0],
-	DescribeTransactions(65): 0 [usable: 0],
-	ListTransactions(66): 0 [usable: 0],
-	AllocateProducerIds(67): 0 [usable: 0]
-)
+--- Messages in topic (должны быть здесь!) ---
+{"bookingId":"eb1e4cd7-90f2-493b-8e5e-24849020ea95","userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":null,"eventId":"61ee6b51-6485-4fdf-8546-1c55a902c3da","eventTimestamp":"2026-03-10T19:24:52.597785048"}
+{"bookingId":"1aac5ef6-efb0-4fdc-b24a-797fbd52ac01","userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":0.0,"price":100.0,"createdAt":null,"eventId":"d7be0edf-fe1c-49d7-9695-81f307d5d180","eventTimestamp":"2026-03-10T19:24:52.90353479"}
+[2026-03-10 19:25:10,260] ERROR Error processing message, terminating consumer process:  (kafka.tools.ConsoleConsumer$)
+org.apache.kafka.common.errors.TimeoutException
+Processed a total of 2 messages
 
---- Список топиков Kafka ---
-__consumer_offsets
-booking-created
-
---- Проверка топика booking-created ---
-Topic: booking-created	TopicId: owcRS7t8RtucsaJSB-Sq8Q	PartitionCount: 1	ReplicationFactor: 1	Configs: 
-	Topic: booking-created	Partition: 0	Leader: 1	Replicas: 1	Isr: 1
-
---- Проверка сообщений в booking-created ---
-
---- Проверка consumer group booking-history-service ---
+--- Consumer group ---
 
 GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                             HOST            CLIENT-ID
-booking-history-service booking-created 0          2               2               0               consumer-booking-history-service-1-b51b632d-ab0e-474e-bbfb-20dfe8d22e0c /172.20.0.7     consumer-booking-history-service-1
-
+booking-history-service booking-created 0          2               2               0               consumer-booking-history-service-1-c357c7f6-9570-418a-9218-0ef7ffe88508 /172.20.0.7     consumer-booking-history-service-1

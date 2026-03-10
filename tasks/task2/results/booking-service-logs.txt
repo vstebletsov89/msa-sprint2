@@ -1,4 +1,4 @@
-🚀 BOOKING SERVICE STARTING - CODE VERSION: 2026-03-09-v4
+BOOKING SERVICE STARTING - CODE VERSION: 2026-03-09-v5-DEBUG
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -8,40 +8,40 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.5)
 
-2026-03-09 18:28:18 [main] INFO  c.h.b.BookingServiceApplication - Starting BookingServiceApplication v1.0.0 using Java 21.0.10 with PID 1 (/app/app.jar started by root in /app)
-2026-03-09 18:28:18 [main] INFO  c.h.b.BookingServiceApplication - No active profile set, falling back to 1 default profile: "default"
-2026-03-09 18:28:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-03-09 18:28:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 63 ms. Found 1 JPA repository interface.
-2026-03-09 18:28:22 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2026-03-09 18:28:22 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2026-03-09 18:28:22 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2026-03-09 18:28:22 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2026-03-09 18:28:22 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4335 ms
-2026-03-09 18:28:23 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2026-03-09 18:28:24 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@26270b77
-2026-03-09 18:28:24 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2026-03-09 18:28:24 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 9.22.3 by Redgate
-2026-03-09 18:28:24 [main] INFO  o.f.c.i.license.VersionPrinter - See release notes here: https://rd.gt/416ObMi
-2026-03-09 18:28:24 [main] INFO  o.f.c.i.license.VersionPrinter - 
-2026-03-09 18:28:24 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://booking-db:5432/booking_db (PostgreSQL 15.17)
-2026-03-09 18:28:24 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Schema history table "public"."flyway_schema_history" does not exist yet
-2026-03-09 18:28:24 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.021s)
-2026-03-09 18:28:24 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Creating Schema History table "public"."flyway_schema_history" ...
-2026-03-09 18:28:24 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": << Empty Schema >>
-2026-03-09 18:28:24 [main] INFO  o.f.core.internal.command.DbMigrate - Migrating schema "public" to version "1 - Create bookings table"
-2026-03-09 18:28:24 [main] INFO  o.f.core.internal.command.DbMigrate - Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.033s)
-2026-03-09 18:28:24 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-03-09 18:28:24 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
-2026-03-09 18:28:24 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2026-03-09 18:28:24 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-03-09 18:28:24 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-03-09 18:28:26 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-03-09 18:28:26 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-03-09 18:28:26 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-03-09 18:28:27 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-03-09 18:28:28 [main] INFO  n.d.b.g.s.a.GrpcServerFactoryAutoConfiguration - Detected grpc-netty-shaded: Creating ShadedNettyGrpcServerFactory
-2026-03-09 18:28:29 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 4 endpoint(s) beneath base path '/actuator'
-2026-03-09 18:28:29 [main] INFO  o.a.k.c.admin.AdminClientConfig - AdminClientConfig values: 
+2026-03-10 19:24:24 [main] INFO  c.h.b.BookingServiceApplication - Starting BookingServiceApplication v1.0.0 using Java 21.0.10 with PID 1 (/app/app.jar started by root in /app)
+2026-03-10 19:24:24 [main] INFO  c.h.b.BookingServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-10 19:24:26 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-10 19:24:26 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 82 ms. Found 1 JPA repository interface.
+2026-03-10 19:24:28 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-03-10 19:24:28 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-10 19:24:28 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-03-10 19:24:29 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-03-10 19:24:29 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4907 ms
+2026-03-10 19:24:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-10 19:24:29 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6ea3a513
+2026-03-10 19:24:30 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-10 19:24:30 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 9.22.3 by Redgate
+2026-03-10 19:24:30 [main] INFO  o.f.c.i.license.VersionPrinter - See release notes here: https://rd.gt/416ObMi
+2026-03-10 19:24:30 [main] INFO  o.f.c.i.license.VersionPrinter - 
+2026-03-10 19:24:30 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://booking-db:5432/booking_db (PostgreSQL 15.17)
+2026-03-10 19:24:30 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Schema history table "public"."flyway_schema_history" does not exist yet
+2026-03-10 19:24:30 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.027s)
+2026-03-10 19:24:30 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Creating Schema History table "public"."flyway_schema_history" ...
+2026-03-10 19:24:30 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": << Empty Schema >>
+2026-03-10 19:24:30 [main] INFO  o.f.core.internal.command.DbMigrate - Migrating schema "public" to version "1 - Create bookings table"
+2026-03-10 19:24:30 [main] INFO  o.f.core.internal.command.DbMigrate - Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.065s)
+2026-03-10 19:24:30 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-10 19:24:30 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-03-10 19:24:30 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-10 19:24:31 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-10 19:24:31 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-10 19:24:32 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-10 19:24:32 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-10 19:24:33 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-10 19:24:34 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-10 19:24:34 [main] INFO  n.d.b.g.s.a.GrpcServerFactoryAutoConfiguration - Detected grpc-netty-shaded: Creating ShadedNettyGrpcServerFactory
+2026-03-10 19:24:35 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 4 endpoint(s) beneath base path '/actuator'
+2026-03-10 19:24:35 [main] INFO  o.a.k.c.admin.AdminClientConfig - AdminClientConfig values: 
 	auto.include.jmx.reporter = true
 	bootstrap.servers = [kafka:9092]
 	client.dns.lookup = use_all_dns_ips
@@ -112,21 +112,170 @@
 	ssl.truststore.password = null
 	ssl.truststore.type = JKS
 
-2026-03-09 18:28:29 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 3.6.2
-2026-03-09 18:28:29 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: c4deed513057c94e
-2026-03-09 18:28:29 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1773080909242
-2026-03-09 18:28:29 [kafka-admin-client-thread | adminclient-1] INFO  o.a.kafka.common.utils.AppInfoParser - App info kafka.admin.client for adminclient-1 unregistered
-2026-03-09 18:28:29 [kafka-admin-client-thread | adminclient-1] INFO  o.a.kafka.common.metrics.Metrics - Metrics scheduler closed
-2026-03-09 18:28:29 [kafka-admin-client-thread | adminclient-1] INFO  o.a.kafka.common.metrics.Metrics - Closing reporter org.apache.kafka.common.metrics.JmxReporter
-2026-03-09 18:28:29 [kafka-admin-client-thread | adminclient-1] INFO  o.a.kafka.common.metrics.Metrics - Metrics reporters closed
-2026-03-09 18:28:29 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2026-03-09 18:28:29 [main] INFO  n.d.b.g.s.s.AbstractGrpcServerFactory - Registered gRPC service: booking.BookingService, bean: bookingGrpcService, class: com.hotelio.booking.grpc.BookingGrpcService
-2026-03-09 18:28:29 [main] INFO  n.d.b.g.s.s.AbstractGrpcServerFactory - Registered gRPC service: grpc.health.v1.Health, bean: grpcHealthService, class: io.grpc.protobuf.services.HealthServiceImpl
-2026-03-09 18:28:29 [main] INFO  n.d.b.g.s.s.AbstractGrpcServerFactory - Registered gRPC service: grpc.reflection.v1alpha.ServerReflection, bean: protoReflectionService, class: io.grpc.protobuf.services.ProtoReflectionService
-2026-03-09 18:28:29 [main] INFO  n.d.b.g.s.s.GrpcServerLifecycle - gRPC Server started, listening on address: *, port: 9090
-2026-03-09 18:28:29 [main] INFO  c.h.b.BookingServiceApplication - Started BookingServiceApplication in 12.08 seconds (process running for 12.833)
-✅ EventPublisherService bean found: com.hotelio.booking.service.EventPublisherService
-✅ BOOKING SERVICE STARTED SUCCESSFULLY
-2026-03-09 18:28:32 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-03-09 18:28:32 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2026-03-09 18:28:32 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-03-10 19:24:35 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 3.6.2
+2026-03-10 19:24:35 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: c4deed513057c94e
+2026-03-10 19:24:35 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1773170675767
+2026-03-10 19:24:36 [kafka-admin-client-thread | adminclient-1] INFO  o.a.kafka.common.utils.AppInfoParser - App info kafka.admin.client for adminclient-1 unregistered
+2026-03-10 19:24:36 [kafka-admin-client-thread | adminclient-1] INFO  o.a.kafka.common.metrics.Metrics - Metrics scheduler closed
+2026-03-10 19:24:36 [kafka-admin-client-thread | adminclient-1] INFO  o.a.kafka.common.metrics.Metrics - Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-03-10 19:24:36 [kafka-admin-client-thread | adminclient-1] INFO  o.a.kafka.common.metrics.Metrics - Metrics reporters closed
+2026-03-10 19:24:36 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2026-03-10 19:24:36 [main] INFO  n.d.b.g.s.s.AbstractGrpcServerFactory - Registered gRPC service: booking.BookingService, bean: bookingGrpcService, class: com.hotelio.booking.grpc.BookingGrpcService
+2026-03-10 19:24:36 [main] INFO  n.d.b.g.s.s.AbstractGrpcServerFactory - Registered gRPC service: grpc.health.v1.Health, bean: grpcHealthService, class: io.grpc.protobuf.services.HealthServiceImpl
+2026-03-10 19:24:36 [main] INFO  n.d.b.g.s.s.AbstractGrpcServerFactory - Registered gRPC service: grpc.reflection.v1alpha.ServerReflection, bean: protoReflectionService, class: io.grpc.protobuf.services.ProtoReflectionService
+2026-03-10 19:24:36 [main] INFO  n.d.b.g.s.s.GrpcServerLifecycle - gRPC Server started, listening on address: *, port: 9090
+2026-03-10 19:24:36 [main] INFO  c.h.b.BookingServiceApplication - Started BookingServiceApplication in 13.127 seconds (process running for 13.917)
+EventPublisherService bean found: com.hotelio.booking.service.EventPublisherService
+BOOKING SERVICE STARTED SUCCESSFULLY
+2026-03-10 19:24:37 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-10 19:24:37 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-10 19:24:37 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Received createBooking request for userId: test-user-3, hotelId: test-hotel-1
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - 🎯 CALLING BookingBusinessService.createBooking for userId=test-user-3 hotelId=test-hotel-1
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Creating booking: userId=test-user-3, hotelId=test-hotel-1, promoCode=null
+2026-03-10 19:24:52 [grpc-default-executor-1] WARN  c.h.b.service.ExternalServiceClient - Fallback triggered for isHotelTrusted with hotelId: test-hotel-1, error: 404 : "{"timestamp":"2026-03-10T19:24:52.557+00:00","status":404,"error":"Not Found","path":"/api/api/reviews/trusted/test-hotel-1"}"
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Final price calculated: base=80.0, discount=0.0, final=80.0
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🔔 ABOUT TO PUBLISH EVENT for bookingId: eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🎬 STARTING publishBookingCreatedEvent for bookingId: eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🎬 EVENT OBJECT CREATED: eventId=61ee6b51-6485-4fdf-8546-1c55a902c3da bookingId=eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🔔 CALLING EventPublisher for bookingId: eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.EventPublisherService - STARTING publish: bookingId=eb1e4cd7-90f2-493b-8e5e-24849020ea95 eventId=61ee6b51-6485-4fdf-8546-1c55a902c3da topic=booking-created
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.EventPublisherService - JSON serialized: length=267 content={"bookingId":"eb1e4cd7-90f2-493b-8e5e-24849020ea95","userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":null,"eventId":"61ee6b51-6485-4fdf-8546-1c55a902c3da","eventTimestamp":"2026-03-10T19:24:52.597785048"}
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  o.a.k.c.producer.ProducerConfig - ProducerConfig values: 
+	acks = -1
+	auto.include.jmx.reporter = true
+	batch.size = 16384
+	bootstrap.servers = [kafka:9092]
+	buffer.memory = 33554432
+	client.dns.lookup = use_all_dns_ips
+	client.id = producer-1
+	compression.type = none
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = true
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 0
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.adaptive.partitioning.enable = true
+	partitioner.availability.timeout.ms = 0
+	partitioner.class = null
+	partitioner.ignore.keys = false
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 3
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.StringSerializer
+
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  o.a.k.clients.producer.KafkaProducer - [Producer clientId=producer-1] Instantiated an idempotent producer.
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 3.6.2
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: c4deed513057c94e
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1773170692644
+2026-03-10 19:24:52 [kafka-producer-network-thread | producer-1] INFO  org.apache.kafka.clients.Metadata - [Producer clientId=producer-1] Cluster ID: rv_FcWJKRQiU_mHf7lfP2A
+2026-03-10 19:24:52 [kafka-producer-network-thread | producer-1] INFO  o.a.k.c.p.i.TransactionManager - [Producer clientId=producer-1] ProducerId set to 0 with epoch 0
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.EventPublisherService - Send request submitted for bookingId=eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🔔 EventPublisher CALL COMPLETED for bookingId: eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🔔 EVENT PUBLISHING COMPLETED for bookingId: eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Booking created successfully with ID: eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - 🎯 BookingBusinessService.createBooking COMPLETED, bookingId=eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [kafka-producer-network-thread | producer-1] INFO  c.h.b.service.EventPublisherService - KAFKA SEND SUCCESS: bookingId=eb1e4cd7-90f2-493b-8e5e-24849020ea95 topic=booking-created partition=0 offset=0 timestamp=1773170692671
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Successfully created booking with ID: eb1e4cd7-90f2-493b-8e5e-24849020ea95
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Received createBooking request for userId: test-user-2, hotelId: test-hotel-1
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - 🎯 CALLING BookingBusinessService.createBooking for userId=test-user-2 hotelId=test-hotel-1
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Creating booking: userId=test-user-2, hotelId=test-hotel-1, promoCode=TESTCODE1
+2026-03-10 19:24:52 [grpc-default-executor-1] WARN  c.h.b.service.ExternalServiceClient - Fallback triggered for isHotelTrusted with hotelId: test-hotel-1, error: 404 : "{"timestamp":"2026-03-10T19:24:52.877+00:00","status":404,"error":"Not Found","path":"/api/api/reviews/trusted/test-hotel-1"}"
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Promo code 'TESTCODE1' is invalid or not applicable for user test-user-2
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Final price calculated: base=100.0, discount=0.0, final=100.0
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🔔 ABOUT TO PUBLISH EVENT for bookingId: 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🎬 STARTING publishBookingCreatedEvent for bookingId: 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🎬 EVENT OBJECT CREATED: eventId=d7be0edf-fe1c-49d7-9695-81f307d5d180 bookingId=1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🔔 CALLING EventPublisher for bookingId: 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.EventPublisherService - STARTING publish: bookingId=1aac5ef6-efb0-4fdc-b24a-797fbd52ac01 eventId=d7be0edf-fe1c-49d7-9695-81f307d5d180 topic=booking-created
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.EventPublisherService - JSON serialized: length=274 content={"bookingId":"1aac5ef6-efb0-4fdc-b24a-797fbd52ac01","userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":0.0,"price":100.0,"createdAt":null,"eventId":"d7be0edf-fe1c-49d7-9695-81f307d5d180","eventTimestamp":"2026-03-10T19:24:52.90353479"}
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.EventPublisherService - Send request submitted for bookingId=1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🔔 EventPublisher CALL COMPLETED for bookingId: 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🔔 EVENT PUBLISHING COMPLETED for bookingId: 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Booking created successfully with ID: 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:52 [kafka-producer-network-thread | producer-1] INFO  c.h.b.service.EventPublisherService - KAFKA SEND SUCCESS: bookingId=1aac5ef6-efb0-4fdc-b24a-797fbd52ac01 topic=booking-created partition=0 offset=1 timestamp=1773170692904
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - 🎯 BookingBusinessService.createBooking COMPLETED, bookingId=1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:52 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Successfully created booking with ID: 1aac5ef6-efb0-4fdc-b24a-797fbd52ac01
+2026-03-10 19:24:53 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Received createBooking request for userId: test-user-0, hotelId: test-hotel-1
+2026-03-10 19:24:53 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - 🎯 CALLING BookingBusinessService.createBooking for userId=test-user-0 hotelId=test-hotel-1
+2026-03-10 19:24:53 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Creating booking: userId=test-user-0, hotelId=test-hotel-1, promoCode=null
+2026-03-10 19:24:53 [grpc-default-executor-1] WARN  c.h.b.service.BookingBusinessService - User test-user-0 is inactive
+2026-03-10 19:24:53 [grpc-default-executor-1] WARN  c.h.booking.grpc.BookingGrpcService - Invalid booking request: User is inactive
+2026-03-10 19:24:53 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Received createBooking request for userId: test-user-2, hotelId: test-hotel-3
+2026-03-10 19:24:53 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - 🎯 CALLING BookingBusinessService.createBooking for userId=test-user-2 hotelId=test-hotel-3
+2026-03-10 19:24:53 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Creating booking: userId=test-user-2, hotelId=test-hotel-3, promoCode=null
+2026-03-10 19:24:53 [grpc-default-executor-1] WARN  c.h.b.service.BookingBusinessService - Hotel test-hotel-3 is not operational
+2026-03-10 19:24:53 [grpc-default-executor-1] WARN  c.h.booking.grpc.BookingGrpcService - Invalid booking request: Hotel is not operational
+2026-03-10 19:24:53 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Received createBooking request for userId: test-user-2, hotelId: test-hotel-2
+2026-03-10 19:24:53 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - 🎯 CALLING BookingBusinessService.createBooking for userId=test-user-2 hotelId=test-hotel-2
+2026-03-10 19:24:53 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Creating booking: userId=test-user-2, hotelId=test-hotel-2, promoCode=null
+2026-03-10 19:24:53 [grpc-default-executor-1] WARN  c.h.b.service.ExternalServiceClient - Fallback triggered for isHotelTrusted with hotelId: test-hotel-2, error: 404 : "{"timestamp":"2026-03-10T19:24:53.295+00:00","status":404,"error":"Not Found","path":"/api/api/reviews/trusted/test-hotel-2"}"
+2026-03-10 19:24:53 [grpc-default-executor-1] WARN  c.h.b.service.BookingBusinessService - Hotel test-hotel-2 is fully booked
+2026-03-10 19:24:53 [grpc-default-executor-1] WARN  c.h.booking.grpc.BookingGrpcService - Invalid booking request: Hotel is fully booked

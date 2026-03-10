@@ -16,7 +16,6 @@ echo "=================================================="
 
 wait_for_consumer() {
   echo -e "${BLUE}⏳ Ожидаем готовность Kafka consumer...${NC}"
-
   for i in {1..30}; do
       if docker logs hotelio-booking-history-service 2>&1 | grep -q "partitions assigned"; then
           echo -e "${GREEN}✅ Kafka consumer готов${NC}"
@@ -24,7 +23,6 @@ wait_for_consumer() {
       fi
       sleep 2
   done
-
   echo -e "${RED}❌ Kafka consumer не запустился${NC}"
   exit 1
 }
@@ -35,10 +33,8 @@ docker network create hotelio-net 2>/dev/null || true
 echo -e "${YELLOW}🛑 Останавливаем предыдущие контейнеры...${NC}"
 docker compose down -v --remove-orphans 2>/dev/null
 
-echo -e "${YELLOW}🗑️ Удаляем старые образы для принудительной пересборки...${NC}"
+echo -e "${YELLOW}🗑️ Удаляем старые образы...${NC}"
 docker compose down --rmi local 2>/dev/null || true
-
-echo -e "${YELLOW}🧽 Очищаем Docker кеш...${NC}"
 docker builder prune -f 2>/dev/null || true
 
 echo -e "${YELLOW}☕ Пересобираем Java проекты...${NC}"
@@ -53,12 +49,11 @@ echo -e "${YELLOW}🚀 Запускаем систему...${NC}"
 docker compose up -d
 
 echo -e "${YELLOW}⏳ Ждем старта сервисов...${NC}"
-sleep 30
+sleep 20
 
 wait_for_consumer
 
 echo -e "${BLUE}🔄 Сбрасываем Kafka offsets...${NC}"
-
 docker exec hotelio-kafka kafka-consumer-groups \
   --bootstrap-server kafka:9092 \
   --group booking-history-service \
@@ -67,95 +62,23 @@ docker exec hotelio-kafka kafka-consumer-groups \
 
 sleep 3
 
-echo -e "${BLUE}📨 Генерируем тестовое Kafka событие...${NC}"
-
-curl -s -X POST http://localhost:8084/api/bookings \
-  -H "Content-Type: application/json" \
-  -d '{
-        "userId": "kafka-test-user",
-        "hotelId": "1",
-        "price": 100
-      }' || echo "❌ Не удалось создать бронирование"
-
-echo -e "${BLUE}⏳ Ждем обработку Kafka события...${NC}"
-sleep 10
-
-echo -e "${BLUE}🔍 Проверяем получение Kafka сообщения...${NC}"
-
-if docker logs hotelio-booking-history-service 2>&1 | grep -q "KAFKA MESSAGE RECEIVED"; then
-    echo -e "${GREEN}✅ Kafka consumer получил сообщение${NC}"
-else
-    echo -e "${RED}❌ Kafka consumer НЕ получил сообщение${NC}"
-fi
-
-echo -e "${BLUE}📊 Сохраняем docker ps...${NC}"
-docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" > $RESULTS_DIR/docker-ps-log.txt
-
-echo -e "${BLUE}🔍 Сохраняем логи сервисов...${NC}"
-docker logs hotelio-booking-service > $RESULTS_DIR/booking-service-logs.txt 2>&1
-docker logs hotelio-booking-history-service > $RESULTS_DIR/booking-history-service-logs.txt 2>&1
-docker logs hotelio-monolith > $RESULTS_DIR/monolith-logs.txt 2>&1
-
-echo -e "${BLUE}🔍 Kafka диагностика...${NC}"
-
-{
-echo "=== KAFKA DIAGNOSTICS ==="
-echo "Timestamp: $(date)"
-echo ""
-
-echo "--- Kafka broker ---"
-docker exec hotelio-kafka kafka-broker-api-versions --bootstrap-server kafka:9092 2>/dev/null
-
-echo ""
-echo "--- Topics ---"
-docker exec hotelio-kafka kafka-topics --bootstrap-server kafka:9092 --list
-
-echo ""
-echo "--- Topic booking-created ---"
-docker exec hotelio-kafka kafka-topics \
-  --bootstrap-server kafka:9092 \
-  --describe \
-  --topic booking-created
-
-echo ""
-echo "--- Messages in topic ---"
-docker exec hotelio-kafka kafka-console-consumer \
-  --bootstrap-server kafka:9092 \
-  --topic booking-created \
-  --from-beginning \
-  --timeout-ms 3000
-
-echo ""
-echo "--- Consumer group ---"
-docker exec hotelio-kafka kafka-consumer-groups \
-  --bootstrap-server kafka:9092 \
-  --describe \
-  --group booking-history-service
-
-} > $RESULTS_DIR/kafka-diagnostics.txt 2>&1
-
 echo -e "${BLUE}🧪 Проверяем доступность сервисов...${NC}"
-
 {
 echo "=== HEALTH CHECKS ==="
 echo "Timestamp: $(date)"
 echo ""
-
 echo "--- Монолит ---"
 curl -s http://localhost:8084/health || curl -s http://localhost:8084/
-
 echo ""
 echo "--- Booking Service ---"
 curl -s http://localhost:8085/actuator/health
-
 echo ""
 echo "--- Booking History Service ---"
 curl -s http://localhost:8086/actuator/health
-
 } > $RESULTS_DIR/health-checks.txt
 
+# 1. СНАЧАЛА ЗАПУСКАЕМ ТЕСТЫ!
 echo -e "${GREEN}🎯 Запускаем регрессионные тесты...${NC}"
-
 export DB_HOST="localhost"
 export DB_PORT="5432"
 export DB_USER="hotelio"
@@ -169,7 +92,6 @@ export API_URL="http://localhost:8084"
 TEST_LOG="$RESULTS_DIR/test-log.txt"
 
 cd ../../test
-
 echo "=== HOTELIO TEST LOG ===" > "../tasks/task2/$TEST_LOG"
 echo "Timestamp: $(date)" >> "../tasks/task2/$TEST_LOG"
 
@@ -178,38 +100,62 @@ if ./regress.sh >> "../tasks/task2/$TEST_LOG" 2>&1; then
 else
     echo -e "${YELLOW}⚠️ Некоторые тесты могли не пройти${NC}"
 fi
-
 cd ../tasks/task2
 
-echo -e "${BLUE}💾 Проверяем запись в booking_history...${NC}"
+# 2. КРИТИЧЕСКИ ВАЖНО: ЖДЕМ ПОКА KAFKA CONSUMER ОБРАБОТАЕТ СООБЩЕНИЯ!
+echo -e "${YELLOW}⏳ Ждем 5 секунд для асинхронной обработки Kafka сообщений...${NC}"
+sleep 5
 
+# 3. ТОЛЬКО ТЕПЕРЬ СОБИРАЕМ ЛОГИ И ПРОВЕРЯЕМ БД!
+echo -e "${BLUE}💾 Проверяем запись в booking_history...${NC}"
 docker exec hotelio-booking-history-db \
   psql -U booking_history \
   -d booking_history_db \
   -c "SELECT * FROM booking_history;" \
   > $RESULTS_DIR/booking-history-db-data.txt 2>&1
 
-echo -e "${BLUE}📋 Финальный отчет...${NC}"
+echo -e "${BLUE}📊 Сохраняем docker ps...${NC}"
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" > $RESULTS_DIR/docker-ps-log.txt
 
+echo -e "${BLUE}🔍 Сохраняем логи сервисов (теперь они содержат реальные запросы!)...${NC}"
+docker logs hotelio-booking-service > $RESULTS_DIR/booking-service-logs.txt 2>&1
+docker logs hotelio-booking-history-service > $RESULTS_DIR/booking-history-service-logs.txt 2>&1
+docker logs hotelio-monolith > $RESULTS_DIR/monolith-logs.txt 2>&1
+
+echo -e "${BLUE}🔍 Kafka диагностика...${NC}"
+{
+echo "=== KAFKA DIAGNOSTICS ==="
+echo "Timestamp: $(date)"
+echo ""
+echo "--- Messages in topic (должны быть здесь!) ---"
+docker exec hotelio-kafka kafka-console-consumer \
+  --bootstrap-server kafka:9092 \
+  --topic booking-created \
+  --from-beginning \
+  --timeout-ms 5000
+echo ""
+echo "--- Consumer group ---"
+docker exec hotelio-kafka kafka-consumer-groups \
+  --bootstrap-server kafka:9092 \
+  --describe \
+  --group booking-history-service
+} > $RESULTS_DIR/kafka-diagnostics.txt 2>&1
+
+echo -e "${BLUE}📋 Финальный отчет...${NC}"
 {
 echo "=== FINAL REPORT ==="
 echo "Timestamp: $(date)"
 echo ""
-
 echo "--- Containers ---"
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-
 echo ""
 echo "--- Booking DB ---"
 docker exec hotelio-booking-db psql -U booking -d booking_db -t \
   -c "SELECT COUNT(*) FROM bookings;"
-
 echo ""
 echo "--- History DB ---"
 docker exec hotelio-booking-history-db psql -U booking_history -d booking_history_db -t \
   -c "SELECT COUNT(*) FROM booking_history;"
-
 } > $RESULTS_DIR/final-report.txt
 
-echo -e "${GREEN}🎉 Тестирование завершено!${NC}"
-echo "Результаты в папке: $RESULTS_DIR"
+echo -e "${GREEN}🎉 Тестирование завершено! Проверьте логи теперь!${NC}"

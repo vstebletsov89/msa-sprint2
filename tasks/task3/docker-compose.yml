@@ -1,20 +1,60 @@
 version: '3.8'
 
-services:
-  apollo-gateway:
-    build: ./gateway
-    ports:
-      - "4000:4000"
-    depends_on:
-      - booking-subgraph
-      - hotel-subgraph
+networks:
+  hotelio-federation:
+    driver: bridge
 
+services:
   booking-subgraph:
     build: ./booking-subgraph
     ports:
       - "4001:4001"
+    networks:
+      - hotelio-federation
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4001/.well-known/apollo/server-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   hotel-subgraph:
     build: ./hotel-subgraph
     ports:
       - "4002:4002"
+    networks:
+      - hotelio-federation
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4002/.well-known/apollo/server-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  promocode-subgraph:
+    build: ./promocode-subgraph
+    ports:
+      - "4003:4003"
+    networks:
+      - hotelio-federation
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4003/.well-known/apollo/server-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  apollo-gateway:
+    build: ./apollo-gateway
+    ports:
+      - "4000:4000"
+    networks:
+      - hotelio-federation
+    depends_on:
+      - booking-subgraph
+      - hotel-subgraph
+      - promocode-subgraph
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4000/.well-known/apollo/server-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

@@ -23,22 +23,22 @@ public class EventPublisherService {
     private String bookingCreatedTopic;
 
     public void publishBookingCreatedEvent(BookingCreatedEvent event) {
-        log.info("📤 STARTING publish: bookingId={} eventId={} topic={}", 
+        log.info("STARTING publish: bookingId={} eventId={} topic={}",
                 event.getBookingId(), event.getEventId(), bookingCreatedTopic);
 
         try {
             String json = objectMapper.writeValueAsString(event);
-            log.info("📝 JSON serialized: length={} content={}", json.length(), json);
+            log.info("JSON serialized: length={} content={}", json.length(), json);
 
             CompletableFuture<SendResult<String, String>> future = 
                     kafkaTemplate.send(bookingCreatedTopic, event.getBookingId(), json);
 
             future.whenComplete((result, throwable) -> {
                 if (throwable != null) {
-                    log.error("❌ KAFKA SEND FAILED: bookingId={} topic={} error={}", 
+                    log.error("KAFKA SEND FAILED: bookingId={} topic={} error={}",
                             event.getBookingId(), bookingCreatedTopic, throwable.getMessage(), throwable);
                 } else {
-                    log.info("✅ KAFKA SEND SUCCESS: bookingId={} topic={} partition={} offset={} timestamp={}", 
+                    log.info("KAFKA SEND SUCCESS: bookingId={} topic={} partition={} offset={} timestamp={}",
                             event.getBookingId(), 
                             bookingCreatedTopic,
                             result.getRecordMetadata().partition(),
@@ -47,10 +47,10 @@ public class EventPublisherService {
                 }
             });
 
-            log.info("📨 Send request submitted for bookingId={}", event.getBookingId());
+            log.info("Send request submitted for bookingId={}", event.getBookingId());
 
         } catch (Exception e) {
-            log.error("❌ PUBLISH FAILED: bookingId={} error={}", 
+            log.error("PUBLISH FAILED: bookingId={} error={}",
                     event.getBookingId(), e.getMessage(), e);
         }
     }

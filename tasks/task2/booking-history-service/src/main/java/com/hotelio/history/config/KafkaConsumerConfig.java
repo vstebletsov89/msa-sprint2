@@ -15,8 +15,8 @@ public class KafkaConsumerConfig {
 
     @PostConstruct
     public void init() {
-        log.info("🚀 KAFKA CONSUMER CONFIG INITIALIZED: bootstrapServers={}", bootstrapServers);
-        log.info("🎧 Waiting for messages on topic: booking-created");
-        log.info("👥 Consumer group: booking-history-service");
+        log.info("KAFKA CONSUMER CONFIG INITIALIZED: bootstrapServers={}", bootstrapServers);
+        log.info("Waiting for messages on topic: booking-created");
+        log.info("Consumer group: booking-history-service");
     }
 }

@@ -29,28 +29,28 @@ public class BookingEventConsumer {
             @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
             @Header(KafkaHeaders.OFFSET) long offset
     ) {
-        log.info("🎯 KAFKA MESSAGE RECEIVED: topic={} partition={} offset={} messageLength={} content={}", 
+        log.info("KAFKA MESSAGE RECEIVED: topic={} partition={} offset={} messageLength={} content={}",
                 topic, partition, offset, message != null ? message.length() : 0, message);
 
         try {
             // Deserialize JSON to event object
             BookingCreatedEvent event = objectMapper.readValue(message, BookingCreatedEvent.class);
-            log.info("📋 Deserialized event: bookingId={}, eventId={}", 
+            log.info("Deserialized event: bookingId={}, eventId={}",
                     event.getBookingId(), event.getEventId());
 
             // Check for duplicate events (idempotency)
             if (bookingHistoryRepository.findByEventId(event.getEventId()).isPresent()) {
-                log.warn("⚠️ Duplicate event received, skipping: eventId={}", event.getEventId());
+                log.warn("Duplicate event received, skipping: eventId={}", event.getEventId());
                 return;
             }
 
             // Process within transaction
             processBookingEvent(event);
 
-            log.info("✅ SUCCESS: eventId={} processed and saved", event.getEventId());
+            log.info("SUCCESS: eventId={} processed and saved", event.getEventId());
 
         } catch (Exception e) {
-            log.error("❌ ERROR processing event from partition={}, offset={}: {}", 
+            log.error("ERROR processing event from partition={}, offset={}: {}",
                     partition, offset, e.getMessage(), e);
             // Don't rethrow - just log error and continue
         }
@@ -60,7 +60,7 @@ public class BookingEventConsumer {
     public void processBookingEvent(BookingCreatedEvent event) {
         // Check for duplicate events (idempotency)
         if (bookingHistoryRepository.findByEventId(event.getEventId()).isPresent()) {
-            log.warn("⚠️ DUPLICATE event skipped: eventId={}", event.getEventId());
+            log.warn("DUPLICATE event skipped: eventId={}", event.getEventId());
             return;
         }
 
@@ -78,7 +78,7 @@ public class BookingEventConsumer {
                 .build();
 
         BookingHistory saved = bookingHistoryRepository.save(bookingHistory);
-        log.info("💾 SAVED booking history with ID: {}", saved.getId());
+        log.info("SAVED booking history with ID: {}", saved.getId());
 
         // Update statistics
         statisticsService.updateStatistics(event);

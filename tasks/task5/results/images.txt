@@ -1,7 +1,7 @@
 === DOCKER IMAGE LS ===
-Timestamp: Wed Mar 11 20:13:08 CEST 2026
+Timestamp: Wed Mar 11 20:21:03 CEST 2026
 
-booking-service:latest                                                                                e0aec37057d8         32MB         10.2MB        
+booking-service:latest                                                                                9b587268d941         32MB         10.2MB        
 task2-booking-service:latest                                                                          55bb32129760        576MB          181MB   U    
 
 === MINIKUBE IMAGE LIST ===

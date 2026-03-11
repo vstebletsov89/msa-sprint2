@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 set -e
@@ -7,30 +8,39 @@ echo " Feature Flag Routing Test"
 echo "========================================="
 echo ""
 
-SERVICE_URL="${SERVICE_URL:-http://localhost:9090}"
+SERVICE_URL="${SERVICE_URL:-http://booking-service}"
+CURL_POD="${CURL_POD:-}"
+
+mesh_curl() {
+  if [ -n "$CURL_POD" ]; then
+    kubectl exec "$CURL_POD" -c booking-service -- curl -s "$@" 2>/dev/null || echo "ERROR"
+  else
+    curl -s "$@" 2>/dev/null || echo "ERROR"
+  fi
+}
 
 echo "▶️  Запрос БЕЗ заголовка X-Feature-Enabled (должен идти на v1):"
-RESPONSE_NO_FLAG=$(curl -s "$SERVICE_URL/ping" 2>/dev/null || echo "ERROR")
+RESPONSE_NO_FLAG=$(mesh_curl "$SERVICE_URL/ping")
 echo "  Response: $RESPONSE_NO_FLAG"
 echo ""
 
 echo "▶️  Запрос С заголовком X-Feature-Enabled: true (должен идти на v2):"
-RESPONSE_WITH_FLAG=$(curl -s -H "X-Feature-Enabled: true" "$SERVICE_URL/ping" 2>/dev/null || echo "ERROR")
+RESPONSE_WITH_FLAG=$(mesh_curl -H "X-Feature-Enabled: true" "$SERVICE_URL/ping")
 echo "  Response: $RESPONSE_WITH_FLAG"
 echo ""
 
 echo "▶️  Запрос /feature БЕЗ заголовка (v1, feature disabled):"
-FEATURE_NO_FLAG=$(curl -s "$SERVICE_URL/feature" 2>/dev/null || echo "ERROR")
+FEATURE_NO_FLAG=$(mesh_curl "$SERVICE_URL/feature")
 echo "  Response: $FEATURE_NO_FLAG"
 echo ""
 
 echo "▶️  Запрос /feature С заголовком X-Feature-Enabled: true (v2, feature enabled):"
-FEATURE_WITH_FLAG=$(curl -s -H "X-Feature-Enabled: true" "$SERVICE_URL/feature" 2>/dev/null || echo "ERROR")
+FEATURE_WITH_FLAG=$(mesh_curl -H "X-Feature-Enabled: true" "$SERVICE_URL/feature")
 echo "  Response: $FEATURE_WITH_FLAG"
 echo ""
 
 echo "▶️  Запрос /version С заголовком X-Feature-Enabled: true:"
-VERSION_RESPONSE=$(curl -s -H "X-Feature-Enabled: true" "$SERVICE_URL/version" 2>/dev/null || echo "ERROR")
+VERSION_RESPONSE=$(mesh_curl -H "X-Feature-Enabled: true" "$SERVICE_URL/version")
 echo "  Response: $VERSION_RESPONSE"
 echo ""
 

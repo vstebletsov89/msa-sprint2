@@ -7,7 +7,8 @@ echo " Canary Release Test (90% v1, 10% v2)"
 echo "========================================="
 echo ""
 
-SERVICE_URL="${SERVICE_URL:-http://localhost:9090}"
+SERVICE_URL="${SERVICE_URL:-http://booking-service}"
+CURL_POD="${CURL_POD:-}"
 TOTAL=100
 V1_COUNT=0
 V2_COUNT=0
@@ -17,7 +18,11 @@ echo "▶️  Sending $TOTAL requests to $SERVICE_URL/ping ..."
 echo ""
 
 for i in $(seq 1 $TOTAL); do
-  RESPONSE=$(curl -s "$SERVICE_URL/ping" 2>/dev/null || echo "ERROR")
+  if [ -n "$CURL_POD" ]; then
+    RESPONSE=$(kubectl exec "$CURL_POD" -c booking-service -- curl -s "$SERVICE_URL/ping" 2>/dev/null || echo "ERROR")
+  else
+    RESPONSE=$(curl -s "$SERVICE_URL/ping" 2>/dev/null || echo "ERROR")
+  fi
 
   if echo "$RESPONSE" | grep -q "v1"; then
     V1_COUNT=$((V1_COUNT + 1))

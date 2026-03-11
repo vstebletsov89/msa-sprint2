@@ -1,3 +1,4 @@
+
 #!/bin/bash
 set -Eeuo pipefail
 
@@ -74,9 +75,12 @@ log "Cleaning previous Helm releases..."
 
 helm uninstall booking-service-v1 2>/dev/null || true
 helm uninstall booking-service-v2 2>/dev/null || true
+helm uninstall booking-service 2>/dev/null || true
 
 kubectl delete deployment booking-service 2>/dev/null || true
 kubectl delete svc booking-service 2>/dev/null || true
+
+sleep 3
 
 success "Previous Helm releases removed"
 
@@ -223,26 +227,27 @@ kubectl get envoyfilters
 success "kubectl info saved"
 
 # ─────────────────────────────────────────
-# 9. PORT FORWARD
+# 9. PREPARE IN-MESH CURL POD
 # ─────────────────────────────────────────
 
-log "Starting port-forward..."
+log "Determining curl pod for in-mesh requests..."
 
+# Тесты должны выполняться ИЗНУТРИ mesh, чтобы трафик шёл через Istio sidecar.
+# kubectl port-forward обходит Envoy proxy и VirtualService/DestinationRule не работают.
+# Поэтому используем kubectl exec в под с sidecar.
+
+CURL_POD=$(kubectl get pods -l app=booking-service,version=v1 -o jsonpath='{.items[0].metadata.name}')
+export CURL_POD
+export SERVICE_URL="http://booking-service"
+
+success "Will use pod $CURL_POD for in-mesh curl requests"
+
+# Также поднимаем port-forward для check-istio (он не делает curl к сервису)
 kubectl port-forward svc/booking-service $PORT_LOCAL:$PORT_SERVICE \
 > /dev/null 2>&1 &
 
 PF_PID=$!
-
-sleep 5
-
-if ! kill -0 "$PF_PID" 2>/dev/null; then
-  fail "port-forward process died unexpectedly"
-  exit 1
-fi
-
-success "Port-forward started (PID=$PF_PID, localhost:$PORT_LOCAL → svc:$PORT_SERVICE)"
-
-export SERVICE_URL="http://localhost:$PORT_LOCAL"
+sleep 3
 
 # ─────────────────────────────────────────
 # 10. RUN CHECKS

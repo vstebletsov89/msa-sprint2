@@ -1,0 +1,11 @@
+=== KUBECTL GET PODS ===
+Timestamp: Wed Mar 11 18:33:07 CEST 2026
+
+NAME                               READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+booking-service-6458bfd544-knspx   1/1     Running   0          8s    10.244.0.3   minikube   <none>           <none>
+
+=== KUBECTL GET SERVICES ===
+
+NAME              TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+booking-service   ClusterIP   10.109.97.31   <none>        80/TCP    8s
+kubernetes        ClusterIP   10.96.0.1      <none>        443/TCP   5m59s

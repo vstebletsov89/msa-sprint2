@@ -1,3 +1,4 @@
+
 #!/bin/bash
 set -Eeuo pipefail
 
@@ -49,6 +50,7 @@ fail() {
 on_error() {
   fail "Script failed on line $1"
   echo "Check logs in $RESULTS_DIR"
+  [ -n "${PF_PID:-}" ] && kill "$PF_PID" 2>/dev/null || true
 }
 
 trap 'on_error $LINENO' ERR
@@ -149,7 +151,28 @@ success "kubectl logs saved"
 
 
 # ─────────────────────────────────────────
-# 6. RUN CHECK-STATUS
+# 6. PORT FORWARD
+# ─────────────────────────────────────────
+
+log "Starting port-forward..."
+
+kubectl port-forward svc/$SERVICE_NAME $PORT_LOCAL:$PORT_SERVICE \
+> /dev/null 2>&1 &
+
+PF_PID=$!
+
+sleep 5
+
+if ! kill -0 "$PF_PID" 2>/dev/null; then
+  fail "port-forward process died unexpectedly"
+  exit 1
+fi
+
+success "Port-forward started (PID=$PF_PID)"
+
+
+# ─────────────────────────────────────────
+# 7. RUN CHECK-STATUS
 # ─────────────────────────────────────────
 
 log "Running check-status.sh..."
@@ -167,7 +190,7 @@ success "check-status executed"
 
 
 # ─────────────────────────────────────────
-# 7. RUN CHECK-DNS
+# 8. RUN CHECK-DNS
 # ─────────────────────────────────────────
 
 log "Running check-dns.sh..."
@@ -182,20 +205,6 @@ echo ""
 } > "$RESULTS_DIR/check-dns.txt" 2>&1 || warn "check-dns returned non-zero"
 
 success "DNS check executed"
-
-
-# ─────────────────────────────────────────
-# 8. PORT FORWARD
-# ─────────────────────────────────────────
-
-log "Starting port-forward..."
-
-kubectl port-forward svc/$SERVICE_NAME $PORT_LOCAL:$PORT_SERVICE \
-> /dev/null 2>&1 &
-
-PF_PID=$!
-
-sleep 5
 
 
 # ─────────────────────────────────────────
@@ -231,11 +240,15 @@ curl -v http://localhost:$PORT_LOCAL/ping
 success "/ping request saved"
 
 
+# ─────────────────────────────────────────
+# 11. STOP PORT-FORWARD
+# ─────────────────────────────────────────
+
 kill $PF_PID || true
 
 
 # ─────────────────────────────────────────
-# 11. IMAGE LISTS
+# 12. IMAGE LISTS
 # ─────────────────────────────────────────
 
 log "Saving image lists..."
@@ -259,7 +272,7 @@ success "Image lists saved"
 
 
 # ─────────────────────────────────────────
-# 12. SUMMARY
+# 13. SUMMARY
 # ─────────────────────────────────────────
 
 echo ""

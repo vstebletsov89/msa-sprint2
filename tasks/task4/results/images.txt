@@ -1,0 +1,9 @@
+=== DOCKER IMAGE LS ===
+Timestamp: Wed Mar 11 18:33:25 CEST 2026
+
+booking-service:latest                                                                                5c3ea62d2430         32MB         10.2MB        
+task2-booking-service:latest                                                                          55bb32129760        576MB          181MB   U    
+
+=== MINIKUBE IMAGE LIST ===
+
+docker.io/library/booking-service:latest

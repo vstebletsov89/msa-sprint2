@@ -507,44 +507,68 @@ task4/results/
 └── docker image ls + minikube image list
 Загрузите результат в директорию task4/results/ вашего репозитория.
 
+## Задание 5. Настройка управления трафиком с Istio
 
+Цель задания: настроить маршрутизацию трафика с Istio.
+После настройки CI/CD и развёртывания микросервисов в Kubernetes, команда Hotelio столкнулась с новой задачей: управление трафиком на продакшне.
+Компания хочет тестировать фичи без риска, быстрее находить проблемные сервисы и управлять отказами без изменений в бизнес-коде.
+Было решено установить Istio как Service Mesh и начать использовать трафик-менеджмент: канареечный Release, Circuit Breaker и другие механики. И начать, конечно же, с уже перенесённого в Kubernetes сервиса бронирования.
 
----remove below:
+### Что нужно сделать
+- Скопируйте выполненный task4 в task5.
+Примените тот же сервис booking-service, только теперь добавьте для него Istio Service Mesh.
+- Установите Istio:
+Установите Istio в Minikube, используя istioctl install --set profile=demo.
+Включите автоматическую инъекцию Istio в default namespace, чтобы каждый под автоматически получал sidecar-прокси (Envoy).
+- Добавьте две версии сервиса:
+v1 — основная версия сервиса.
+v2 — новая версия с возможностью включения фича-флагов через X-Feature-Enabled: true в заголовке запроса.
+- Настройте Istio-маршрутизацию:
+Разделите трафик между версиями через канареечный Release (90% трафика на v1, 10% на v2).
+Добавьте fallback-маршрут, который будет перенаправлять трафик с v1 на v2, если v1 возвращает ошибку.
+- Настройте Retry и Circuit Breaking.
+Используйте DestinationRule для настройки Retries и Circuit Breaking для защиты от ошибок.
+- Настройте фича-флаги через EnvoyFilter.
+Примените EnvoyFilter, чтобы включить маршрутизацию трафика на v2, если заголовок запроса X-Feature-Enabled равен true.
+- Проверьте настройки с помощью скриптов (уже лежат в папке с заданием):
+Используйте следующие проверочные скрипты:
+check-istio.sh — для проверки установки Istio и инъекции.
+check-canary.sh — для тестирования разделения трафика (90% на v1, 10% на v2).
+check-fallback.sh — для тестирования fallback маршрута. Предварительно, погасите один из подов.
+check-feature-flag.sh — для проверки маршрутизации через фича-флаг.
+Скрипты можно модифицировать
 
-- доделал `booking-service`;
-- добавил:
-  - `/ping`
-  - `/health`
-  - `/ready`
-  - фича-флаг `ENABLE_FEATURE_X=true`;
-- исправил `Dockerfile`;
-- дополнил Helm chart:
-  - `Deployment`
-  - `Service`
-  - `livenessProbe`
-  - `readinessProbe`
-  - `env[]`
-  - `resources`
-  - `image.pullPolicy`
-  - `ENABLE_FEATURE_X`
-- сделал `.gitlab-ci.yml` со стадиями:
-  - `build`
-  - `test`
-  - `deploy`
-  - `tag`
-- улучшил `check-dns.sh` и `check-status.sh`;
-- подготовил `values-staging.yaml`, `values-prod.yaml` и `report.md` для `task4/results/`.
+Для выполнения задания нужно установить istio в уже имеющийся кластер.
+Для этого:
+Скачайте istio:
+curl -L https://istio.io/downloadIstio | sh -
+Добавьте istioctl в путь:
+export PATH=$PWD/istio-\*/bin:$PATH
+Проверьте установку:
+istioctl version
+Запустите istio в minikube:
+istioctl install --set profile=demo -y
+Включите инъекции istio в каждый под в неймспейсе:
+kubectl label namespace default istio-injection=enabled --overwrite
+Проверьте установку:
+kubectl get pods -n istio-system
+istioctl version
+Не забывайте, что istio конфигурации надо применять: «из коробки» они работать не будут.
+Например так:
+kubectl apply -f istio/virtual-service.yam
+kubectl get virtualservices
+Для удобства дебага можно использовать access_log — в demo он включён по умолчанию:
+kubectl logs -l app=booking-service -n default
 
+Образ результата
+Структура и содержание репозитория, в котором нужно сдать решение:
 
-## 10) Что ещё нужно приложить в `results/`
+task5/results/
+├── report.md # Описание изменений и решений
+├── values-v1.yaml и values-v2.yaml с разными конфигурациями сервиса
+├── virtual-service.yaml (canary + fallback + feature flag)
+├── destination-rule.yaml (Retry + CircuitBreaking)
+├── envoy-filter.yaml  (Feature flag через EnvoyFilter)
+└── Логи запуска проверочных скриптов (или Скриншоты)
 
-По заданию останется руками добавить артефакты:
-
-- скриншот `curl http://localhost:8080/ping`
-- скриншот `./check-dns.sh`
-- скриншот `./check-status.sh`
-- вывод `kubectl get pods && kubectl get services`
-- лог успешной сборки
-- вывод `docker image ls`
-- вывод `minikube image list`
-
+Загрузите результат в директорию task5/results/ вашего репозитория.

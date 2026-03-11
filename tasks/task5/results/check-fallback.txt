@@ -1,0 +1,52 @@
+=== check-fallback.sh ===
+Timestamp: Wed Mar 11 20:03:46 CEST 2026
+
+=========================================
+ Fallback Route Test
+=========================================
+
+▶️  Текущие поды booking-service:
+NAME                                  READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
+booking-service-6458bfd544-knspx      1/1     Running   0          90m   10.244.0.3    minikube   <none>           <none>
+booking-service-v1-6f4676dc87-jv7rj   2/2     Running   0          61s   10.244.0.10   minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-cj4zc    2/2     Running   0          48s   10.244.0.11   minikube   <none>           <none>
+
+▶️  Проверка ответа сервиса перед остановкой v1...
+  Response: pong
+
+▶️  Масштабируем v1 до 0 реплик (имитация отказа)...
+deployment.apps/booking-service-v1 scaled
+  Ожидание завершения подов v1...
+
+▶️  Поды после остановки v1:
+NAME                                 READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
+booking-service-6458bfd544-knspx     1/1     Running   0          90m   10.244.0.3    minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-cj4zc   2/2     Running   0          59s   10.244.0.11   minikube   <none>           <none>
+
+▶️  Отправка запросов (должны идти на v2 через fallback/circuit breaker)...
+  Request 1: pong
+  Request 2: pong
+  Request 3: pong
+  Request 4: pong
+  Request 5: pong
+  Request 6: pong
+  Request 7: pong
+  Request 8: pong
+  Request 9: pong
+  Request 10: pong
+
+=========================================
+ Results:
+  Successful responses: 10 / 10
+=========================================
+✅ Fallback/Circuit Breaker is working — traffic routed to v2
+
+▶️  Восстанавливаем v1 (1 реплика)...
+deployment.apps/booking-service-v1 scaled
+  Ожидание запуска v1...
+Waiting for deployment "booking-service-v1" rollout to finish: 0 of 1 updated replicas are available...
+deployment "booking-service-v1" successfully rolled out
+
+=========================================
+ Fallback Test Complete
+=========================================

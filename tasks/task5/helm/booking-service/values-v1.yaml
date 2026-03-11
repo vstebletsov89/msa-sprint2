@@ -1,6 +1,6 @@
 replicaCount: 1
 
-version: v2
+version: v1
 
 image:
   name: booking-service
@@ -11,9 +11,9 @@ service:
   type: ClusterIP
   port: 80
   targetPort: 8080
-  enabled: false
+  enabled: true
 
-ENABLE_FEATURE_X: "true"
+ENABLE_FEATURE_X: "false"
 
 env:
   - name: APP_ENV

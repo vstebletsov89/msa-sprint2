@@ -15,6 +15,7 @@ PORT_LOCAL=9090
 PORT_SERVICE=80
 
 mkdir -p "$RESULTS_DIR"
+touch "$RESULTS_DIR/build.log"
 
 # ─────────────────────────────────────────
 # COLORS
@@ -66,6 +67,19 @@ echo "======================================"
 echo ""
 
 # ─────────────────────────────────────────
+# CLEAN PREVIOUS HELM RELEASES
+# ─────────────────────────────────────────
+
+log "Cleaning previous Helm releases..."
+
+helm uninstall booking-service-v1 2>/dev/null || true
+helm uninstall booking-service-v2 2>/dev/null || true
+
+kubectl delete svc booking-service 2>/dev/null || true
+
+success "Previous Helm releases removed"
+
+# ─────────────────────────────────────────
 # 1. BUILD DOCKER IMAGE
 # ─────────────────────────────────────────
 
@@ -83,7 +97,18 @@ docker build -t $IMAGE_NAME ./booking-service
 success "Docker build finished"
 
 # ─────────────────────────────────────────
-# 2. LOAD IMAGE INTO MINIKUBE
+# 2. REMOVE OLD IMAGE FROM MINIKUBE
+# ─────────────────────────────────────────
+
+log "Removing old image from Minikube..."
+
+minikube ssh "docker rmi -f $IMAGE_NAME" \
+  >> "$RESULTS_DIR/build.log" 2>&1 || true
+
+success "Old image removed (if existed)"
+
+# ─────────────────────────────────────────
+# 3. LOAD IMAGE INTO MINIKUBE
 # ─────────────────────────────────────────
 
 log "Loading image into Minikube..."
@@ -96,40 +121,43 @@ echo ""
 
 minikube image load $IMAGE_NAME
 
-} >> "$RESULTS_DIR/build.log" 2>&1
+} 2>&1 | tee -a "$RESULTS_DIR/build.log"
 
 success "Image loaded into Minikube"
 
 # ─────────────────────────────────────────
-# 3. ENSURE ISTIO INJECTION
+# 4. ENSURE ISTIO INJECTION
 # ─────────────────────────────────────────
 
 log "Ensuring Istio injection is enabled..."
 
-kubectl label namespace default istio-injection=enabled --overwrite 2>/dev/null || true
+kubectl label namespace default istio-injection=enabled --overwrite \
+  2>/dev/null || true
 
 success "Istio injection label applied"
 
 # ─────────────────────────────────────────
-# 4. DEPLOY v1 AND v2 WITH HELM
+# 5. DEPLOY v1 AND v2 WITH HELM
 # ─────────────────────────────────────────
 
 log "Deploying v1 with Helm..."
 
 helm upgrade --install booking-service-v1 ./helm/booking-service \
-  -f ./helm/booking-service/values-v1.yaml
+  -f ./helm/booking-service/values-v1.yaml \
+  --wait --timeout 120s
 
 success "v1 Helm deployment applied"
 
 log "Deploying v2 with Helm..."
 
 helm upgrade --install booking-service-v2 ./helm/booking-service \
-  -f ./helm/booking-service/values-v2.yaml
+  -f ./helm/booking-service/values-v2.yaml \
+  --wait --timeout 120s
 
 success "v2 Helm deployment applied"
 
 # ─────────────────────────────────────────
-# 5. APPLY ISTIO CONFIGS
+# 6. APPLY ISTIO CONFIGS
 # ─────────────────────────────────────────
 
 log "Applying Istio configurations..."
@@ -141,7 +169,7 @@ kubectl apply -f ./istio/envoy-filter.yaml
 success "Istio configs applied"
 
 # ─────────────────────────────────────────
-# 6. WAIT FOR PODS READY
+# 7. WAIT FOR PODS READY
 # ─────────────────────────────────────────
 
 log "Waiting for v1 pod readiness..."
@@ -153,7 +181,7 @@ kubectl rollout status deployment/booking-service-v2 --timeout=120s
 success "All deployments are ready"
 
 # ─────────────────────────────────────────
-# 7. SAVE KUBECTL INFO
+# 8. SAVE KUBECTL INFO
 # ─────────────────────────────────────────
 
 log "Saving kubectl info..."
@@ -194,7 +222,7 @@ kubectl get envoyfilters
 success "kubectl info saved"
 
 # ─────────────────────────────────────────
-# 8. PORT FORWARD
+# 9. PORT FORWARD
 # ─────────────────────────────────────────
 
 log "Starting port-forward..."
@@ -216,96 +244,54 @@ success "Port-forward started (PID=$PF_PID, localhost:$PORT_LOCAL → svc:$PORT_
 export SERVICE_URL="http://localhost:$PORT_LOCAL"
 
 # ─────────────────────────────────────────
-# 9. RUN CHECK-ISTIO
+# 10. RUN CHECKS
 # ─────────────────────────────────────────
 
-log "Running check-istio.sh..."
+run_check() {
+
+SCRIPT=$1
+OUTFILE=$2
+
+log "Running $SCRIPT..."
 
 {
-echo "=== CHECK ISTIO ==="
+echo "=== $SCRIPT ==="
 echo "Timestamp: $(date)"
 echo ""
 
-bash ./check-istio.sh
+bash ./$SCRIPT
 
-} > "$RESULTS_DIR/check-istio.txt" 2>&1 || warn "check-istio returned non-zero"
+} > "$RESULTS_DIR/$OUTFILE" 2>&1 || warn "$SCRIPT returned non-zero"
 
-success "check-istio executed"
+success "$SCRIPT executed"
 
-# ─────────────────────────────────────────
-# 10. RUN CHECK-CANARY
-# ─────────────────────────────────────────
+}
 
-log "Running check-canary.sh..."
-
-{
-echo "=== CHECK CANARY ==="
-echo "Timestamp: $(date)"
-echo ""
-
-bash ./check-canary.sh
-
-} > "$RESULTS_DIR/check-canary.txt" 2>&1 || warn "check-canary returned non-zero"
-
-success "check-canary executed"
+run_check check-istio.sh check-istio.txt
+run_check check-canary.sh check-canary.txt
+run_check check-feature-flag.sh check-feature-flag.txt
+run_check check-fallback.sh check-fallback.txt
 
 # ─────────────────────────────────────────
-# 11. RUN CHECK-FEATURE-FLAG
-# ─────────────────────────────────────────
-
-log "Running check-feature-flag.sh..."
-
-{
-echo "=== CHECK FEATURE FLAG ==="
-echo "Timestamp: $(date)"
-echo ""
-
-bash ./check-feature-flag.sh
-
-} > "$RESULTS_DIR/check-feature-flag.txt" 2>&1 || warn "check-feature-flag returned non-zero"
-
-success "check-feature-flag executed"
-
-# ─────────────────────────────────────────
-# 12. RUN CHECK-FALLBACK
-# ─────────────────────────────────────────
-
-log "Running check-fallback.sh..."
-
-{
-echo "=== CHECK FALLBACK ==="
-echo "Timestamp: $(date)"
-echo ""
-
-bash ./check-fallback.sh
-
-} > "$RESULTS_DIR/check-fallback.txt" 2>&1 || warn "check-fallback returned non-zero"
-
-success "check-fallback executed"
-
-# ─────────────────────────────────────────
-# 13. STOP PORT-FORWARD
+# 11. STOP PORT-FORWARD
 # ─────────────────────────────────────────
 
 log "Stopping port-forward..."
 kill $PF_PID 2>/dev/null || true
 
 # ─────────────────────────────────────────
-# 14. COPY ISTIO CONFIGS TO RESULTS
+# 12. COPY CONFIGS
 # ─────────────────────────────────────────
 
-log "Copying Istio configs and values to results..."
+log "Copying configs..."
 
-cp ./istio/virtual-service.yaml "$RESULTS_DIR/"
-cp ./istio/destination-rule.yaml "$RESULTS_DIR/"
-cp ./istio/envoy-filter.yaml "$RESULTS_DIR/"
-cp ./helm/booking-service/values-v1.yaml "$RESULTS_DIR/"
-cp ./helm/booking-service/values-v2.yaml "$RESULTS_DIR/"
+cp ./istio/*.yaml "$RESULTS_DIR/" 2>/dev/null || true
+cp ./helm/booking-service/values-*.yaml "$RESULTS_DIR/" 2>/dev/null || true
 
-success "Configs copied to results"
+success "Configs copied"
 
 # ─────────────────────────────────────────
-# 15. IMAGE LISTS
+# 13. IMAGE LIST
 # ─────────────────────────────────────────
 
 log "Saving image lists..."
@@ -328,56 +314,7 @@ minikube image list | grep booking-service || true
 success "Image lists saved"
 
 # ─────────────────────────────────────────
-# 16. GENERATE REPORT
-# ─────────────────────────────────────────
-
-log "Generating report..."
-
-cat > "$RESULTS_DIR/report.md" << 'REPORT_EOF'
-# Task 5 — Istio Service Mesh: Report
-
-## Описание изменений
-
-### 1. Две версии сервиса
-- **v1** — основная версия (`ENABLE_FEATURE_X=false`, `SERVICE_VERSION=v1`)
-- **v2** — версия с фича-флагами (`ENABLE_FEATURE_X=true`, `SERVICE_VERSION=v2`)
-
-Обе версии деплоятся через Helm с разными `values-v1.yaml` и `values-v2.yaml`.
-Deployment-ы имеют label `version: v1` / `version: v2` для маршрутизации Istio.
-
-### 2. Istio-маршрутизация (VirtualService)
-- **Канареечный Release**: 90% трафика → v1, 10% → v2
-- **Feature-flag routing**: при заголовке `X-Feature-Enabled: true` → 100% на v2
-- **Retries**: 3 попытки с timeout 2s на каждую, retry при 5xx/reset/connect-failure
-
-### 3. DestinationRule (Retry + Circuit Breaking)
-- **Subsets**: v1 и v2, определённые по label `version`
-- **Circuit Breaker (Outlier Detection)**:
-  - 3 consecutive 5xx errors → eject хост на 30s
-  - Проверка каждые 10s
-- **Connection Pool**: ограничения на TCP и HTTP соединения
-
-### 4. EnvoyFilter (Feature Flag)
-- Lua-фильтр на sidecar-прокси
-- При наличии заголовка `X-Feature-Enabled: true` добавляет `x-route-to: v2`
-- Добавляет response header `x-envoy-feature-flag-processed: true`
-
-### 5. Fallback
-- При отказе v1 (scale to 0), Circuit Breaker выводит хост из пула
-- Istio retries перенаправляют трафик на оставшийся subset (v2)
-
-## Проверочные скрипты
-- `check-istio.sh` — проверка установки Istio, injection, конфигов
-- `check-canary.sh` — 100 запросов, подсчёт распределения v1/v2
-- `check-fallback.sh` — масштабирование v1→0, проверка что v2 отвечает
-- `check-feature-flag.sh` — проверка маршрутизации по заголовку
-
-REPORT_EOF
-
-success "Report generated"
-
-# ─────────────────────────────────────────
-# 17. SUMMARY
+# 14. SUMMARY
 # ─────────────────────────────────────────
 
 echo ""

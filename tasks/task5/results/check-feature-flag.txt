@@ -1,0 +1,34 @@
+=== check-feature-flag.sh ===
+Timestamp: Wed Mar 11 20:03:45 CEST 2026
+
+=========================================
+ Feature Flag Routing Test
+=========================================
+
+▶️  Запрос БЕЗ заголовка X-Feature-Enabled (должен идти на v1):
+  Response: pong
+
+▶️  Запрос С заголовком X-Feature-Enabled: true (должен идти на v2):
+  Response: pong
+
+▶️  Запрос /feature БЕЗ заголовка (v1, feature disabled):
+  Response: Feature X is disabled
+
+▶️  Запрос /feature С заголовком X-Feature-Enabled: true (v2, feature enabled):
+  Response: Feature X is disabled
+
+▶️  Запрос /version С заголовком X-Feature-Enabled: true:
+  Response: 404 page not found
+
+=========================================
+ Validation:
+=========================================
+⚠️  Without header → unexpected: pong
+⚠️  With header → unexpected: pong
+⚠️  Feature endpoint with flag → unexpected: Feature X is disabled
+
+⚠️  Some feature flag checks did not pass as expected
+
+=========================================
+ Feature Flag Test Complete
+=========================================

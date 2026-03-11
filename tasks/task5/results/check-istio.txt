@@ -1,0 +1,41 @@
+=== check-istio.sh ===
+Timestamp: Wed Mar 11 20:03:18 CEST 2026
+
+=========================================
+ Istio Installation Check
+=========================================
+
+▶️  Проверка установки Istio (istio-system pods)...
+NAME                                    READY   STATUS    RESTARTS   AGE
+istio-egressgateway-7f67df695d-z7wpk    1/1     Running   0          58m
+istio-ingressgateway-76768cbcf6-tzc8n   1/1     Running   0          58m
+istiod-76d6698857-8f9fv                 1/1     Running   0          59m
+
+▶️  Проверка версии Istio...
+istioctl not found in PATH
+
+▶️  Проверка Istio инъекции в default namespace...
+istio-injection: enabled
+✅ Istio injection is ENABLED in default namespace
+
+▶️  Проверка подов booking-service (sidecar-proxy)...
+NAME                                  READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
+booking-service-6458bfd544-knspx      1/1     Running   0          90m   10.244.0.3    minikube   <none>           <none>
+booking-service-v1-6f4676dc87-jv7rj   2/2     Running   0          33s   10.244.0.10   minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-cj4zc    2/2     Running   0          20s   10.244.0.11   minikube   <none>           <none>
+
+▶️  Проверка VirtualService...
+NAME              GATEWAYS   HOSTS                 AGE
+booking-service              ["booking-service"]   7s
+
+▶️  Проверка DestinationRule...
+NAME              HOST              AGE
+booking-service   booking-service   8s
+
+▶️  Проверка EnvoyFilter...
+NAME                          AGE
+booking-feature-flag-filter   8s
+
+=========================================
+ Istio Check Complete
+=========================================

@@ -1,0 +1,19 @@
+=== check-canary.sh ===
+Timestamp: Wed Mar 11 20:03:19 CEST 2026
+
+=========================================
+ Canary Release Test (90% v1, 10% v2)
+=========================================
+
+▶️  Sending 100 requests to http://localhost:9090/ping ...
+
+=========================================
+ Results:
+  Total requests:   100
+  v1 responses:     0 (0%)
+  v2 responses:     0 (0%)
+  Errors:           100
+=========================================
+
+⚠️  Traffic distribution may be outside expected range
+   Expected ~90% v1, ~10% v2

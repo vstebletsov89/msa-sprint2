@@ -11,6 +11,7 @@ service:
   type: ClusterIP
   port: 80
   targetPort: 8080
+  enabled: true
 
 ENABLE_FEATURE_X: "false"
 

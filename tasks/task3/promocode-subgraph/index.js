@@ -4,11 +4,14 @@ const { buildSubgraphSchema } = require('@apollo/subgraph');
 const gql = require('graphql-tag');
 
 const typeDefs = gql`
-  extend type Booking @key(fields: "id") {
-    id: ID! @external
-    promoCode: String @external
-    discountPercent: Float! @override(from: "booking-subgraph")
-    discountInfo: DiscountInfo @requires(fields: "promoCode")
+  extend schema
+    @link(url: "https://specs.apollo.dev/federation/v2.0",
+          import: ["@key", "@external", "@override"])
+
+  type Booking @key(fields: "id") {
+    id: ID!
+    discountPercent: Float! @override(from: "booking")
+    discountInfo: DiscountInfo
   }
 
   type DiscountInfo {
@@ -62,6 +65,9 @@ const mockPromoCodes = {
   }
 };
 
+// Хранилище промокодов бронирований (заполняется при resolveReference)
+const bookingPromoCodes = new Map();
+
 function validatePromoCode(code, hotelId = null) {
   const promo = mockPromoCodes[code];
 
@@ -105,35 +111,39 @@ const resolvers = {
       const now = new Date();
 
       return Object.values(mockPromoCodes)
-        .filter(promo => promo.isActive && new Date(promo.expiresAt) > now)
-        .map(promo => validatePromoCode(promo.code));
+          .filter(promo => promo.isActive && new Date(promo.expiresAt) > now)
+          .map(promo => validatePromoCode(promo.code));
     }
   },
 
   Booking: {
     __resolveReference: (booking) => {
-      // Возвращаем booking reference для дальнейшего разрешения полей
-      return { ...booking };
+      console.log(`🔄 Resolving booking reference: ${booking.id}, promoCode: ${booking.promoCode}`);
+      // Сохраняем promoCode из representation для использования в резолверах полей
+      if (booking.promoCode !== undefined) {
+        bookingPromoCodes.set(booking.id, booking.promoCode);
+      }
+      return { id: booking.id, promoCode: booking.promoCode };
     },
 
     discountPercent: (booking) => {
-      console.log(`💰 @override discountPercent for booking ${booking.id} with promo: ${booking.promoCode}`);
+      const promoCode = booking.promoCode || bookingPromoCodes.get(booking.id);
+      console.log(`💰 @override discountPercent for booking ${booking.id} with promo: ${promoCode}`);
 
-      if (!booking.promoCode) {
-        console.log(`💰 No promo code, returning 0% discount`);
+      if (!promoCode) {
         return 0.0;
       }
 
-      const discountInfo = validatePromoCode(booking.promoCode);
-      console.log(`💰 Calculated discount: ${discountInfo.finalDiscount}% (was overridden from booking-subgraph)`);
-
+      const discountInfo = validatePromoCode(promoCode);
+      console.log(`💰 Calculated discount: ${discountInfo.finalDiscount}%`);
       return discountInfo.finalDiscount;
     },
 
     discountInfo: (booking) => {
-      console.log(`💰 Getting discount info for booking ${booking.id}`);
+      const promoCode = booking.promoCode || bookingPromoCodes.get(booking.id);
+      console.log(`💰 Getting discount info for booking ${booking.id}, promo: ${promoCode}`);
 
-      if (!booking.promoCode) {
+      if (!promoCode) {
         return {
           isValid: false,
           originalDiscount: 0.0,
@@ -144,7 +154,7 @@ const resolvers = {
         };
       }
 
-      return validatePromoCode(booking.promoCode);
+      return validatePromoCode(promoCode);
     }
   }
 };

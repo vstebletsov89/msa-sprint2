@@ -6,9 +6,9 @@ async function startGateway() {
   const gateway = new ApolloGateway({
     supergraphSdl: new IntrospectAndCompose({
       subgraphs: [
-        { name: 'booking', url: 'http://booking-subgraph:4001/graphql' },
-        { name: 'hotel', url: 'http://hotel-subgraph:4002/graphql' },
-        { name: 'promocode', url: 'http://promocode-subgraph:4003/graphql' }
+        { name: 'booking', url: 'http://booking-subgraph:4001/' },
+        { name: 'hotel', url: 'http://hotel-subgraph:4002/' },
+        { name: 'promocode', url: 'http://promocode-subgraph:4003/' }
       ],
     }),
     debug: true
@@ -18,7 +18,6 @@ async function startGateway() {
     gateway,
     introspection: true,
     plugins: [
-      // Логирование запросов
       {
         requestDidStart() {
           return {
@@ -41,7 +40,6 @@ async function startGateway() {
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
     context: async ({ req }) => {
-      // Передаем все заголовки в подграфы
       return {
         headers: req.headers
       };

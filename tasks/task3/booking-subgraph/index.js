@@ -15,6 +15,7 @@ const typeDefs = gql`
     userId: ID!
     hotelId: ID!
     promoCode: String
+    discountPercent: Float!
     checkIn: String!
     checkOut: String!
     status: BookingStatus!
@@ -38,6 +39,7 @@ const mockBookings = [
     userId: 'test-user-1',
     hotelId: 'h1',
     promoCode: 'SUMMER2024',
+    discountPercent: 0.0,
     checkIn: '2024-07-01',
     checkOut: '2024-07-07',
     status: 'CONFIRMED'
@@ -47,6 +49,7 @@ const mockBookings = [
     userId: 'test-user-2',
     hotelId: 'h2',
     promoCode: null,
+    discountPercent: 0.0,
     checkIn: '2024-08-15',
     checkOut: '2024-08-20',
     status: 'PENDING'
@@ -56,6 +59,7 @@ const mockBookings = [
     userId: 'test-user-1',
     hotelId: 'h3',
     promoCode: 'WINTER2024',
+    discountPercent: 0.0,
     checkIn: '2024-12-01',
     checkOut: '2024-12-10',
     status: 'CONFIRMED'
@@ -65,7 +69,6 @@ const mockBookings = [
 const resolvers = {
   Query: {
     userBookings: (parent, { userId }, { headers }) => {
-      // ACL проверка - пользователь может видеть только свои бронирования
       const requestingUserId = headers['userid'] || headers['user-id'];
       console.log(`🔐 ACL Check: requesting user=${requestingUserId}, target user=${userId}`);
 
@@ -87,7 +90,6 @@ const resolvers = {
       const booking = mockBookings.find(b => b.id === id);
       if (!booking) return null;
 
-      // ACL проверка для конкретного бронирования
       const requestingUserId = headers['userid'] || headers['user-id'];
       if (!requestingUserId) {
         throw new Error('Authentication required');

@@ -1,5 +1,5 @@
 === CHECK DNS ===
-Timestamp: Wed Mar 11 18:33:11 CEST 2026
+Timestamp: Wed Mar 11 18:42:31 CEST 2026
 
 ▶️ Running in-cluster DNS test...
 pongpod "dns-test" deleted from default namespace

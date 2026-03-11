@@ -1,5 +1,5 @@
 === check-fallback.sh ===
-Timestamp: Wed Mar 11 20:03:46 CEST 2026
+Timestamp: Wed Mar 11 20:12:23 CEST 2026
 
 =========================================
  Fallback Route Test
@@ -7,12 +7,11 @@ Timestamp: Wed Mar 11 20:03:46 CEST 2026
 
 ▶️  Текущие поды booking-service:
 NAME                                  READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
-booking-service-6458bfd544-knspx      1/1     Running   0          90m   10.244.0.3    minikube   <none>           <none>
-booking-service-v1-6f4676dc87-jv7rj   2/2     Running   0          61s   10.244.0.10   minikube   <none>           <none>
-booking-service-v2-b8f99f9d6-cj4zc    2/2     Running   0          48s   10.244.0.11   minikube   <none>           <none>
+booking-service-v1-6f4676dc87-7hn9w   2/2     Running   0          53s   10.244.0.13   minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-kzqnq    2/2     Running   0          41s   10.244.0.14   minikube   <none>           <none>
 
 ▶️  Проверка ответа сервиса перед остановкой v1...
-  Response: pong
+  Response: pong from v1
 
 ▶️  Масштабируем v1 до 0 реплик (имитация отказа)...
 deployment.apps/booking-service-v1 scaled
@@ -20,26 +19,25 @@ deployment.apps/booking-service-v1 scaled
 
 ▶️  Поды после остановки v1:
 NAME                                 READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
-booking-service-6458bfd544-knspx     1/1     Running   0          90m   10.244.0.3    minikube   <none>           <none>
-booking-service-v2-b8f99f9d6-cj4zc   2/2     Running   0          59s   10.244.0.11   minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-kzqnq   2/2     Running   0          52s   10.244.0.14   minikube   <none>           <none>
 
 ▶️  Отправка запросов (должны идти на v2 через fallback/circuit breaker)...
-  Request 1: pong
-  Request 2: pong
-  Request 3: pong
-  Request 4: pong
-  Request 5: pong
-  Request 6: pong
-  Request 7: pong
-  Request 8: pong
-  Request 9: pong
-  Request 10: pong
+  Request 1: ERROR
+  Request 2: ERROR
+  Request 3: ERROR
+  Request 4: ERROR
+  Request 5: ERROR
+  Request 6: ERROR
+  Request 7: ERROR
+  Request 8: ERROR
+  Request 9: ERROR
+  Request 10: ERROR
 
 =========================================
  Results:
-  Successful responses: 10 / 10
+  Successful responses: 0 / 10
 =========================================
-✅ Fallback/Circuit Breaker is working — traffic routed to v2
+❌ Fallback did not work — no successful responses
 
 ▶️  Восстанавливаем v1 (1 реплика)...
 deployment.apps/booking-service-v1 scaled

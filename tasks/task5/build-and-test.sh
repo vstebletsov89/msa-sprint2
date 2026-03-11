@@ -75,6 +75,7 @@ log "Cleaning previous Helm releases..."
 helm uninstall booking-service-v1 2>/dev/null || true
 helm uninstall booking-service-v2 2>/dev/null || true
 
+kubectl delete deployment booking-service 2>/dev/null || true
 kubectl delete svc booking-service 2>/dev/null || true
 
 success "Previous Helm releases removed"

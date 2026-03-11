@@ -1,27 +1,26 @@
 === KUBECTL GET PODS ===
-Timestamp: Wed Mar 11 20:03:11 CEST 2026
+Timestamp: Wed Mar 11 20:11:57 CEST 2026
 
 NAME                                  READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
-booking-service-6458bfd544-knspx      1/1     Running   0          90m   10.244.0.3    minikube   <none>           <none>
-booking-service-v1-6f4676dc87-jv7rj   2/2     Running   0          27s   10.244.0.10   minikube   <none>           <none>
-booking-service-v2-b8f99f9d6-cj4zc    2/2     Running   0          14s   10.244.0.11   minikube   <none>           <none>
+booking-service-v1-6f4676dc87-7hn9w   2/2     Running   0          27s   10.244.0.13   minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-kzqnq    2/2     Running   0          15s   10.244.0.14   minikube   <none>           <none>
 
 === KUBECTL GET SERVICES ===
 
-NAME              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
-booking-service   ClusterIP   10.110.100.163   <none>        80/TCP    27s
+NAME              TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
+booking-service   ClusterIP   10.110.68.7   <none>        80/TCP    28s
 
 === KUBECTL GET VIRTUALSERVICES ===
 
 NAME              GATEWAYS   HOSTS                 AGE
-booking-service              ["booking-service"]   1s
+booking-service              ["booking-service"]   8m47s
 
 === KUBECTL GET DESTINATIONRULES ===
 
 NAME              HOST              AGE
-booking-service   booking-service   2s
+booking-service   booking-service   8m48s
 
 === KUBECTL GET ENVOYFILTERS ===
 
 NAME                          AGE
-booking-feature-flag-filter   1s
+booking-feature-flag-filter   8m47s

@@ -1,6 +1,23 @@
+
 const { ApolloServer } = require('@apollo/server');
 const { startStandaloneServer } = require('@apollo/server/standalone');
-const { ApolloGateway, IntrospectAndCompose } = require('@apollo/gateway');
+const { ApolloGateway, IntrospectAndCompose, RemoteGraphQLDataSource } = require('@apollo/gateway');
+
+class AuthenticatedDataSource extends RemoteGraphQLDataSource {
+  willSendRequest({ request, context }) {
+    // Пробрасываем userid из входящего запроса в subgraphs
+    if (context.userid) {
+      request.http.headers.set('userid', context.userid);
+    }
+    if (context.userHeaders) {
+      for (const [key, value] of Object.entries(context.userHeaders)) {
+        if (key !== 'host' && key !== 'content-length' && key !== 'content-type') {
+          request.http.headers.set(key, value);
+        }
+      }
+    }
+  }
+}
 
 async function startGateway() {
   const gateway = new ApolloGateway({
@@ -11,6 +28,9 @@ async function startGateway() {
         { name: 'promocode', url: 'http://promocode-subgraph:4003/' }
       ],
     }),
+    buildService({ url }) {
+      return new AuthenticatedDataSource({ url });
+    },
     debug: true
   });
 
@@ -41,7 +61,8 @@ async function startGateway() {
     listen: { port: 4000 },
     context: async ({ req }) => {
       return {
-        headers: req.headers
+        userid: req.headers['userid'] || req.headers['user-id'],
+        userHeaders: req.headers
       };
     }
   });
@@ -51,11 +72,6 @@ async function startGateway() {
   console.log('  - booking-subgraph (port 4001) - ACL enabled');
   console.log('  - hotel-subgraph (port 4002) - DataLoader enabled');
   console.log('  - promocode-subgraph (port 4003) - @override enabled');
-  console.log('');
-  console.log('🧪 Test queries:');
-  console.log('  - userBookings(userId: "test-user-1") - with userid header');
-  console.log('  - hotels with booking references (tests N+1 solution)');
-  console.log('  - discountPercent field (tests @override from promocode)');
 }
 
 startGateway().catch(error => {

@@ -1,0 +1,10 @@
+=== ЛОГИ BOOKING-SUBGRAPH ===
+Timestamp: Wed Mar 11 09:34:30 CEST 2026
+
+booking-subgraph-1  | Enabling inline tracing for this subgraph. To disable, use ApolloServerPluginInlineTraceDisabled.
+booking-subgraph-1  | 🚀 Booking subgraph ready at http://localhost:4001/
+booking-subgraph-1  | 📋 Available headers for ACL: userid, user-id
+booking-subgraph-1  | 🔐 ACL Check: requesting user=test-user-1, target user=test-user-1
+booking-subgraph-1  | ✅ ACL passed for user test-user-1
+booking-subgraph-1  | 🔐 ACL Check: requesting user=test-user-2, target user=test-user-1
+booking-subgraph-1  | ❌ ACL violation: user test-user-2 tried to access bookings of test-user-1

@@ -1,0 +1,9 @@
+=== УСПЕШНЫЙ ВЫЗОВ (ACL PASS) ===
+Timestamp: Wed Mar 11 09:34:30 CEST 2026
+
+Request:
+  Header: userid: test-user-1
+  Query: GetUserBookings { userBookings(userId: "test-user-1") { id userId hotelId promoCode hotel { name } discountPercent discountInfo { isValid originalDiscount finalDiscount description } } }
+
+Response:
+{"data":{"userBookings":[{"id":"b1","userId":"test-user-1","hotelId":"h1","promoCode":"SUMMER2024","checkIn":"2024-07-01","checkOut":"2024-07-07","status":"CONFIRMED","hotel":{"id":"h1","name":"Grand Seoul Hotel","city":"Seoul","address":"123 Gangnam-gu, Seoul","rating":4.8,"pricePerNight":200},"discountPercent":0,"discountInfo":{"isValid":false,"originalDiscount":0,"finalDiscount":0,"description":"No promo code applied","expiresAt":null,"applicableHotels":[]}},{"id":"b3","userId":"test-user-1","hotelId":"h3","promoCode":"WINTER2024","checkIn":"2024-12-01","checkOut":"2024-12-10","status":"CONFIRMED","hotel":{"id":"h3","name":"Busan Beach Resort","city":"Busan","address":"789 Haeundae, Busan","rating":4.2,"pricePerNight":150},"discountPercent":0,"discountInfo":{"isValid":false,"originalDiscount":0,"finalDiscount":0,"description":"No promo code applied","expiresAt":null,"applicableHotels":[]}}]}}

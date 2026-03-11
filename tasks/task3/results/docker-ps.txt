@@ -1,0 +1,8 @@
+=== DOCKER PS ===
+Timestamp: Wed Mar 11 09:34:29 CEST 2026
+
+NAMES                        STATUS                            PORTS
+task3-apollo-gateway-1       Up 3 seconds (health: starting)   0.0.0.0:4000->4000/tcp, [::]:4000->4000/tcp
+task3-promocode-subgraph-1   Up 9 seconds (healthy)            0.0.0.0:4003->4003/tcp, [::]:4003->4003/tcp
+task3-hotel-subgraph-1       Up 9 seconds (healthy)            0.0.0.0:4002->4002/tcp, [::]:4002->4002/tcp
+task3-booking-subgraph-1     Up 9 seconds (healthy)            0.0.0.0:4001->4001/tcp, [::]:4001->4001/tcp

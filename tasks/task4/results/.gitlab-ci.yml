@@ -1,0 +1,38 @@
+stages:
+  - build
+  - test
+  - deploy
+  - tag
+
+variables:
+  IMAGE_NAME: booking-service
+  IMAGE_TAG: latest
+  CONTAINER_NAME: booking-service-test
+  HELM_RELEASE: booking-service
+  HELM_CHART_PATH: helm/booking-service
+  HELM_VALUES_FILE: helm/booking-service/values.yaml
+
+build:
+  stage: build
+  script:
+    - docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ./booking-service
+
+test:
+  stage: test
+  script:
+    - docker rm -f ${CONTAINER_NAME} || true
+    - docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}
+    - sleep 5
+    - curl --fail http://localhost:8080/ping
+    - docker rm -f ${CONTAINER_NAME}
+
+deploy:
+  stage: deploy
+  script:
+    - minikube image load ${IMAGE_NAME}:${IMAGE_TAG}
+    - helm upgrade --install ${HELM_RELEASE} ${HELM_CHART_PATH} -f ${HELM_VALUES_FILE}
+
+tag:
+  stage: tag
+  script:
+    - git tag deploy-$(date +%Y%m%d%H%M%S)

@@ -1,6 +1,68 @@
+
 #!/bin/bash
 
 set -e
 
-echo "▶️ Testing fallback route..."
-curl -s http://localhost:9090/ping || echo "Fallback route working"
+echo "========================================="
+echo " Fallback Route Test"
+echo "========================================="
+echo ""
+
+SERVICE_URL="${SERVICE_URL:-http://localhost:9090}"
+
+echo "▶️  Текущие поды booking-service:"
+kubectl get pods -l app=booking-service -o wide
+echo ""
+
+echo "▶️  Проверка ответа сервиса перед остановкой v1..."
+RESPONSE_BEFORE=$(curl -s "$SERVICE_URL/ping" 2>/dev/null || echo "ERROR")
+echo "  Response: $RESPONSE_BEFORE"
+echo ""
+
+# Масштабируем v1 до 0 реплик для имитации отказа
+echo "▶️  Масштабируем v1 до 0 реплик (имитация отказа)..."
+kubectl scale deployment booking-service-v1 --replicas=0 2>/dev/null || echo "  Deployment booking-service-v1 not found, skipping scale"
+
+echo "  Ожидание завершения подов v1..."
+sleep 10
+
+echo ""
+echo "▶️  Поды после остановки v1:"
+kubectl get pods -l app=booking-service -o wide
+echo ""
+
+echo "▶️  Отправка запросов (должны идти на v2 через fallback/circuit breaker)..."
+SUCCESS=0
+TOTAL=10
+
+for i in $(seq 1 $TOTAL); do
+  RESPONSE=$(curl -s --max-time 5 "$SERVICE_URL/ping" 2>/dev/null || echo "ERROR")
+  echo "  Request $i: $RESPONSE"
+  if echo "$RESPONSE" | grep -q "pong"; then
+    SUCCESS=$((SUCCESS + 1))
+  fi
+done
+
+echo ""
+echo "========================================="
+echo " Results:"
+echo "  Successful responses: $SUCCESS / $TOTAL"
+echo "========================================="
+
+if [ $SUCCESS -ge 1 ]; then
+  echo "✅ Fallback/Circuit Breaker is working — traffic routed to v2"
+else
+  echo "❌ Fallback did not work — no successful responses"
+fi
+
+echo ""
+echo "▶️  Восстанавливаем v1 (1 реплика)..."
+kubectl scale deployment booking-service-v1 --replicas=1 2>/dev/null || echo "  Could not restore v1"
+
+echo "  Ожидание запуска v1..."
+kubectl rollout status deployment/booking-service-v1 --timeout=60s 2>/dev/null || true
+
+echo ""
+echo "========================================="
+echo " Fallback Test Complete"
+echo "========================================="

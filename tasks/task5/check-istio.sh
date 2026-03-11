@@ -2,8 +2,46 @@
 
 set -e
 
-echo "▶️ Проверка установки Istio..."
-kubectl get pods -n istio-system
+echo "========================================="
+echo " Istio Installation Check"
+echo "========================================="
 
-echo "▶️ Проверка Istio инъекции в default namespace..."
-kubectl get namespace default -o json | jq '.metadata.labels."istio-injection"'
+echo ""
+echo "▶️  Проверка установки Istio (istio-system pods)..."
+kubectl get pods -n istio-system
+echo ""
+
+echo "▶️  Проверка версии Istio..."
+istioctl version 2>/dev/null || echo "istioctl not found in PATH"
+echo ""
+
+echo "▶️  Проверка Istio инъекции в default namespace..."
+INJECTION=$(kubectl get namespace default -o jsonpath='{.metadata.labels.istio-injection}' 2>/dev/null || echo "not set")
+echo "istio-injection: $INJECTION"
+
+if [ "$INJECTION" == "enabled" ]; then
+  echo "✅ Istio injection is ENABLED in default namespace"
+else
+  echo "❌ Istio injection is NOT enabled. Run: kubectl label namespace default istio-injection=enabled --overwrite"
+fi
+echo ""
+
+echo "▶️  Проверка подов booking-service (sidecar-proxy)..."
+kubectl get pods -l app=booking-service -o wide
+echo ""
+
+echo "▶️  Проверка VirtualService..."
+kubectl get virtualservices
+echo ""
+
+echo "▶️  Проверка DestinationRule..."
+kubectl get destinationrules
+echo ""
+
+echo "▶️  Проверка EnvoyFilter..."
+kubectl get envoyfilters
+echo ""
+
+echo "========================================="
+echo " Istio Check Complete"
+echo "========================================="

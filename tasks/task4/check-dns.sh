@@ -2,9 +2,19 @@
 
 set -e
 
-echo "▶️ Running in-cluster DNS test..."
+echo "[INFO] Running in-cluster DNS test..."
 
-kubectl run dns-test --rm -it \
+DNS_RESPONSE=$(kubectl run dns-test \
   --image=busybox \
   --restart=Never \
-  -- wget -qO- http://booking-service/ping && echo "✅ Success" || echo "❌ Failed"
+  --rm -i \
+  --command -- wget -qO- http://booking-service/ping)
+
+echo "[INFO] DNS Response: ${DNS_RESPONSE}"
+
+if [ "${DNS_RESPONSE}" = "pong" ]; then
+  echo "[PASS] DNS test succeeded"
+else
+  echo "[FAIL] DNS test failed"
+  exit 1
+fi

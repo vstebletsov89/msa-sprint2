@@ -1,5 +1,5 @@
 === check-fallback.sh ===
-Timestamp: Wed Mar 11 20:20:45 CEST 2026
+Timestamp: Thu Mar 12 20:52:17 CEST 2026
 
 =========================================
  Fallback Route Test
@@ -7,8 +7,8 @@ Timestamp: Wed Mar 11 20:20:45 CEST 2026
 
 ▶️  Текущие поды booking-service:
 NAME                                  READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
-booking-service-v1-6f4676dc87-4zzlf   2/2     Running   0          68s   10.244.0.16   minikube   <none>           <none>
-booking-service-v2-b8f99f9d6-qpldb    2/2     Running   0          56s   10.244.0.17   minikube   <none>           <none>
+booking-service-v1-6f4676dc87-98xd2   2/2     Running   0          65s   10.244.0.40   minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-bbjv4    2/2     Running   0          53s   10.244.0.41   minikube   <none>           <none>
 
 ▶️  Проверка ответа сервиса перед остановкой v1...
   Response: pong from v1
@@ -16,35 +16,45 @@ booking-service-v2-b8f99f9d6-qpldb    2/2     Running   0          56s   10.244.
 ▶️  Масштабируем v1 до 0 реплик (имитация отказа)...
 deployment.apps/booking-service-v1 scaled
   Ожидание завершения подов v1...
-pod/booking-service-v1-6f4676dc87-4zzlf condition met
+pod/booking-service-v1-6f4676dc87-98xd2 condition met
 
 ▶️  Поды после остановки v1:
 NAME                                 READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
-booking-service-v2-b8f99f9d6-qpldb   2/2     Running   0          58s   10.244.0.17   minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-bbjv4   2/2     Running   0          56s   10.244.0.41   minikube   <none>           <none>
 
-▶️  Отправка запросов (должны идти на v2 через fallback/circuit breaker)...
-  Request 1: no healthy upstream
-  Request 2: no healthy upstream
+Waiting 10s for Istio EDS update...
+
+▶️  Активируем fallback VirtualService (100% traffic → v2)...
+virtualservice.networking.istio.io/booking-service configured
+Waiting 5s for VirtualService propagation...
+
+▶️  Отправка запросов (ожидаем только pong-v2)...
+  Request 1: pong from v2
+  Request 2: pong from v2
   Request 3: pong from v2
-  Request 4: no healthy upstream
-  Request 5: no healthy upstream
-  Request 6: no healthy upstream
-  Request 7: no healthy upstream
-  Request 8: no healthy upstream
-  Request 9: no healthy upstream
-  Request 10: no healthy upstream
+  Request 4: pong from v2
+  Request 5: pong from v2
+  Request 6: pong from v2
+  Request 7: pong from v2
+  Request 8: pong from v2
+  Request 9: pong from v2
+  Request 10: pong from v2
 
 =========================================
  Results:
-  Successful responses: 1 / 10
+  Successful responses: 10 / 10
 =========================================
-✅ Fallback/Circuit Breaker is working — traffic routed to v2
+✅ Fallback works — all traffic routed to v2
 
-▶️  Восстанавливаем v1 (1 реплика)...
+▶️  Восстанавливаем систему...
+Scaling v1 back to 1 replica...
 deployment.apps/booking-service-v1 scaled
-  Ожидание запуска v1...
+Waiting for v1 rollout...
 Waiting for deployment "booking-service-v1" rollout to finish: 0 of 1 updated replicas are available...
 deployment "booking-service-v1" successfully rolled out
+
+▶️  Восстанавливаем Canary VirtualService (90/10)...
+virtualservice.networking.istio.io/booking-service configured
 
 =========================================
  Fallback Test Complete

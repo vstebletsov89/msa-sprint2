@@ -1,5 +1,5 @@
 === check-feature-flag.sh ===
-Timestamp: Wed Mar 11 20:20:44 CEST 2026
+Timestamp: Thu Mar 12 20:52:15 CEST 2026
 
 =========================================
  Feature Flag Routing Test

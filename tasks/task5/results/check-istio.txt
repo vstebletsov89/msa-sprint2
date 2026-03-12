@@ -1,15 +1,15 @@
 === check-istio.sh ===
-Timestamp: Wed Mar 11 20:20:08 CEST 2026
+Timestamp: Thu Mar 12 20:51:42 CEST 2026
 
 =========================================
  Istio Installation Check
 =========================================
 
 ▶️  Проверка установки Istio (istio-system pods)...
-NAME                                    READY   STATUS    RESTARTS   AGE
-istio-egressgateway-7f67df695d-z7wpk    1/1     Running   0          75m
-istio-ingressgateway-76768cbcf6-tzc8n   1/1     Running   0          75m
-istiod-76d6698857-8f9fv                 1/1     Running   0          76m
+NAME                                    READY   STATUS    RESTARTS      AGE
+istio-egressgateway-7f67df695d-z7wpk    1/1     Running   1 (37m ago)   25h
+istio-ingressgateway-76768cbcf6-tzc8n   1/1     Running   1 (37m ago)   25h
+istiod-76d6698857-8f9fv                 1/1     Running   1 (37m ago)   25h
 
 ▶️  Проверка Istio инъекции в default namespace...
 istio-injection: enabled
@@ -17,20 +17,20 @@ istio-injection: enabled
 
 ▶️  Проверка подов booking-service (sidecar-proxy)...
 NAME                                  READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
-booking-service-v1-6f4676dc87-4zzlf   2/2     Running   0          30s   10.244.0.16   minikube   <none>           <none>
-booking-service-v2-b8f99f9d6-qpldb    2/2     Running   0          18s   10.244.0.17   minikube   <none>           <none>
+booking-service-v1-6f4676dc87-98xd2   2/2     Running   0          31s   10.244.0.40   minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-bbjv4    2/2     Running   0          19s   10.244.0.41   minikube   <none>           <none>
 
 ▶️  Проверка VirtualService...
 NAME              GATEWAYS   HOSTS                 AGE
-booking-service              ["booking-service"]   16m
+booking-service              ["booking-service"]   24h
 
 ▶️  Проверка DestinationRule...
 NAME              HOST              AGE
-booking-service   booking-service   16m
+booking-service   booking-service   24h
 
 ▶️  Проверка EnvoyFilter...
 NAME                          AGE
-booking-feature-flag-filter   16m
+booking-feature-flag-filter   24h
 
 =========================================
  Istio Check Complete

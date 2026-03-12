@@ -70,7 +70,6 @@ public class BookingEventConsumer {
             return;
         }
 
-        // IMPORTANT FIX
         var bookingCreatedAt = event.getCreatedAt() != null
                 ? event.getCreatedAt()
                 : event.getEventTimestamp();

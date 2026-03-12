@@ -6,7 +6,8 @@ spec:
   hosts:
     - booking-service
   http:
-    # 1. Feature-flag маршрут: заголовок X-Feature-Enabled: true → v2
+
+    # 1. Feature flag: если есть заголовок — весь трафик на v2
     - match:
         - headers:
             X-Feature-Enabled:
@@ -16,8 +17,13 @@ spec:
             host: booking-service
             subset: v2
           weight: 100
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: 5xx,connect-failure,refused-stream,reset
+      timeout: 10s
 
-    # 2. Канареечный Release: 90% v1, 10% v2 с fallback (retries обеспечат fallback)
+    # 2. Canary release 90% v1 / 10% v2
     - route:
         - destination:
             host: booking-service
@@ -27,8 +33,10 @@ spec:
             host: booking-service
             subset: v2
           weight: 10
+
       retries:
         attempts: 3
         perTryTimeout: 2s
-        retryOn: 5xx,reset,connect-failure,retriable-4xx
+        retryOn: 5xx,connect-failure,refused-stream,reset
+
       timeout: 10s

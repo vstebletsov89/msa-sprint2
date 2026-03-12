@@ -55,10 +55,10 @@ echo " Results:"
 echo "  Successful responses: $SUCCESS / $TOTAL"
 echo "========================================="
 
-if [ $SUCCESS -ge 1 ]; then
-  echo "✅ Fallback/Circuit Breaker is working — traffic routed to v2"
+if [ $SUCCESS -ge 8 ]; then
+  echo "✅ Fallback works — traffic routed to v2"
 else
-  echo "❌ Fallback did not work — no successful responses"
+  echo "❌ Fallback not working"
 fi
 
 echo ""

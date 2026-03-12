@@ -11,10 +11,6 @@ echo "▶️  Проверка установки Istio (istio-system pods)..."
 kubectl get pods -n istio-system
 echo ""
 
-echo "▶️  Проверка версии Istio..."
-istioctl version 2>/dev/null || echo "istioctl not found in PATH"
-echo ""
-
 echo "▶️  Проверка Istio инъекции в default namespace..."
 INJECTION=$(kubectl get namespace default -o jsonpath='{.metadata.labels.istio-injection}' 2>/dev/null || echo "not set")
 echo "istio-injection: $INJECTION"

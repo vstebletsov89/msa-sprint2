@@ -1,0 +1,31 @@
+=== ЛИСТИНГ БРОНИРОВАНИЙ ЧЕРЕЗ gRPC ===
+gRPC Endpoint: booking-service:9090
+Timestamp: Mon Mar  9 19:29:08 CEST 2026
+
+ПРИМЕЧАНИЕ: gRPC сервис работает только для inter-service коммуникации
+REST запросы к монолиту автоматически проксируются в gRPC booking-service
+
+Архитектура:
+Client -> REST API (монолит:8084) -> gRPC (booking-service:9090) -> БД
+
+Логи gRPC вызовов в booking-service:
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.b.service.EventPublisherService - 📤 STARTING publish: bookingId=dafe8c18-962c-4414-ac45-3465e83a34f9 eventId=065ad966-fa02-483b-968d-6f2da626084a topic=booking-created
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.b.service.EventPublisherService - 📝 JSON serialized: length=275 content={"bookingId":"dafe8c18-962c-4414-ac45-3465e83a34f9","userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":0.0,"price":100.0,"createdAt":null,"eventId":"065ad966-fa02-483b-968d-6f2da626084a","eventTimestamp":"2026-03-09T18:29:04.486269638"}
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.b.service.EventPublisherService - 📨 Send request submitted for bookingId=dafe8c18-962c-4414-ac45-3465e83a34f9
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - 🔔 EventPublisher CALL COMPLETED for bookingId: dafe8c18-962c-4414-ac45-3465e83a34f9
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Booking created successfully with ID: dafe8c18-962c-4414-ac45-3465e83a34f9
+2026-03-09 18:29:04 [kafka-producer-network-thread | producer-1] INFO  c.h.b.service.EventPublisherService - ✅ KAFKA SEND SUCCESS: bookingId=dafe8c18-962c-4414-ac45-3465e83a34f9 topic=booking-created partition=0 offset=1 timestamp=1773080944486
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Successfully created booking with ID: dafe8c18-962c-4414-ac45-3465e83a34f9
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Received createBooking request for userId: test-user-0, hotelId: test-hotel-1
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Creating booking: userId=test-user-0, hotelId=test-hotel-1, promoCode=null
+2026-03-09 18:29:04 [grpc-default-executor-1] WARN  c.h.b.service.BookingBusinessService - User test-user-0 is inactive
+2026-03-09 18:29:04 [grpc-default-executor-1] WARN  c.h.booking.grpc.BookingGrpcService - Invalid booking request: User is inactive
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Received createBooking request for userId: test-user-2, hotelId: test-hotel-3
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Creating booking: userId=test-user-2, hotelId=test-hotel-3, promoCode=null
+2026-03-09 18:29:04 [grpc-default-executor-1] WARN  c.h.b.service.BookingBusinessService - Hotel test-hotel-3 is not operational
+2026-03-09 18:29:04 [grpc-default-executor-1] WARN  c.h.booking.grpc.BookingGrpcService - Invalid booking request: Hotel is not operational
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.booking.grpc.BookingGrpcService - Received createBooking request for userId: test-user-2, hotelId: test-hotel-2
+2026-03-09 18:29:04 [grpc-default-executor-1] INFO  c.h.b.service.BookingBusinessService - Creating booking: userId=test-user-2, hotelId=test-hotel-2, promoCode=null
+2026-03-09 18:29:04 [grpc-default-executor-1] WARN  c.h.b.service.ExternalServiceClient - Fallback triggered for isHotelTrusted with hotelId: test-hotel-2, error: 404 : "{"timestamp":"2026-03-09T18:29:04.770+00:00","status":404,"error":"Not Found","path":"/api/api/reviews/trusted/test-hotel-2"}"
+2026-03-09 18:29:04 [grpc-default-executor-1] WARN  c.h.b.service.BookingBusinessService - Hotel test-hotel-2 is fully booked
+2026-03-09 18:29:04 [grpc-default-executor-1] WARN  c.h.booking.grpc.BookingGrpcService - Invalid booking request: Hotel is fully booked

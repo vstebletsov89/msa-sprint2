@@ -1,0 +1,61 @@
+=== check-fallback.sh ===
+Timestamp: Thu Mar 12 20:52:17 CEST 2026
+
+=========================================
+ Fallback Route Test
+=========================================
+
+▶️  Текущие поды booking-service:
+NAME                                  READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
+booking-service-v1-6f4676dc87-98xd2   2/2     Running   0          65s   10.244.0.40   minikube   <none>           <none>
+booking-service-v2-b8f99f9d6-bbjv4    2/2     Running   0          53s   10.244.0.41   minikube   <none>           <none>
+
+▶️  Проверка ответа сервиса перед остановкой v1...
+  Response: pong from v1
+
+▶️  Масштабируем v1 до 0 реплик (имитация отказа)...
+deployment.apps/booking-service-v1 scaled
+  Ожидание завершения подов v1...
+pod/booking-service-v1-6f4676dc87-98xd2 condition met
+
+▶️  Поды после остановки v1:
+NAME                                 READY   STATUS    RESTARTS   AGE   IP            NODE       NOMINATED NODE   READINESS GATES
+booking-service-v2-b8f99f9d6-bbjv4   2/2     Running   0          56s   10.244.0.41   minikube   <none>           <none>
+
+Waiting 10s for Istio EDS update...
+
+▶️  Активируем fallback VirtualService (100% traffic → v2)...
+virtualservice.networking.istio.io/booking-service configured
+Waiting 5s for VirtualService propagation...
+
+▶️  Отправка запросов (ожидаем только pong-v2)...
+  Request 1: pong from v2
+  Request 2: pong from v2
+  Request 3: pong from v2
+  Request 4: pong from v2
+  Request 5: pong from v2
+  Request 6: pong from v2
+  Request 7: pong from v2
+  Request 8: pong from v2
+  Request 9: pong from v2
+  Request 10: pong from v2
+
+=========================================
+ Results:
+  Successful responses: 10 / 10
+=========================================
+✅ Fallback works — all traffic routed to v2
+
+▶️  Восстанавливаем систему...
+Scaling v1 back to 1 replica...
+deployment.apps/booking-service-v1 scaled
+Waiting for v1 rollout...
+Waiting for deployment "booking-service-v1" rollout to finish: 0 of 1 updated replicas are available...
+deployment "booking-service-v1" successfully rolled out
+
+▶️  Восстанавливаем Canary VirtualService (90/10)...
+virtualservice.networking.istio.io/booking-service configured
+
+=========================================
+ Fallback Test Complete
+=========================================

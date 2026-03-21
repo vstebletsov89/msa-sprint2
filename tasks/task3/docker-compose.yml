@@ -1,20 +1,123 @@
-version: '3.8'
+networks:
+  hotelio-federation:
+    driver: bridge
 
 services:
-  apollo-gateway:
-    build: ./gateway
-    ports:
-      - "4000:4000"
-    depends_on:
-      - booking-subgraph
-      - hotel-subgraph
-
   booking-subgraph:
-    build: ./booking-subgraph
+    build:
+      context: ./booking-subgraph
+      dockerfile: Dockerfile
     ports:
       - "4001:4001"
+    networks:
+      - hotelio-federation
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4001/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'{__typename}'})}).then(r=>{if(r.ok)process.exit(0);else process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   hotel-subgraph:
-    build: ./hotel-subgraph
+    build:
+      context: ./hotel-subgraph
+      dockerfile: Dockerfile
     ports:
       - "4002:4002"
+    networks:
+      - hotelio-federation
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4002/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'{__typename}'})}).then(r=>{if(r.ok)process.exit(0);else process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  promocode-subgraph:
+    build:
+      context: ./promocode-subgraph
+      dockerfile: Dockerfile
+    ports:
+      - "4003:4003"
+    networks:
+      - hotelio-federation
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4003/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'{__typename}'})}).then(r=>{if(r.ok)process.exit(0);else process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  apollo-gateway:
+    build:
+      context: ./apollo-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    networks:
+      - hotelio-federation
+    depends_on:
+      booking-subgraph:
+        condition: service_healthy
+      hotel-subgraph:
+        condition: service_healthy
+      promocode-subgraph:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4000/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:'{__typename}'})}).then(r=>{if(r.ok)process.exit(0);else process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

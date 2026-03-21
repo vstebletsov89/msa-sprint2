@@ -1,0 +1,9 @@
+=== ACL DENY ===
+Timestamp: Wed Mar 11 09:34:30 CEST 2026
+
+Request:
+  Header: userid: test-user-2
+  Query: userBookings(userId: "test-user-1") — чужие бронирования
+
+Response (ожидается ошибка Access denied):
+{"errors":[{"message":"Access denied: You can only view your own bookings","path":["userBookings"],"extensions":{"code":"INTERNAL_SERVER_ERROR","serviceName":"booking"}}],"data":null}

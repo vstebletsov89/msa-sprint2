@@ -1,0 +1,38 @@
+=== СТРУКТУРА И ДАННЫЕ ИЗ BOOKING SERVICE БД ===
+Список таблиц:
+                List of relations
+ Schema |         Name          | Type  |  Owner  
+--------+-----------------------+-------+---------
+ public | bookings              | table | booking
+ public | flyway_schema_history | table | booking
+(2 rows)
+
+
+Структура таблицы bookings:
+                                  Table "public.bookings"
+      Column      |            Type             | Collation | Nullable |      Default      
+------------------+-----------------------------+-----------+----------+-------------------
+ id               | uuid                        |           | not null | gen_random_uuid()
+ user_id          | character varying(255)      |           | not null | 
+ hotel_id         | character varying(255)      |           | not null | 
+ promo_code       | character varying(100)      |           |          | 
+ discount_percent | numeric(5,2)                |           |          | 0.00
+ price            | numeric(10,2)               |           | not null | 
+ created_at       | timestamp without time zone |           | not null | CURRENT_TIMESTAMP
+ version          | bigint                      |           |          | 0
+Indexes:
+    "bookings_pkey" PRIMARY KEY, btree (id)
+    "idx_bookings_created_at" btree (created_at)
+    "idx_bookings_hotel_id" btree (hotel_id)
+    "idx_bookings_user_id" btree (user_id)
+
+
+Данные из таблицы bookings:
+                  id                  |   user_id   |   hotel_id   | promo_code | discount_percent | price  |         created_at         | version 
+--------------------------------------+-------------+--------------+------------+------------------+--------+----------------------------+---------
+ 048bba35-0aea-410d-b5a5-19abc010737e | test-user-2 | test-hotel-1 | TESTCODE1  |            10.00 |  90.00 | 2026-03-09 18:29:01.743168 |       0
+ fe26b5a7-35cc-4ca7-b386-e0e47a6a530a | test-user-3 | test-hotel-1 |            |             0.00 |  80.00 | 2026-03-09 18:29:01.743168 |       0
+ db265770-29be-4845-b5d4-902605fdf0aa | test-user-3 | test-hotel-1 |            |             0.00 |  80.00 | 2026-03-09 18:29:04.246392 |       0
+ dafe8c18-962c-4414-ac45-3465e83a34f9 | test-user-2 | test-hotel-1 | TESTCODE1  |             0.00 | 100.00 | 2026-03-09 18:29:04.487503 |       0
+(4 rows)
+

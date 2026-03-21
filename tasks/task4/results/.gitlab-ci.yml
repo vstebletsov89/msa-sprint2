@@ -1,0 +1,63 @@
+stages:
+  - build
+  - test
+  - deploy
+  - tag
+
+variables:
+  IMAGE_NAME: booking-service
+  IMAGE_TAG: latest
+  CONTAINER_NAME: booking-service-test
+  HELM_RELEASE: booking-service
+  HELM_CHART_PATH: helm/booking-service
+  HELM_VALUES_FILE: helm/booking-service/values.yaml
+
+build:
+  stage: build
+  script:
+    - echo "Building Docker image..."
+    - docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ./booking-service
+    - docker image ls | grep ${IMAGE_NAME}
+
+test:
+  stage: test
+  script:
+    - echo "Starting container for test..."
+    - docker rm -f ${CONTAINER_NAME} || true
+    - docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}
+
+    - echo "Waiting for service..."
+    - sleep 5
+
+    - echo "Testing /ping endpoint..."
+    - curl --fail http://localhost:8080/ping
+
+    - echo "Cleaning up container..."
+    - docker rm -f ${CONTAINER_NAME}
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Checking Minikube..."
+    - minikube status
+
+    - echo "Loading image into Minikube..."
+    - minikube image load ${IMAGE_NAME}:${IMAGE_TAG}
+
+    - echo "Deploying Helm chart..."
+    - helm upgrade --install ${HELM_RELEASE} ${HELM_CHART_PATH} \
+      -f ${HELM_VALUES_FILE} \
+      --atomic
+
+    - echo "Waiting for deployment rollout..."
+    - kubectl rollout status deployment/${HELM_RELEASE}
+
+    - echo "Pods status:"
+    - kubectl get pods
+    - kubectl get svc
+
+tag:
+  stage: tag
+  script:
+    - echo "Creating deployment tag..."
+    - git tag deploy-$(date +%Y%m%d%H%M%S)

@@ -1,0 +1,143 @@
+=== ЛОГИ ВСЕХ КОНТЕЙНЕРОВ ===
+Timestamp: Wed Mar 11 09:34:31 CEST 2026
+
+promocode-subgraph-1  | Enabling inline tracing for this subgraph. To disable, use ApolloServerPluginInlineTraceDisabled.
+promocode-subgraph-1  | 🚀 Promocode subgraph ready at http://localhost:4003/
+promocode-subgraph-1  | 🎟️ @override configured for discountPercent field
+promocode-subgraph-1  | 🔄 Resolving booking reference: b1, promoCode: undefined
+promocode-subgraph-1  | 🔄 Resolving booking reference: b3, promoCode: undefined
+promocode-subgraph-1  | 💰 @override discountPercent for booking b1 with promo: undefined
+promocode-subgraph-1  | 💰 Getting discount info for booking b1, promo: undefined
+promocode-subgraph-1  | 💰 @override discountPercent for booking b3 with promo: undefined
+promocode-subgraph-1  | 💰 Getting discount info for booking b3, promo: undefined
+booking-subgraph-1    | Enabling inline tracing for this subgraph. To disable, use ApolloServerPluginInlineTraceDisabled.
+booking-subgraph-1    | 🚀 Booking subgraph ready at http://localhost:4001/
+booking-subgraph-1    | 📋 Available headers for ACL: userid, user-id
+booking-subgraph-1    | 🔐 ACL Check: requesting user=test-user-1, target user=test-user-1
+booking-subgraph-1    | ✅ ACL passed for user test-user-1
+booking-subgraph-1    | 🔐 ACL Check: requesting user=test-user-2, target user=test-user-1
+booking-subgraph-1    | ❌ ACL violation: user test-user-2 tried to access bookings of test-user-1
+apollo-gateway-1      | Gateway successfully initialized (but not yet loaded)
+apollo-gateway-1      | Loading gateway...
+apollo-gateway-1      | Gateway successfully loaded schema.
+apollo-gateway-1      | 	* Mode: unmanaged
+apollo-gateway-1      | 🚀 Apollo Gateway ready at http://localhost:4000/
+apollo-gateway-1      | 🌐 Federated subgraphs:
+apollo-gateway-1      |   - booking-subgraph (port 4001) - ACL enabled
+apollo-gateway-1      |   - hotel-subgraph (port 4002) - DataLoader enabled
+apollo-gateway-1      |   - promocode-subgraph (port 4003) - @override enabled
+apollo-gateway-1      | 🎯 GraphQL Operation: Anonymous
+apollo-gateway-1      | 📋 Query: {__typename}
+apollo-gateway-1      | 🔑 Request headers: {
+apollo-gateway-1      |   "host": "localhost:4000",
+apollo-gateway-1      |   "user-agent": "curl/8.18.0",
+hotel-subgraph-1      | Enabling inline tracing for this subgraph. To disable, use ApolloServerPluginInlineTraceDisabled.
+hotel-subgraph-1      | 🚀 Hotel subgraph ready at http://localhost:4002/
+hotel-subgraph-1      | 🎯 DataLoader configured for N+1 problem prevention
+apollo-gateway-1      |   "accept": "*/*",
+hotel-subgraph-1      | 🔄 Resolving hotel reference: h1
+hotel-subgraph-1      | 🔄 Resolving hotel reference: h3
+hotel-subgraph-1      | 🔄 Batch loading hotels for IDs: [h1, h3]
+hotel-subgraph-1      | ✅ Batch loaded 2 hotels
+apollo-gateway-1      |   "content-type": "application/json",
+hotel-subgraph-1      | ✅ Hotel reference resolved: Grand Seoul Hotel
+apollo-gateway-1      |   "content-length": "24"
+apollo-gateway-1      | }
+apollo-gateway-1      | 🎯 GraphQL Operation: Anonymous
+hotel-subgraph-1      | ✅ Hotel reference resolved: Busan Beach Resort
+apollo-gateway-1      | 📋 Query: query GetUserBookings { userBookings(userId: "test-user-1") { id userId hotelId promoCode checkIn checkOut status hotel { id name city address rating pricePerNight } discountPercent discountInfo { isValid originalDiscount finalDiscount description expiresAt applicableHotels } } }
+apollo-gateway-1      | QueryPlan {
+apollo-gateway-1      |   Sequence {
+apollo-gateway-1      |     Fetch(service: "booking") {
+apollo-gateway-1      |       {
+apollo-gateway-1      |         userBookings(userId: "test-user-1") {
+apollo-gateway-1      |           __typename
+apollo-gateway-1      |           id
+apollo-gateway-1      |           userId
+apollo-gateway-1      |           hotelId
+apollo-gateway-1      |           promoCode
+apollo-gateway-1      |           checkIn
+apollo-gateway-1      |           checkOut
+apollo-gateway-1      |           status
+apollo-gateway-1      |           hotel {
+apollo-gateway-1      |             __typename
+apollo-gateway-1      |             id
+apollo-gateway-1      |           }
+apollo-gateway-1      |         }
+apollo-gateway-1      |       }
+apollo-gateway-1      |     },
+apollo-gateway-1      |     Parallel {
+apollo-gateway-1      |       Flatten(path: "userBookings.@") {
+apollo-gateway-1      |         Fetch(service: "promocode") {
+apollo-gateway-1      |           {
+apollo-gateway-1      |             ... on Booking {
+apollo-gateway-1      |               __typename
+apollo-gateway-1      |               id
+apollo-gateway-1      |             }
+apollo-gateway-1      |           } =>
+apollo-gateway-1      |           {
+apollo-gateway-1      |             ... on Booking {
+apollo-gateway-1      |               discountPercent
+apollo-gateway-1      |               discountInfo {
+apollo-gateway-1      |                 isValid
+apollo-gateway-1      |                 originalDiscount
+apollo-gateway-1      |                 finalDiscount
+apollo-gateway-1      |                 description
+apollo-gateway-1      |                 expiresAt
+apollo-gateway-1      |                 applicableHotels
+apollo-gateway-1      |               }
+apollo-gateway-1      |             }
+apollo-gateway-1      |           }
+apollo-gateway-1      |         },
+apollo-gateway-1      |       },
+apollo-gateway-1      |       Flatten(path: "userBookings.@.hotel") {
+apollo-gateway-1      |         Fetch(service: "hotel") {
+apollo-gateway-1      |           {
+apollo-gateway-1      |             ... on Hotel {
+apollo-gateway-1      |               __typename
+apollo-gateway-1      |               id
+apollo-gateway-1      |             }
+apollo-gateway-1      |           } =>
+apollo-gateway-1      |           {
+apollo-gateway-1      |             ... on Hotel {
+apollo-gateway-1      |               name
+apollo-gateway-1      |               city
+apollo-gateway-1      |               address
+apollo-gateway-1      |               rating
+apollo-gateway-1      |               pricePerNight
+apollo-gateway-1      |             }
+apollo-gateway-1      |           }
+apollo-gateway-1      |         },
+apollo-gateway-1      |       },
+apollo-gateway-1      |     },
+apollo-gateway-1      |   },
+apollo-gateway-1      | }
+apollo-gateway-1      | 🔑 Request headers: {
+apollo-gateway-1      |   "host": "localhost:4000",
+apollo-gateway-1      |   "user-agent": "curl/8.18.0",
+apollo-gateway-1      |   "accept": "*/*",
+apollo-gateway-1      |   "content-type": "application/json",
+apollo-gateway-1      |   "userid": "test-user-1",
+apollo-gateway-1      |   "content-length": "294"
+apollo-gateway-1      | }
+apollo-gateway-1      | 🎯 GraphQL Operation: Anonymous
+apollo-gateway-1      | 📋 Query: query { userBookings(userId: "test-user-1") { id userId hotelId } }
+apollo-gateway-1      | QueryPlan {
+apollo-gateway-1      |   Fetch(service: "booking") {
+apollo-gateway-1      |     {
+apollo-gateway-1      |       userBookings(userId: "test-user-1") {
+apollo-gateway-1      |         id
+apollo-gateway-1      |         userId
+apollo-gateway-1      |         hotelId
+apollo-gateway-1      |       }
+apollo-gateway-1      |     }
+apollo-gateway-1      |   },
+apollo-gateway-1      | }
+apollo-gateway-1      | 🔑 Request headers: {
+apollo-gateway-1      |   "host": "localhost:4000",
+apollo-gateway-1      |   "user-agent": "curl/8.18.0",
+apollo-gateway-1      |   "accept": "*/*",
+apollo-gateway-1      |   "content-type": "application/json",
+apollo-gateway-1      |   "userid": "test-user-2",
+apollo-gateway-1      |   "content-length": "81"
+apollo-gateway-1      | }

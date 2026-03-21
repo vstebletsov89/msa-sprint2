@@ -1,0 +1,191 @@
+BOOKING HISTORY SERVICE STARTING - CODE VERSION: 2026-03-09-v3
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2026-03-10 19:41:25 [main] INFO  c.h.h.BookingHistoryApplication - Starting BookingHistoryApplication v1.0.0 using Java 21.0.10 with PID 1 (/app/app.jar started by root in /app)
+2026-03-10 19:41:25 [main] INFO  c.h.h.BookingHistoryApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-10 19:41:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-10 19:41:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 57 ms. Found 2 JPA repository interfaces.
+2026-03-10 19:41:28 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-03-10 19:41:28 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-10 19:41:28 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-03-10 19:41:28 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-03-10 19:41:28 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3109 ms
+2026-03-10 19:41:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-10 19:41:29 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4adf3582
+2026-03-10 19:41:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 9.22.3 by Redgate
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.license.VersionPrinter - See release notes here: https://rd.gt/416ObMi
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.license.VersionPrinter - 
+2026-03-10 19:41:29 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://booking-history-db:5432/booking_history_db (PostgreSQL 15.17)
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Schema history table "public"."flyway_schema_history" does not exist yet
+2026-03-10 19:41:29 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 1 migration (execution time 00:00.058s)
+2026-03-10 19:41:29 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Creating Schema History table "public"."flyway_schema_history" ...
+2026-03-10 19:41:30 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": << Empty Schema >>
+2026-03-10 19:41:30 [main] INFO  o.f.core.internal.command.DbMigrate - Migrating schema "public" to version "1 - Create booking history table"
+2026-03-10 19:41:30 [main] INFO  o.f.core.internal.command.DbMigrate - Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.101s)
+2026-03-10 19:41:30 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-10 19:41:30 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-03-10 19:41:30 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-10 19:41:30 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-10 19:41:31 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-10 19:41:31 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-10 19:41:31 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-10 19:41:31 [main] INFO  c.h.h.config.KafkaConsumerConfig - 🔧 KAFKA CONSUMER CONFIG INITIALIZING
+2026-03-10 19:41:31 [main] INFO  c.h.h.config.KafkaConsumerConfig -    Topic: booking-created
+2026-03-10 19:41:31 [main] INFO  c.h.h.config.KafkaConsumerConfig -    Group ID: booking-history-service
+2026-03-10 19:41:31 [main] INFO  c.h.h.config.KafkaConsumerConfig -    Auto offset reset: earliest (will read ALL messages from topic start)
+2026-03-10 19:41:32 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-10 19:41:32 [main] DEBUG o.s.k.a.KafkaListenerAnnotationBeanPostProcessor - No retry topic configuration found for topics [booking-created]
+2026-03-10 19:41:32 [main] DEBUG o.s.k.a.KafkaListenerAnnotationBeanPostProcessor - 1 @KafkaListener methods processed on bean 'bookingEventConsumer': {public void com.hotelio.history.service.BookingEventConsumer.handleBookingCreatedEvent(java.lang.String,java.lang.String,int,long)=[@org.springframework.kafka.annotation.KafkaListener(topicPattern="", containerFactory="", beanRef="__listener", contentTypeConverter="", topics={"booking-created"}, groupId="booking-history-service", batch="", topicPartitions={}, clientIdPrefix="", splitIterables=true, concurrency="", autoStartup="", filter="", containerGroup="", idIsGroup=true, errorHandler="", id="", containerPostProcessor="", properties={}, info="")]}
+2026-03-10 19:41:32 [main] INFO  c.h.h.config.KafkaConsumerConfig - ✅ Consumer factory created with auto.offset.reset=earliest
+2026-03-10 19:41:32 [main] INFO  c.h.h.config.KafkaConsumerConfig - ✅ Kafka listener container factory configured
+2026-03-10 19:41:32 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-10 19:41:33 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 4 endpoint(s) beneath base path '/actuator'
+2026-03-10 19:41:33 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path ''
+2026-03-10 19:41:34 [main] INFO  o.a.k.c.consumer.ConsumerConfig - ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 1000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = earliest
+	bootstrap.servers = [kafka:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-booking-history-service-1
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = booking-history-service
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2026-03-10 19:41:34 [main] DEBUG o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Initializing the Kafka consumer
+2026-03-10 19:41:34 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka version: 3.6.2
+2026-03-10 19:41:34 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka commitId: c4deed513057c94e
+2026-03-10 19:41:34 [main] INFO  o.a.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1773171694202
+2026-03-10 19:41:34 [main] DEBUG o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Kafka consumer initialized
+2026-03-10 19:41:34 [main] INFO  o.s.k.c.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Subscribed to topic(s): booking-created
+2026-03-10 19:41:34 [main] INFO  c.h.h.BookingHistoryApplication - Started BookingHistoryApplication in 9.459 seconds (process running for 10.195)
+BOOKING HISTORY SERVICE STARTED SUCCESSFULLY
+2026-03-10 19:41:34 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-10 19:41:34 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-10 19:41:34 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-03-10 19:41:34 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] WARN  o.apache.kafka.clients.NetworkClient - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Error while fetching metadata with correlation id 2 : {booking-created=LEADER_NOT_AVAILABLE}
+2026-03-10 19:41:34 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  org.apache.kafka.clients.Metadata - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Cluster ID: h5SYARpJRX6-4fs395Bk-A
+2026-03-10 19:41:34 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] WARN  o.apache.kafka.clients.NetworkClient - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Error while fetching metadata with correlation id 4 : {booking-created=LEADER_NOT_AVAILABLE}
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Discovered group coordinator kafka:9092 (id: 2147483646 rack: null)
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] (Re-)joining group
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Request joining group due to: need to re-join with the given member-id: consumer-booking-history-service-1-0763d073-f373-4ab9-893a-9ab56501d6ed
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Request joining group due to: rebalance failed due to 'The group member needs to have a valid member id before actually entering a consumer group.' (MemberIdRequiredException)
+2026-03-10 19:41:35 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] (Re-)joining group
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Successfully joined group with generation Generation{generationId=1, memberId='consumer-booking-history-service-1-0763d073-f373-4ab9-893a-9ab56501d6ed', protocol='range'}
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Finished assignment for group at generation 1: {consumer-booking-history-service-1-0763d073-f373-4ab9-893a-9ab56501d6ed=Assignment(partitions=[booking-created-0])}
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Successfully synced group in generation Generation{generationId=1, memberId='consumer-booking-history-service-1-0763d073-f373-4ab9-893a-9ab56501d6ed', protocol='range'}
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Notifying assignor about the new Assignment(partitions=[booking-created-0])
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Adding newly assigned partitions: booking-created-0
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.ConsumerCoordinator - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Found no committed offset for partition booking-created-0
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.a.k.c.c.i.SubscriptionState - [Consumer clientId=consumer-booking-history-service-1, groupId=booking-history-service] Resetting offset for partition booking-created-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[kafka:9092 (id: 1 rack: null)], epoch=0}}.
+2026-03-10 19:41:38 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  o.s.k.l.KafkaMessageListenerContainer - booking-history-service: partitions assigned: [booking-created-0]
+2026-03-10 19:41:39 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
+2026-03-10 19:41:44 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
+2026-03-10 19:41:49 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 1 records
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.a.RecordMessagingMessageListenerAdapter - Processing [GenericMessage [payload={"bookingId":"65ec709a-8bc1-45bc-9f6d-71744d45b63f","userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":null,"eventId":"5e92d4f6-0a4f-4d5e-b77c-e5e03ef2acb9","eventTimestamp":"2026-03-10T19:41:54.606972941"}, headers={kafka_offset=0, kafka_consumer=org.springframework.kafka.core.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer@5a8ac4f2, kafka_timestampType=CREATE_TIME, kafka_receivedPartitionId=0, kafka_receivedMessageKey=65ec709a-8bc1-45bc-9f6d-71744d45b63f, kafka_receivedTopic=booking-created, kafka_receivedTimestamp=1773171714673, kafka_groupId=booking-history-service}]]
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 📨 KAFKA MESSAGE RECEIVED: topic=booking-created partition=0 offset=0 messageLength=267
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✅ Deserialized event: bookingId=65ec709a-8bc1-45bc-9f6d-71744d45b63f, eventId=5e92d4f6-0a4f-4d5e-b77c-e5e03ef2acb9, userId=test-user-3
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 💾 SAVED booking history with ID: 47c600ed-7394-4cf6-b0cd-4ee1dc8b2045 for booking: 65ec709a-8bc1-45bc-9f6d-71744d45b63f
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✔️ SUCCESS: eventId=5e92d4f6-0a4f-4d5e-b77c-e5e03ef2acb9 processed and saved to DB
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Committing: {booking-created-0=OffsetAndMetadata{offset=1, leaderEpoch=null, metadata=''}}
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 1 records
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.a.RecordMessagingMessageListenerAdapter - Processing [GenericMessage [payload={"bookingId":"17f9eb71-a1b7-4341-a1d1-4e1b9beae961","userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":0.0,"price":100.0,"createdAt":null,"eventId":"bcfe4d31-8225-4218-82ea-febe75c3b4c1","eventTimestamp":"2026-03-10T19:41:54.87767695"}, headers={kafka_offset=1, kafka_consumer=org.springframework.kafka.core.DefaultKafkaConsumerFactory$ExtendedKafkaConsumer@5a8ac4f2, kafka_timestampType=CREATE_TIME, kafka_receivedPartitionId=0, kafka_receivedMessageKey=17f9eb71-a1b7-4341-a1d1-4e1b9beae961, kafka_receivedTopic=booking-created, kafka_receivedTimestamp=1773171714878, kafka_groupId=booking-history-service}]]
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 📨 KAFKA MESSAGE RECEIVED: topic=booking-created partition=0 offset=1 messageLength=274
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✅ Deserialized event: bookingId=17f9eb71-a1b7-4341-a1d1-4e1b9beae961, eventId=bcfe4d31-8225-4218-82ea-febe75c3b4c1, userId=test-user-2
+2026-03-10 19:41:54 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - 💾 SAVED booking history with ID: 3fb2dc4f-c475-4e28-a9c2-9ec32c1a974a for booking: 17f9eb71-a1b7-4341-a1d1-4e1b9beae961
+2026-03-10 19:41:55 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.h.h.service.BookingEventConsumer - ✔️ SUCCESS: eventId=bcfe4d31-8225-4218-82ea-febe75c3b4c1 processed and saved to DB
+2026-03-10 19:41:55 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Committing: {booking-created-0=OffsetAndMetadata{offset=2, leaderEpoch=null, metadata=''}}
+2026-03-10 19:42:00 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] DEBUG o.s.k.l.KafkaMessageListenerContainer - Received: 0 records

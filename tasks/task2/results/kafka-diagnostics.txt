@@ -1,0 +1,14 @@
+=== KAFKA DIAGNOSTICS ===
+Timestamp: Tue Mar 10 20:42:03 CEST 2026
+
+--- Messages in topic (должны быть здесь!) ---
+{"bookingId":"65ec709a-8bc1-45bc-9f6d-71744d45b63f","userId":"test-user-3","hotelId":"test-hotel-1","promoCode":null,"discountPercent":0.0,"price":80.0,"createdAt":null,"eventId":"5e92d4f6-0a4f-4d5e-b77c-e5e03ef2acb9","eventTimestamp":"2026-03-10T19:41:54.606972941"}
+{"bookingId":"17f9eb71-a1b7-4341-a1d1-4e1b9beae961","userId":"test-user-2","hotelId":"test-hotel-1","promoCode":"TESTCODE1","discountPercent":0.0,"price":100.0,"createdAt":null,"eventId":"bcfe4d31-8225-4218-82ea-febe75c3b4c1","eventTimestamp":"2026-03-10T19:41:54.87767695"}
+[2026-03-10 19:42:12,290] ERROR Error processing message, terminating consumer process:  (kafka.tools.ConsoleConsumer$)
+org.apache.kafka.common.errors.TimeoutException
+Processed a total of 2 messages
+
+--- Consumer group ---
+
+GROUP                   TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                             HOST            CLIENT-ID
+booking-history-service booking-created 0          2               2               0               consumer-booking-history-service-1-0763d073-f373-4ab9-893a-9ab56501d6ed /172.20.0.7     consumer-booking-history-service-1

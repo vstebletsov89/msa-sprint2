@@ -1,0 +1,34 @@
+=== check-feature-flag.sh ===
+Timestamp: Thu Mar 12 20:52:15 CEST 2026
+
+=========================================
+ Feature Flag Routing Test
+=========================================
+
+▶️  Запрос БЕЗ заголовка X-Feature-Enabled (должен идти на v1):
+  Response: pong from v1
+
+▶️  Запрос С заголовком X-Feature-Enabled: true (должен идти на v2):
+  Response: pong from v2
+
+▶️  Запрос /feature БЕЗ заголовка (v1, feature disabled):
+  Response: Feature X is disabled
+
+▶️  Запрос /feature С заголовком X-Feature-Enabled: true (v2, feature enabled):
+  Response: {"enabled":true,"message":"Feature X is enabled","version":"v2"}
+
+▶️  Запрос /version С заголовком X-Feature-Enabled: true:
+  Response: {"featureXEnabled":true,"version":"v2"}
+
+=========================================
+ Validation:
+=========================================
+✅ Without header → v1 (correct)
+✅ With X-Feature-Enabled: true → v2 (correct)
+✅ Feature endpoint with flag → Feature X enabled (correct)
+
+✅ Feature flag routing is working correctly
+
+=========================================
+ Feature Flag Test Complete
+=========================================

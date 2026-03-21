@@ -1,0 +1,26 @@
+=== CURL /PING ===
+Timestamp: Wed Mar 11 18:42:35 CEST 2026
+
+* Host localhost:8080 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+  0      0   0      0   0      0      0      0                              0*   Trying [::1]:8080...
+* Established connection to localhost (::1 port 8080) from ::1 port 63874 
+* using HTTP/1.x
+> GET /ping HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.18.0
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Content-Type: text/plain; charset=utf-8
+< Date: Wed, 11 Mar 2026 17:42:36 GMT
+< Content-Length: 4
+< 
+{ [4 bytes data]
+100      4 100      4   0      0    320      0                              0100      4 100      4   0      0    316      0                              0100      4 100      4   0      0    312      0                              0
+* Connection #0 to host localhost:8080 left intact
+pong
